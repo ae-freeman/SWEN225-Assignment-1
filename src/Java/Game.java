@@ -117,6 +117,24 @@ public class Game {
 		listCreation();
 		createDeck();
 		murderDeck();
+		
+		
+		
+		
+		boolean gameOver = false;
+		while (!gameOver) {
+			int active = 0;
+			for (Player p : generatePlayers()){
+				if (p.getPlayerStatus()){
+					active++;
+				}
+			}
+			if (active == 1){
+				gameOver = true;
+				break;
+			}
+			doMove(scanner, listOfPlayers);
+		}
 	}
 
 	public ArrayList<Player> generatePlayers() {
@@ -157,6 +175,64 @@ public class Game {
 			CharacterCard character = new CharacterCard(roomList[i], startPosList[i]);
 			//add in starting positions
 			characters.add(character);
+		}
+	}
+	
+	public void doMove(Scanner scanner, ArrayList<Player> players){
+
+		boolean isTurn = false;
+		Player currentPlayer;
+
+		for (Player p : players){
+			if (players.get(p).getAssignedCharacter().getName().equals("Miss Scarlett")){
+				currentPlayer = p;
+			}
+
+			System.out.println("" + p.assignedCharacter.getName() + "'s turn");
+			if (p.getPlayerStatus()){
+				isTurn = true;
+
+				// generate rice roll
+				System.out.println("Rolling dice...");
+				int die1 = (int)(Math.random()*6) + 1;
+				int die2 = (int)(Math.random()*6) + 1;
+				int diceNum = die1+die2;
+
+				System.out.println("You have rolled a: " + diceNum);
+				//num of player moves
+				while (diceNum > 0){
+					System.out.println("Enter direction 'N,E,S,W' to move: ");
+					String input = scanner.nextLine();
+
+					if (input.equalsIgnoreCase("N")){
+						p.move(0, -1);
+					}
+					else if (input.equalsIgnoreCase("E")){
+						p.move(1, 0);
+					}
+					else if (input.equalsIgnoreCase("S")){
+						p.move(0, 1);
+					}
+					else if (input.equalsIgnoreCase("W")){
+						p.move(-1, 0);
+					}
+					else {
+						System.out.println("Error...");
+					}
+					diceNum--;
+				}
+
+				//Suggestion method
+
+
+				//Accusation method
+
+				//Ask user to confirm end of turn
+
+			}
+			else{
+				//endTurn
+			}
 		}
 	}
 
