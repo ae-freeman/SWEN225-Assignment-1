@@ -2,6 +2,7 @@
 /*This code was generated using the UMPLE 1.30.0.5071.d9da8f6cd modeling language!*/
 
 
+import java.util.ArrayList;
 
 // line 87 "model.ump"
 // line 170 "model.ump"
@@ -15,7 +16,7 @@ public class Player
   //Player Attributes
   private Character assignedCharacter;
   private Cell location;
-  private Hand playerHand;
+  private ArrayList<Card> playerHand;
   private boolean playerStatus;
 
   //Player Associations
@@ -23,11 +24,13 @@ public class Player
   private Cell cell;
   private CharacterCard characterCard;
 
+  //why do we need character card?
+
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public Player(Character aAssignedCharacter, Cell aLocation, Hand aPlayerHand, boolean aPlayerStatus, Game aGame, Cell aCell, CharacterCard aCharacterCard)
+  public Player(Character aAssignedCharacter, Cell aLocation, ArrayList aPlayerHand, boolean aPlayerStatus, Game aGame, Cell aCell, CharacterCard aCharacterCard)
   {
     assignedCharacter = aAssignedCharacter;
     location = aLocation;

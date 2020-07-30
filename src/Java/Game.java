@@ -1,4 +1,4 @@
-package Java;
+//package Java;
 
 /*PLEASE DO NOT EDIT THIS CODE*/
 
@@ -28,12 +28,12 @@ public class Game {
 	String[] roomList = { "Lounge", "Dining Room", "Kitchen", "Hall", "Conservatory", "Billiard Room", "Library",
 			"Study", "Ballroom", "Hallway" };
 	String[] characterList = { "Mrs. White", "Mr. Green", "Mrs . Peacock", "Prof. Plum", "Miss Scarlett",
-	"Col. Mustard" };
+			"Col. Mustard" };
 	String[] weaponList = { "Pistol", "Rope", "Candlestick", "Wrench", "Leadpipe", "Dagger" };
-	private ArrayList<WeaponCard> weapons;
-	private ArrayList<CharacterCard> characters;
-	private ArrayList<RoomCard> rooms;
-	private ArrayList<? extends Card> deck;
+	private ArrayList<Card> weapons;
+	private ArrayList<Card> characters;
+	private ArrayList<Card> rooms;
+	private ArrayList<Card> deck;
 	private Card[] murderDeck;
 	private Scanner scanner;
 
@@ -56,7 +56,7 @@ public class Game {
 	// ------------------------
 
 	public Game(Board aGameBoard, ArrayList aListOfPlayers, boolean aGameOver, ArrayList<WeaponCard> aWeapons,
-			ArrayList<CharacterCard> aCharacters, ArrayList<RoomCard> aRooms, ArrayList aMurderDeck, Board aBoard) {
+				ArrayList<CharacterCard> aCharacters, ArrayList<RoomCard> aRooms, ArrayList aMurderDeck, Board aBoard) {
 		gameBoard = aGameBoard;
 		numberOPlayers = 0;
 		listOfPlayers = aListOfPlayers;
@@ -97,6 +97,153 @@ public class Game {
 		accusations = new ArrayList<Accusation>();
 	}
 
+	/* Oliver's code begins */
+
+	/**
+	 * Takes player through suggestion / accusation phase of the turn
+	 */
+	public void makeSuggestion() {
+
+		// Need to set current player
+
+		String input;
+		RoomCard suggestedRoom;
+		CharacterCard suggestedCharacter;
+		WeaponCard suggestedWeapon;
+		Boolean validInput = false;
+		while (true) {
+			System.out.println("Enter 's' to make a suggestion, or 'a' to make an accusation:");
+			input = scanner.nextLine();
+			if (input.equals("s") || input.equals("a")) {
+				// Ask player for Weapon, Room and Character
+				while (true) {
+					System.out.println("Suggested Weapon: ");
+					input = scanner.nextLine();
+					if (Arrays.stream(weaponList).anyMatch(input :: equals)) {
+						suggestedWeapon = new WeaponCard(input);
+						break;
+					}
+				}
+
+				while (true) {
+					System.out.println("Suggested Room: ");
+					input = scanner.nextLine();
+					if (Arrays.stream(roomList).anyMatch(input :: equals)) {
+						suggestedRoom = new RoomCard(input);
+						break;
+					}
+				}
+
+				while (true) {
+					System.out.println("Suggested Character: ");
+					input = scanner.nextLine();
+					if (Arrays.stream(characterList).anyMatch(input :: equals)){
+						suggestedCharacter = new CharacterCard(input);
+						break;
+					}
+				}
+
+
+				// Check if other players have any of those cards
+				int numMatches = 0;
+				ArrayList<Card> suggestionList = new ArrayList<Card>();
+				suggestionList.add(suggestedWeapon);
+				suggestionList.add(suggestedRoom);
+				suggestionList.add(suggestedCharacter);
+
+				if (input.equals("s")) {
+					showMatchingCards(suggestionList);
+				} else if (input.equals("a")) {
+					makeAccusation(suggestionList);
+				}
+
+
+				// Current player presses button to end turn
+				break;
+			}
+			scanner.next();
+		}
+	}
+
+	/**
+	 * Returns and arrayList of matching cards from a player's hand
+	 * @param suggestions the cards being suggested
+	 * @param playerHand the hand being checked
+	 * @return all matching cards
+	 */
+	public ArrayList<Card> getMatchingCards(ArrayList<Card> suggestions, ArrayList<Card> playerHand) {
+		ArrayList<Card> matchedCards = new ArrayList<Card>();
+		// Check if weapon
+		for (int i = 0; i < playerHand.size(); i++) {
+			if (playerHand.get(i).equals(suggestions.get(0))) {
+				matchedCards.add(card[0]);
+			}
+		}
+
+		// Check if room
+		for (int i = 0; i < playerHand.size(); i++) {
+			if (playerHand.get(i).equals(suggestions.get(1))) {
+				matchedCards.add(card[1]);
+			}
+		}
+
+		// Check if character
+		for (int i = 0; i < playerHand.size(); i++) {
+			if (playerHand.get(i).equals(suggestions.get(2))) {
+				matchedCards.add(card[0]);
+			}
+		}
+
+		return matchedCards;
+	}
+
+	/**
+	 * Executes part of game where a matching card is revealed to the suggestor
+	 * @param suggestionList list of cards being suggested
+	 */
+	public void showMatchingCards(ArrayList<Card> suggestionList) {
+		ArrayList<Card> matchedCards = new ArrayList<Card>();
+		String playerWithMatch = "";
+		for (int i = 0; i < listOfPlayers.size() && numMatches == 0; i++) {
+			if (matchedCards.size() == 0) {
+				matchedCards.addAll(getMatchingCards(
+						suggestionList, listOfPlayers.get(i).getHand));
+				if (matchedCards.size() > 0) {
+					playerWithMatch = listOfPlayers.get(i).getName();
+					if (matchedCards.size() > 1) {
+						System.out.println("Your hand contains the following cards from the suggestion: ");
+						matchedCards.stream().forEach(Card -> System.out.println(Card.getName()));
+						System.out.println("Type the number of the card you wish to show: ");
+						// Display the card
+
+					} else {
+						// Display card
+					}
+				} else {
+					System.out.println("No player has your suggested cards in their hand");
+				}
+			}
+		}
+	}
+
+	/**
+	 * Executes final part of accusation
+	 * @param suggestionList list of cards in the accusation
+	 */
+	public void makeAccusation(ArrayList<Card> suggestionList) {
+		ArrayList<Card> matchedCards = new ArrayList<Card>();
+		Card[] accusation = {suggestionList.get(0), suggestionList.get(1), suggestionList.get(2)};
+		Arrays.sort(accusation);
+		Arrays.sort(murderDeck);
+		if (accusation.equals(murderDeck)) {
+			// End game, player wins
+		} else {
+			// Player is 'out', end of turn
+		}
+
+	}
+	/* Oliver's code ends */
+
 	// ------------------------
 	// INTERFACE
 	// ------------------------
@@ -113,21 +260,59 @@ public class Game {
 			}
 			scanner.next();
 		}
-		generatePlayers();
 		listCreation();
-		createDeck();
 		murderDeck();
+		createDeck();
+		generatePlayers();
+
+
+
+
+		boolean gameOver = false;
+		while (!gameOver) {
+			int active = 0;
+			for (Player p : generatePlayers()){
+				if (p.getPlayerStatus()){
+					active++;
+				}
+			}
+			if (active == 1){
+				gameOver = true;
+				break;
+			}
+			doMove(scanner, listOfPlayers);
+		}
 	}
 
-	public ArrayList<Player> generatePlayers() {
+	private ArrayList<Player> generatePlayers() {
+		ArrayList<Card> playerHand;
+		ArrayList<ArrayList<Card>> listOfHands = new ArrayList<ArrayList<Card>>();
+
+
+		// Randomise cards in deck
+		Collections.shuffle(deck);
+		//CHECK:
+		System.out.println("Shuffled deck: " + deck);
+
+		int cardsPerPlayer = 18/numberOfPlayers;
+
+		// Create separate hands equal to the number of players
+		for (int i = 0; i < numberOfPlayers; i += cardsPerPlayer){
+			playerHand = (ArrayList<Card>) deck.subList(i, i += numberOfPlayers);
+
+			listOfHands.add(playerHand);
+		}
+
+
 		for (int i = 0; i < numberOfPlayers; i++) {
 			Card character = (CharacterCard) chooseRandom(characters); //??????????????????????????????? Casting?
-			Player player = new Player(character);
+			ArrayList<Card> hand = listOfHands.get(i);
+			Player player = new Player(character, [0,0], hand, true, game, [0,0],card);
 			listOfPlayers.add(player);
 		}
 		return listOfPlayers;
 	}
-	
+
 	public void murderDeck() {
 		Card murderer = chooseRandom(characters);
 		Card murderRoom = chooseRandom(rooms);
@@ -135,7 +320,7 @@ public class Game {
 		murderDeck[0] = murderer;
 		murderDeck[1] = murderRoom;
 		murderDeck[2] = murderWeapon;
-		
+
 	}
 	// line 50 "model.ump"
 	public Card chooseRandom(ArrayList<? extends Card> list) {
@@ -157,6 +342,87 @@ public class Game {
 			CharacterCard character = new CharacterCard(roomList[i], startPosList[i]);
 			//add in starting positions
 			characters.add(character);
+		}
+	}
+
+	// COMBINE CARD LISTS
+	public void createDeck(){
+
+		//combine weapons, rooms, characters
+		deck.addAll(weapons);
+		deck.addAll(characters);
+		deck.addAll(rooms);
+
+		// had to change the type at the top to be Card for all three types and the deck itself so it would combine them
+		// is that alright?
+		//CHECK:
+		System.out.println(deck);
+
+		// REMOVE MURDER DECK CARDS
+		for (int i = 0; i < 3; i++){
+			deck.remove(murderDeck[i]);
+		}
+
+	}
+
+	// NOTE: changed player generation method to be after murder deck and deck created so can instantiate player with cards at beginning.
+
+
+	public void doMove(Scanner scanner, ArrayList<Player> players){
+
+		boolean isTurn = false;
+		Player currentPlayer;
+
+		for (Player p : players){
+			if (players.get(p).getAssignedCharacter().getName().equals("Miss Scarlett")){
+				currentPlayer = p;
+			}
+
+			System.out.println("" + p.assignedCharacter.getName() + "'s turn");
+			if (p.getPlayerStatus()){
+				isTurn = true;
+
+				// generate dice roll
+				System.out.println("Rolling dice...");
+				int die1 = (int)(Math.random()*6) + 1;
+				int die2 = (int)(Math.random()*6) + 1;
+				int diceNum = die1+die2;
+
+				System.out.println("You have rolled a: " + diceNum);
+				//num of player moves
+				while (diceNum > 0){
+					System.out.println("Enter direction 'N,E,S,W' to move: ");
+					String input = scanner.nextLine();
+
+					if (input.equalsIgnoreCase("N")){
+						p.move(0, -1);
+					}
+					else if (input.equalsIgnoreCase("E")){
+						p.move(1, 0);
+					}
+					else if (input.equalsIgnoreCase("S")){
+						p.move(0, 1);
+					}
+					else if (input.equalsIgnoreCase("W")){
+						p.move(-1, 0);
+					}
+					else {
+						System.out.println("Error...");
+					}
+					diceNum--;
+				}
+
+				//Suggestion method
+
+
+				//Accusation method
+
+				//Ask user to confirm end of turn
+
+			}
+			else{
+				//endTurn
+			}
 		}
 	}
 
@@ -410,7 +676,7 @@ public class Game {
 
 	/* Code from template association_AddMNToOnlyOne */
 	public Player addPlayer(Character aAssignedCharacter, Cell aLocation, Hand aPlayerHand, boolean aPlayerStatus,
-			Cell aCell, CharacterCard aCharacterCard) {
+							Cell aCell, CharacterCard aCharacterCard) {
 		if (numberOfPlayers() >= maximumNumberOfPlayers()) {
 			return null;
 		} else {
@@ -741,36 +1007,36 @@ public class Game {
 				+ getGameOver() + "]" + System.getProperties().getProperty("line.separator") + "  " + "gameBoard" + "="
 				+ (getGameBoard() != null
 				? !getGameBoard().equals(this) ? getGameBoard().toString().replaceAll("  ", "    ") : "this"
-					: "null")
+				: "null")
 				+ System.getProperties().getProperty("line.separator") + "  " + "listOfPlayers" + "="
 				+ (getListOfPlayers() != null
 				? !getListOfPlayers().equals(this) ? getListOfPlayers().toString().replaceAll("  ", "    ")
-						: "this"
-							: "null")
+				: "this"
+				: "null")
 				+ System.getProperties().getProperty("line.separator") + "  " + "roomList" + "="
 				+ (getRoomList() != null
 				? !getRoomList().equals(this) ? getRoomList().toString().replaceAll("  ", "    ") : "this"
-					: "null")
+				: "null")
 				+ System.getProperties().getProperty("line.separator") + "  " + "weapons" + "="
 				+ (getWeapons() != null
 				? !getWeapons().equals(this) ? getWeapons().toString().replaceAll("  ", "    ") : "this"
-					: "null")
+				: "null")
 				+ System.getProperties().getProperty("line.separator") + "  " + "characters" + "="
 				+ (getCharacters() != null
 				? !getCharacters().equals(this) ? getCharacters().toString().replaceAll("  ", "    ") : "this"
-					: "null")
+				: "null")
 				+ System.getProperties().getProperty("line.separator") + "  " + "rooms" + "="
 				+ (getRooms() != null
 				? !getRooms().equals(this) ? getRooms().toString().replaceAll("  ", "    ") : "this"
-					: "null")
+				: "null")
 				+ System.getProperties().getProperty("line.separator") + "  " + "murderDeck" + "="
 				+ (getMurderDeck() != null
 				? !getMurderDeck().equals(this) ? getMurderDeck().toString().replaceAll("  ", "    ") : "this"
-					: "null")
+				: "null")
 				+ System.getProperties().getProperty("line.separator") + "  " + "scanner" + "="
 				+ (getScanner() != null
 				? !getScanner().equals(this) ? getScanner().toString().replaceAll("  ", "    ") : "this"
-					: "null")
+				: "null")
 				+ System.getProperties().getProperty("line.separator") + "  " + "board = "
 				+ (getBoard() != null ? Integer.toHexString(System.identityHashCode(getBoard())) : "null");
 	}
