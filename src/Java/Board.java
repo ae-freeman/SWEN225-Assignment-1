@@ -24,14 +24,9 @@ public class Board
   // CONSTRUCTOR
   //------------------------
 
-  public Board(Game aGame)
+  public Board()
   {
     tiles = new ArrayList<Cell>();
-    if (aGame == null || aGame.getBoard() != null)
-    {
-      throw new RuntimeException("Unable to create Board due to aGame. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
-    game = aGame;
     cells = new ArrayList<Cell>();
   }
 

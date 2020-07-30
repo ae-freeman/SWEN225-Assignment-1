@@ -22,23 +22,18 @@ public class CharacterCard extends Card
   // CONSTRUCTOR
   //------------------------
 
-  public CharacterCard(String aName, Game aGame, Cell aStartLocation, Player aPlayer)
+  public CharacterCard(String aName, Cell aStartLocation)
   {
-    super(aName, aGame);
+    super(aName);
     startLocation = aStartLocation;
-    if (aPlayer == null || aPlayer.getCharacterCard() != null)
-    {
-      throw new RuntimeException("Unable to create CharacterCard due to aPlayer. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
-    player = aPlayer;
   }
 
-  public CharacterCard(String aName, Game aGame, Cell aStartLocation, Character aAssignedCharacterForPlayer, Cell aLocationForPlayer, Hand aPlayerHandForPlayer, boolean aPlayerStatusForPlayer, Game aGameForPlayer, Cell aCellForPlayer)
-  {
-    super(aName, aGame);
-    startLocation = aStartLocation;
-    player = new Player(aAssignedCharacterForPlayer, aLocationForPlayer, aPlayerHandForPlayer, aPlayerStatusForPlayer, aGameForPlayer, aCellForPlayer, this);
-  }
+//  public CharacterCard(String aName, Game aGame, Cell aStartLocation, Character aAssignedCharacterForPlayer, Cell aLocationForPlayer, Hand aPlayerHandForPlayer, boolean aPlayerStatusForPlayer, Game aGameForPlayer, Cell aCellForPlayer)
+//  {
+//    super(aName, aGame);
+//    startLocation = aStartLocation;
+//    player = new Player(aAssignedCharacterForPlayer, aLocationForPlayer, aPlayerHandForPlayer, aPlayerStatusForPlayer, aGameForPlayer, aCellForPlayer, this);
+//  }
 
   //------------------------
   // INTERFACE

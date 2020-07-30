@@ -13,7 +13,8 @@ public class Suggestion
   //------------------------
 
   //Suggestion Attributes
-  private ArrayList suggestion;
+  private Card[] suggestion;
+  private Player player;
 
   //Suggestion Associations
   private Game game;
@@ -22,14 +23,9 @@ public class Suggestion
   // CONSTRUCTOR
   //------------------------
 
-  public Suggestion(ArrayList aSuggestion, Game aGame)
-  {
-    suggestion = aSuggestion;
-    boolean didAddGame = setGame(aGame);
-    if (!didAddGame)
-    {
-      throw new RuntimeException("Unable to create suggestion due to game. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
+  public Suggestion(Card[] guess, Player currentPlayer){
+    suggestion = guess;
+    player = currentPlayer;
   }
 
   //------------------------

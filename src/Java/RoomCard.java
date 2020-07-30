@@ -16,9 +16,9 @@ public class RoomCard extends Card
   // CONSTRUCTOR
   //------------------------
 
-  public RoomCard(String aName, Game aGame)
+  public RoomCard(String aName)
   {
-    super(aName, aGame);
+    super(aName);
   }
 
   //------------------------

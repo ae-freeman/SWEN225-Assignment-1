@@ -12,13 +12,14 @@ public class WeaponCard extends Card
   // MEMBER VARIABLES
   //------------------------
 
+	
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public WeaponCard(String aName, Game aGame)
+  public WeaponCard(String cardName)
   {
-    super(aName, aGame);
+	super(cardName);
   }
 
   //------------------------

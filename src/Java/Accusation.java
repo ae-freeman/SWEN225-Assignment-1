@@ -13,7 +13,8 @@ public class Accusation
   //------------------------
 
   //Accusation Attributes
-  private ArrayList accusation;
+	  private Card[] accusation;
+	  private Card[] murder;
 
   //Accusation Associations
   private Game game;
@@ -22,14 +23,9 @@ public class Accusation
   // CONSTRUCTOR
   //------------------------
 
-  public Accusation(ArrayList aAccusation, Game aGame)
-  {
-    accusation = aAccusation;
-    boolean didAddGame = setGame(aGame);
-    if (!didAddGame)
-    {
-      throw new RuntimeException("Unable to create accusation due to game. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
+  public Accusation(Card[] guess, Card[] murderDeck){
+    accusation = guess;
+    murder = murderDeck;
   }
 
   //------------------------

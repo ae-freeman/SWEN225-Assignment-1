@@ -25,43 +25,28 @@ public class Cell
   // CONSTRUCTOR
   //------------------------
 
-  public Cell(int aXValue, int aYValue, Room aRoom, Player aPlayer, Board aBoard)
+  public Cell(int aXValue, int aYValue)
   {
     xValue = aXValue;
     yValue = aYValue;
-    boolean didAddRoom = setRoom(aRoom);
-    if (!didAddRoom)
-    {
-      throw new RuntimeException("Unable to create cell due to room. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
-    if (aPlayer == null || aPlayer.getCell() != null)
-    {
-      throw new RuntimeException("Unable to create Cell due to aPlayer. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
-    player = aPlayer;
-    boolean didAddBoard = setBoard(aBoard);
-    if (!didAddBoard)
-    {
-      throw new RuntimeException("Unable to create cell due to board. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
   }
 
-  public Cell(int aXValue, int aYValue, Room aRoom, Character aAssignedCharacterForPlayer, Cell aLocationForPlayer, Hand aPlayerHandForPlayer, boolean aPlayerStatusForPlayer, Game aGameForPlayer, CharacterCard aCharacterCardForPlayer, Board aBoard)
-  {
-    xValue = aXValue;
-    yValue = aYValue;
-    boolean didAddRoom = setRoom(aRoom);
-    if (!didAddRoom)
-    {
-      throw new RuntimeException("Unable to create cell due to room. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
-    player = new Player(aAssignedCharacterForPlayer, aLocationForPlayer, aPlayerHandForPlayer, aPlayerStatusForPlayer, aGameForPlayer, this, aCharacterCardForPlayer);
-    boolean didAddBoard = setBoard(aBoard);
-    if (!didAddBoard)
-    {
-      throw new RuntimeException("Unable to create cell due to board. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
-  }
+//  public Cell(int aXValue, int aYValue, Room aRoom, Character aAssignedCharacterForPlayer, Cell aLocationForPlayer, Hand aPlayerHandForPlayer, boolean aPlayerStatusForPlayer, Game aGameForPlayer, CharacterCard aCharacterCardForPlayer, Board aBoard)
+//  {
+//    xValue = aXValue;
+//    yValue = aYValue;
+//    boolean didAddRoom = setRoom(aRoom);
+//    if (!didAddRoom)
+//    {
+//      throw new RuntimeException("Unable to create cell due to room. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+//    }
+//    player = new Player(aAssignedCharacterForPlayer, aLocationForPlayer, aPlayerHandForPlayer, aPlayerStatusForPlayer, aGameForPlayer, this, aCharacterCardForPlayer);
+//    boolean didAddBoard = setBoard(aBoard);
+//    if (!didAddBoard)
+//    {
+//      throw new RuntimeException("Unable to create cell due to board. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+//    }
+//  }
 
   //------------------------
   // INTERFACE

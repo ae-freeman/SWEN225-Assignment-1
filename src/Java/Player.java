@@ -14,7 +14,7 @@ public class Player
   //------------------------
 
   //Player Attributes
-  private Character assignedCharacter;
+  private CharacterCard character;
   private Cell location;
   private ArrayList<Card> playerHand;
   private boolean playerStatus;
@@ -30,48 +30,24 @@ public class Player
   // CONSTRUCTOR
   //------------------------
 
-  public Player(Character aAssignedCharacter, Cell aLocation, ArrayList aPlayerHand, boolean aPlayerStatus, Game aGame, Cell aCell, CharacterCard aCharacterCard)
+  public Player(CharacterCard aAssignedCharacter)
   {
-    assignedCharacter = aAssignedCharacter;
-    location = aLocation;
-    playerHand = aPlayerHand;
-    playerStatus = aPlayerStatus;
-    boolean didAddGame = setGame(aGame);
-    if (!didAddGame)
-    {
-      throw new RuntimeException("Unable to create player due to game. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
-    if (aCell == null || aCell.getPlayer() != null)
-    {
-      throw new RuntimeException("Unable to create Player due to aCell. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
-    cell = aCell;
-    if (aCharacterCard == null || aCharacterCard.getPlayer() != null)
-    {
-      throw new RuntimeException("Unable to create Player due to aCharacterCard. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
-    characterCard = aCharacterCard;
+    character = aAssignedCharacter;
+    location = character.getStartLocation();
+    playerStatus = false;
+    playerHand = new ArrayList<Card>();
   }
-
-  public Player(Character aAssignedCharacter, Cell aLocation, Hand aPlayerHand, boolean aPlayerStatus, Game aGame, int aXValueForCell, int aYValueForCell, Room aRoomForCell, Board aBoardForCell, String aNameForCharacterCard, Game aGameForCharacterCard, Cell aStartLocationForCharacterCard)
-  {
-    assignedCharacter = aAssignedCharacter;
-    location = aLocation;
-    playerHand = aPlayerHand;
-    playerStatus = aPlayerStatus;
-    boolean didAddGame = setGame(aGame);
-    if (!didAddGame)
-    {
-      throw new RuntimeException("Unable to create player due to game. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
-    cell = new Cell(aXValueForCell, aYValueForCell, aRoomForCell, this, aBoardForCell);
-    characterCard = new CharacterCard(aNameForCharacterCard, aGameForCharacterCard, aStartLocationForCharacterCard, this);
-  }
-
   //------------------------
   // INTERFACE
   //------------------------
 
+  public void addToHand(Card card) {
+	  playerHand.add(card);
+  }
+  public int move(int roll) {
+	  return roll;
+  }
+  
   public boolean setAssignedCharacter(Character aAssignedCharacter)
   {
     boolean wasSet = false;

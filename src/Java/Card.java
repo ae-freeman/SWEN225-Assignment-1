@@ -5,7 +5,7 @@
 
 // line 119 "model.ump"
 // line 186 "model.ump"
-public class Card
+public abstract class Card
 {
 
   //------------------------
@@ -14,22 +14,18 @@ public class Card
 
   //Card Attributes
   private String name;
+  private Cell startLocation;
 
   //Card Associations
-  private Game game;
+//  private Game game;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public Card(String aName, Game aGame)
+  public Card(String aName)
   {
     name = aName;
-    boolean didAddGame = setGame(aGame);
-    if (!didAddGame)
-    {
-      throw new RuntimeException("Unable to create card due to game. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
   }
 
   //------------------------
@@ -49,57 +45,60 @@ public class Card
     return name;
   }
   /* Code from template association_GetOne */
-  public Game getGame()
-  {
-    return game;
-  }
-  /* Code from template association_SetOneToAtMostN */
-  public boolean setGame(Game aGame)
-  {
-    boolean wasSet = false;
-    //Must provide game to card
-    if (aGame == null)
-    {
-      return wasSet;
-    }
+//  public Game getGame()
+//  {
+//    return game;
+//  }
+//  /* Code from template association_SetOneToAtMostN */
+//  public boolean setGame(Game aGame)
+//  {
+//    boolean wasSet = false;
+//    //Must provide game to card
+//    if (aGame == null)
+//    {
+//      return wasSet;
+//    }
+//
+//    //game already at maximum (21)
+//    if (aGame.numberOfCards() >= Game.maximumNumberOfCards())
+//    {
+//      return wasSet;
+//    }
+//    
+//    Game existingGame = game;
+//    game = aGame;
+//    if (existingGame != null && !existingGame.equals(aGame))
+//    {
+//      boolean didRemove = existingGame.removeCard(this);
+//      if (!didRemove)
+//      {
+//        game = existingGame;
+//        return wasSet;
+//      }
+//    }
+//    game.addCard(this);
+//    wasSet = true;
+//    return wasSet;
+//  }
 
-    //game already at maximum (21)
-    if (aGame.numberOfCards() >= Game.maximumNumberOfCards())
-    {
-      return wasSet;
-    }
-    
-    Game existingGame = game;
-    game = aGame;
-    if (existingGame != null && !existingGame.equals(aGame))
-    {
-      boolean didRemove = existingGame.removeCard(this);
-      if (!didRemove)
-      {
-        game = existingGame;
-        return wasSet;
-      }
-    }
-    game.addCard(this);
-    wasSet = true;
-    return wasSet;
-  }
-
-  public void delete()
-  {
-    Game placeholderGame = game;
-    this.game = null;
-    if(placeholderGame != null)
-    {
-      placeholderGame.removeCard(this);
-    }
-  }
+//  public void delete()
+//  {
+//    Game placeholderGame = game;
+//    this.game = null;
+//    if(placeholderGame != null)
+//    {
+//      placeholderGame.removeCard(this);
+//    }
+//  }
 
 
   public String toString()
   {
     return super.toString() + "["+
-            "name" + ":" + getName()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "game = "+(getGame()!=null?Integer.toHexString(System.identityHashCode(getGame())):"null");
+            "name" + ":" + getName()+ "]" + System.getProperties().getProperty("line.separator");
   }
+
+public Cell getStartLocation() {
+	return startLocation;
+}
 }
