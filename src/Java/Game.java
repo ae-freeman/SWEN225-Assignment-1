@@ -244,6 +244,73 @@ public class Game {
 	}
 	/* Oliver's code ends */
 
+
+//	Jude's Code Begins
+
+	public void turn() {
+		while(!gameOver) {
+			for(Player player : listOfPlayers) {
+				if(!player.getPlayerStatus()) {
+					int roll = rollDice();
+					while(roll > 0){
+						Player.move(roll); //move method return roll? so if they reach a room they can end loop
+					}
+					int action = action();
+					if(action == 1 || action == 2) {
+						guess.add(characters.get(guess(characters)));
+						guess.add(weapons.get(guess(weapons)));
+						guess.add(rooms.get(guess(rooms)));
+						if(action == 1) {
+							Suggestion suggestion = new Suggestion(guess);
+							int compares = 0
+						}
+						if(action == 2) {
+							Accusation accusation = new Accusation(guess);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	public int rollDice() {
+		int die = new Random().nextInt(6);
+		int die2 = new Random().nextInt(6);
+		return die + die2;
+	}
+	public boolean setGameBoard(Board aGameBoard) {
+		boolean wasSet = false;
+		gameBoard = aGameBoard;
+		wasSet = true;
+		return wasSet;
+	}
+	public int action() {
+		System.out.println("Press 1 to make a suggestion;/n" + "Press 2 to make an accusation/n" + "Press 3 to do nothing/n");
+		do{
+			System.out.println("Please enter your action");
+			while(!scanner.hasNextInt()) {
+				System.out.println("Please enter an integer between 1 and 3");
+				scanner.hasNext();
+			}
+			return scanner.nextInt();
+		}while (scanner.nextInt() < 1 || scanner.nextInt() > 3);
+	}
+
+	public int guess(ArrayList<? extends Card> list){
+		for(int i = 0; i < list.size(); i++) {
+			System.out.println("Press " + i + "for: " + list.get(i) + "/n");
+		}
+		do {
+			System.out.println("Please enter your selection");
+			while(!scanner.hasNextInt()) {
+				System.out.println("Please enter an integer between 0 and " + list.size());
+				scanner.hasNext();
+			}
+			return scanner.nextInt();
+		}while (scanner.nextInt() < 0 || scanner.nextInt() > list.size());
+	}
+// Jude's code ends
+
 	// ------------------------
 	// INTERFACE
 	// ------------------------
