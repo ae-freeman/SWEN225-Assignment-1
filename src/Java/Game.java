@@ -37,6 +37,7 @@ public class Game {
 	private Card[] murderDeck;
 	private Card[] guess;
 	private Scanner scanner;
+	
 
 	// Game State Machines
 	public enum List {
@@ -334,10 +335,11 @@ public class Game {
 			}
 //			scanner.next();
 		}
+		
 		listCreation();
 		murderDeck();
 //		System.out.println(numberOfPlayers + " " + weapons + " " + characters + " " + rooms);
-		System.out.println("Murder Deck: " + murderDeck);
+//		System.out.println("Murder Deck: " + murderDeck);
 		createDeck();
 		generatePlayers();
 //		while (!gameOver) {	
@@ -346,6 +348,8 @@ public class Game {
 //			doMove(scanner, listOfPlayers);
 //		}
 	}
+	
+	
 
 	private ArrayList<Player> generatePlayers() {
 //		ArrayList<Card> playerHand;
@@ -381,9 +385,11 @@ public class Game {
 			}
 		}
 		
+
 	for(int i = 0; i < numberOfPlayers; i++) {
 		System.out.println(listOfPlayers.get(i).getPlayerHand());
 	}
+
 		return listOfPlayers;
 	}
 
