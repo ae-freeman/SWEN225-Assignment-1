@@ -26,7 +26,7 @@ public class Game {
 	private ArrayList<Player> listOfPlayers;
 	private boolean gameOver;
 	private String[] roomList = { "Lounge", "Dining Room", "Kitchen", "Hall", "Conservatory", "Billiard Room", "Library",
-			"Study", "Ballroom", "Hallway" };
+			"Study", "Ballroom"};
 	private String[] characterList = { "Mrs. White", "Mr. Green", "Mrs . Peacock", "Prof. Plum", "Miss Scarlett",
 			"Col. Mustard" };
 	private String[] weaponList = { "Pistol", "Rope", "Candlestick", "Wrench", "Leadpipe", "Dagger" };
@@ -37,7 +37,7 @@ public class Game {
 	private Card[] murderDeck;
 	private Card[] guess;
 	private Scanner scanner;
-	private Cell[][] board = new Cell[25][24];
+	
 
 	// Game State Machines
 	public enum List {
@@ -335,7 +335,7 @@ public class Game {
 			}
 //			scanner.next();
 		}
-		createBoard();
+		
 		listCreation();
 		murderDeck();
 //		System.out.println(numberOfPlayers + " " + weapons + " " + characters + " " + rooms);
@@ -352,8 +352,8 @@ public class Game {
 	
 
 	private ArrayList<Player> generatePlayers() {
-		ArrayList<Card> playerHand;
-		ArrayList<ArrayList<Card>> listOfHands = new ArrayList<ArrayList<Card>>();
+//		ArrayList<Card> playerHand;
+//		ArrayList<ArrayList<Card>> listOfHands = new ArrayList<ArrayList<Card>>();
 
 		// Instantiate new players with randomly assigned character card
 		for (int i = 0; i < numberOfPlayers; i++) {
