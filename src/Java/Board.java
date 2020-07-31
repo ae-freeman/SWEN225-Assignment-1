@@ -1,8 +1,8 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.30.0.5071.d9da8f6cd modeling language!*/
 
-
-import java.util.*;
+//
+//import java.util.*;
 
 // line 70 "model.ump"
 // line 155 "model.ump"
@@ -23,63 +23,97 @@ public class Board
 
   public Board(){
     board = new Cell[length][width];
+    populateBoard();
+    
   }
 
- /* public int get(int x, int y){
-    return null;
-  }*/
+
+  
+  private void populateBoard() {
+		
+		 String boardString =
+		         "000000000 0000 000000000" +
+		                 "KKKKKW0   WBBW   0WCCCCC" +
+		                 "KKKKKW  WWWBBWWW  WCCCCC" +
+		                 "KKKKKW  WBBBBBBW  WCCCCC" +
+		                 "KKKKKW  WBBBBBBW  CCCCCC" +
+		                 "KKKKKW  BBBBBBBB   WWWW0" +
+		                 "0WWWKW  WBBBBBBW        " +
+		                 "        WBWWWWBW       0" +
+		                 "0                 WWWWWW" +
+		                 "WWWWW             IIIIII" +
+		                 "DDDDWWWW  XXXXX   WIIIII" +
+		                 "DDDDDDDW  XXXXX   WIIIII" +
+		                 "DDDDDDDD  XXXXX   WWWWWW" +
+		                 "DDDDDDDW  XXXXX        0" +
+		                 "DDDDDDDW  XXXXX   WWLWW0" +
+		                 "WWWWWWDW  XXXXX  WWLLLLL" +
+		                 "0         XXXXX  LLLLLLL" +
+		                 "                 WWLLLLL" +
+		                 "0        WWHHWW   WWWWW0" +
+		                 "WWWWWWL  WHHHHW         " +
+		                 "OOOOOOW  WHHHHH        0" +
+		                 "OOOOOOW  WHHHHW  SWWWWWW" +
+		                 "OOOOOOW  WHHHHW  WSSSSSS" +
+		                 "OOOOOOW  WHHHHW  WSSSSSS" +
+		                 "OOOOOO0 0HHHHHH0 0SSSSSSE";
 
 
-  public void parseBoard(){
+		 
+		 String out = "";
+		 for (int row = 0; row < 24; row++){
+		     for (int col = 0; col < 23; col++){
+		         char currentChar = boardString.charAt((row * 24) + col);
 
-    String boardString =
-            "000000000 0000 000000000" +
-                    "KKKKKW0   WBBW   0WCCCCC" +
-                    "KKKKKW  WWWBBWWW  WCCCCC" +
-                    "KKKKKW  WBBBBBBW  WCCCCC" +
-                    "KKKKKW  WBBBBBBW  CCCCCC" +
-                    "KKKKKW  BBBBBBBB   WWWW0" +
-                    "0WWWKW  WBBBBBBW        " +
-                    "        WBWWWWBW       0" +
-                    "0                 WWWWWW" +
-                    "WWWWW             IIIIII" +
-                    "DDDDWWWW  XXXXX   WIIIII" +
-                    "DDDDDDDW  XXXXX   WIIIII" +
-                    "DDDDDDDD  XXXXX   WWWWWW" +
-                    "DDDDDDDW  XXXXX        0" +
-                    "DDDDDDDW  XXXXX   WWLWW0" +
-                    "WWWWWWDW  XXXXX  WWLLLLL" +
-                    "0         XXXXX  LLLLLLL" +
-                    "                 WWLLLLL" +
-                    "0        WWHHWW   WWWWW0" +
-                    "WWWWWWL  WHHHHW         " +
-                    "LLLLLLW  WHHHHH        0" +
-                    "LLLLLLW  WHHHHW  SWWWWWW" +
-                    "LLLLLLW  WHHHHW  WSSSSSS" +
-                    "LLLLLLW  WHHHHW  WSSSSSS" +
-                    "LLLLLL0 0HHHHHH0 0SSSSSS";
+		     switch (currentChar) {
+		         case 'K':
+		             board[row][col].setRoom(new Room("Kitchen"));
+		             board[row][col].setAccessible(true);
+		         case 'B':
+		             board[row][col].setRoom(new Room("Ballroom"));
+		             board[row][col].setAccessible(true);
+		         case 'C':
+		             board[row][col].setRoom(new Room("Conservatory"));
+		             board[row][col].setAccessible(true);
+		         case 'D':
+		             board[row][col].setRoom(new Room("Dining room"));
+		             board[row][col].setAccessible(true);
+		         case 'I':
+		             board[row][col].setRoom(new Room("Billiard Room"));
+		             board[row][col].setAccessible(true);
+		         case 'L':
+		             board[row][col].setRoom(new Room("Library"));
+		             board[row][col].setAccessible(true);
+		         case 'O':
+		             board[row][col].setRoom(new Room("Lounge"));
+		             board[row][col].setAccessible(true);
+		         case 'H':
+		             board[row][col].setRoom(new Room("Hall"));
+		             board[row][col].setAccessible(true);
+		         case 'S':
+		             board[row][col].setRoom(new Room("Study"));
+		             board[row][col].setAccessible(true);
+		         case ' ':
+		             board[row][col].setRoom(new Room("Hallway"));
+		             board[row][col].setAccessible(true);
+		         case 'W':
+		             board[row][col].setRoom(new Room("Wall"));
+		             board[row][col].setAccessible(false);
+		         case '0':
+		             board[row][col].setRoom(new Room("OutOfBounds"));
+		             board[row][col].setAccessible(false);
+		         case 'X':
+		             board[row][col].setRoom(new Room("Cellar"));
+		             board[row][col].setAccessible(false);
+		     }
+		         out = out.concat(" " + boardString.charAt((row * 24) + col) + " ");
+		     }
+		     System.out.println();
+		     out = out.concat("\n");
 
-
-    for (int i = 0; i < boardString.length(); i++) {
-      if (boardString.charAt(i) == '0' || boardString.charAt(i) == 'W') {
-        board[i][i].setAccessible(false);
-      }
-      else if (boardString.charAt(i) == 'K'){
-        this.board[i][i].setRoom(KITCHEN);
-      }
-    }
-
-    public void printBoard(int x, int y){
-
-      for (int i = 0; i < length; i++){
-        for (int j = 0; j < width; j++){
-
-        }
-      }
-    }
-
-  }
-
+		 }
+		 System.out.print(out);
+	}
 
 
 
