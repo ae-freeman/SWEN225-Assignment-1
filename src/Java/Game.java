@@ -52,7 +52,7 @@ public class Game {
 	private ArrayList<Card> cards;
 	private ArrayList<Accusation> accusations;
 
-	public static void main(String... args) { // use the "..." syntax!
+	public static void main(String[] args) { // use the "..." syntax!
 		Game game = new Game();
 		game.gameSetup();
 		}
@@ -92,6 +92,7 @@ public class Game {
 		weapons = new ArrayList<Card>(); //? WeaponCard
 		characters =new ArrayList<Card>(); //? CharacterCard;
 		rooms = new ArrayList<Card>(); //RoomCard;
+		deck = new ArrayList<Card>();
 		murderDeck = new Card[3]; //<? extends Card>
 		scanner = new Scanner(System.in);
 		suggestions = new ArrayList<Suggestion>();
@@ -335,7 +336,8 @@ public class Game {
 		}
 		listCreation();
 		murderDeck();
-		System.out.println(numberOfPlayers + " " + weapons + " " + characters + " " + rooms);
+//		System.out.println(numberOfPlayers + " " + weapons + " " + characters + " " + rooms);
+		System.out.println("Murder Deck: " + murderDeck);
 		createDeck();
 		generatePlayers();
 //		while (!gameOver) {	
@@ -375,6 +377,8 @@ public class Game {
 //			}
 
 			listOfPlayers.get(currentPlayerIndex).addToHand(deck.get(currentCardIndex));
+			
+			currentCardIndex++;
 
 			if (currentPlayerIndex == numberOfPlayers - 1){
 				currentPlayerIndex = 0;
@@ -382,6 +386,8 @@ public class Game {
 				currentPlayerIndex++;
 			}
 		}
+		
+//		System.out.println(listOfPlayers);
 
 		return listOfPlayers;
 	}
@@ -393,6 +399,7 @@ public class Game {
 		murderDeck[0] = murderer;
 		murderDeck[1] = murderRoom;
 		murderDeck[2] = murderWeapon;
+
 
 	}
 	// line 50 "model.ump"
@@ -431,7 +438,7 @@ public class Game {
 		// had to change the type at the top to be Card for all three types and the deck itself so it would combine them
 		// is that alright?
 		//CHECK:
-		System.out.println(deck);
+//		System.out.println(deck);
 
 		int totalCards = 21;
 
