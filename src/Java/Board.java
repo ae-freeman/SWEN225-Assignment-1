@@ -111,6 +111,8 @@ public class Board
 		     System.out.println();
 		     out = out.concat("\n");
 
+
+
 		 }
 		 System.out.print(out);
 	}
