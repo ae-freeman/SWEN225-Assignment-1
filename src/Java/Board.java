@@ -70,12 +70,16 @@ public class Board
     }
 
     public void printBoard(int x, int y){
-
-      for (int i = 0; i < length; i++){
-        for (int j = 0; j < width; j++){
-
+      
+      
+    String out = "";
+      for (int row = 0; row < board.length; row++){
+        for (int col = 0; col < baord[row].length; col++){
+          out = out.concat(" " + grid[i][col] + " ");
+  
         }
       }
+      System.out.print(out);
     }
 
   }
