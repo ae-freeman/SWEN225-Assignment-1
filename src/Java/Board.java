@@ -74,8 +74,8 @@ public class Board
       
     String out = "";
       for (int row = 0; row < board.length; row++){
-        for (int col = 0; col < baord[row].length; col++){
-          out = out.concat(" " + grid[i][col] + " ");
+        for (int col = 0; col < board[row].length; col++){
+          out = out.concat(" " + board[row][col] + " ");
   
         }
       }
