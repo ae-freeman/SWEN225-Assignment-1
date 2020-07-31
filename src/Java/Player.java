@@ -90,10 +90,10 @@ public class Player
 //    return location;
 //  }
 //
-//  public Hand getPlayerHand()
-//  {
-//    return playerHand;
-//  }
+  public ArrayList<Card> getPlayerHand()
+  {
+    return playerHand;
+  }
 //
 //  public boolean getPlayerStatus()
 //  {
