@@ -392,6 +392,9 @@ public class Game {
 		}
 		
 //		System.out.println(listOfPlayers);
+		for (int i = 0; i < numberOfPlayers; i++) {
+			System.out.println(listOfPlayers.get(i).getPlayerHand());
+		}
 
 		return listOfPlayers;
 	}
