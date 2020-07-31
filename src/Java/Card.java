@@ -94,7 +94,7 @@ public abstract class Card
 
   public String toString()
   {
-    return super.toString() + "["+
+    return "["+
             "name" + ":" + getName()+ "]" + System.getProperties().getProperty("line.separator");
   }
 

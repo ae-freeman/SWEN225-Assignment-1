@@ -71,8 +71,6 @@ public class CharacterCard extends Card
 
   public String toString()
   {
-    return super.toString() + "["+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "startLocation" + "=" + (getStartLocation() != null ? !getStartLocation().equals(this)  ? getStartLocation().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "player = "+(getPlayer()!=null?Integer.toHexString(System.identityHashCode(getPlayer())):"null");
+    return getName();
   }
 }
