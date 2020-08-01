@@ -2,78 +2,83 @@
 /*This code was generated using the UMPLE 1.30.0.5071.d9da8f6cd modeling language!*/
 
 
-
 // line 79 "model.ump"
 // line 163 "model.ump"
-public class Cell
-{
+public class Cell {
 
-  //------------------------
-  // MEMBER VARIABLES
-  //------------------------
+    //------------------------
+    // MEMBER VARIABLES
+    //------------------------
 
-  //Cell Attributes
-  private int xValue;
-  private int yValue;
+    //Cell Attributes
+    private int xValue;
+    private int yValue;
 
-  //Cell Associations
-  private Room room;
-  private Player player;
+    //Cell Associations
+    private Room room;
+    private Player player;
 
-  boolean accessible = true;
+    private boolean accessible = false;
+    private boolean isDoor = false;
 
 
-  //------------------------
-  // CONSTRUCTOR
-  //------------------------
+    //------------------------
+    // CONSTRUCTOR
+    //------------------------
 
-  public Cell(int x, int y){
-    this.xValue = x;
-    this.yValue = y;
-  }
+    public Cell(int x, int y) {
+        this.xValue = x;
+        this.yValue = y;
+    }
 
-  public int getxValue() {
-    return xValue;
-  }
+    public boolean isDoor() {
+        return isDoor;
+    }
 
-  public void setxValue(int xValue) {
-    this.xValue = xValue;
-  }
+    public void setDoor(boolean door) {
+        isDoor = door;
+    }
 
-  public int getyValue() {
-    return yValue;
-  }
+    public int getxValue() {
+        return xValue;
+    }
 
-  public void setyValue(int yValue) {
-    this.yValue = yValue;
-  }
+    public void setxValue(int xValue) {
+        this.xValue = xValue;
+    }
 
-  public Room getRoom() {
-    return room;
-  }
+    public int getyValue() {
+        return yValue;
+    }
 
-  public void setRoom(Room room) {
-    this.room = room;
-  }
+    public void setyValue(int yValue) {
+        this.yValue = yValue;
+    }
 
-  public Player getPlayer() {
-    return player;
-  }
+    public Room getRoom() {
+        return room;
+    }
 
-  public void setPlayer(Player player) {
-    this.player = player;
-  }
+    public void setRoom(Room room) {
+        this.room = room;
+    }
 
-  public boolean isAccessible() {
-    return accessible;
-  }
+    public Player getPlayer() {
+        return player;
+    }
 
-  public void setAccessible(boolean accessible) {
-    this.accessible = accessible;
-  }
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    public boolean isAccessible() {
+        return accessible;
+    }
+
+    public void setAccessible(boolean accessible) {
+        this.accessible = accessible;
+    }
 }
-
-
 
 
 ///*PLEASE DO NOT EDIT THIS CODE*/

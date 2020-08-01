@@ -3,6 +3,7 @@
 
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 // line 87 "model.ump"
 // line 170 "model.ump"
@@ -44,8 +45,33 @@ public class Player
   public void addToHand(Card card) {
 	  playerHand.add(card);
   }
-  public int move(int roll) {
-	  return roll;
+  
+  public int getHandLength() {
+	  return playerHand.size();
+  }
+  
+  public ArrayList<Card> getPlayerHand()
+  {
+    return playerHand;
+  }
+  
+  public void setPlayerStatus() {
+	  playerStatus = true;
+  }
+  
+  public boolean getPlayerStatus() {
+	  return playerStatus;
+  }
+  
+  public Cell move(int xChange, int yChange) {
+	  // move location on board
+	  // check if in a room or not
+	  // return the new location and if in room or not, if room, what room. 
+	  return Cell;
+  }
+  
+  public String getCharacterName() {
+	  return character.getName();
   }
   
   public boolean setAssignedCharacter(Character aAssignedCharacter)
@@ -62,6 +88,17 @@ public class Player
     location = aLocation;
     wasSet = true;
     return wasSet;
+  }
+  
+  public Player getNextPlayer(Player player, ArrayList<Player> listOfPlayers) {
+	  // go through list of players to get index of current player
+	  int i = 0;
+	  while (listOfPlayers.get(i).getCharacterName() != player.getCharacterName()) {
+		  i++;
+	  }
+	  // return
+	  return listOfPlayers.get(i + 1);
+//	  return listOfPlayers.get(i + 1).getCharacterName();
   }
 
 //  public boolean setPlayerHand(Hand aPlayerHand)
@@ -90,10 +127,7 @@ public class Player
 //    return location;
 //  }
 //
-  public ArrayList<Card> getPlayerHand()
-  {
-    return playerHand;
-  }
+ 
 //
 //  public boolean getPlayerStatus()
 //  {

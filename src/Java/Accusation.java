@@ -32,6 +32,20 @@ public class Accusation
   // INTERFACE
   //------------------------
 
+  public boolean checkAccusation() {
+	  
+	  boolean isCorrect = true;
+	  
+	  for (int i = 0; i < 3; i++) {
+		  if(accusation[i].getName() != murder[i].getName()) {
+			  isCorrect = false;
+			  break;
+		  }
+	  }
+	  
+	  return isCorrect;
+  }
+  
   public boolean setAccusation(ArrayList aAccusation)
   {
     boolean wasSet = false;

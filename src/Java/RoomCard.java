@@ -29,5 +29,10 @@ public class RoomCard extends Card
   {
     super.delete();
   }
+  
+  public String toString()
+  {
+    return getName();
+  }
 
 }

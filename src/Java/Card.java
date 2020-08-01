@@ -44,6 +44,17 @@ public abstract class Card
   {
     return name;
   }
+  
+  
+  // Overriding equals() to compare two Complex objects 
+  public boolean equals(Card c){
+    if(c instanceof Card && c.getName().equals(this.getName())) {
+        return true;
+    }
+    return false;
+}
+  
+  
   /* Code from template association_GetOne */
 //  public Game getGame()
 //  {

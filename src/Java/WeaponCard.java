@@ -30,5 +30,10 @@ public class WeaponCard extends Card
   {
     super.delete();
   }
+  
+  public String toString()
+  {
+    return getName();
+  }
 
 }
