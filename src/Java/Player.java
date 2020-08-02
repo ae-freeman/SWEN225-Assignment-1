@@ -62,32 +62,10 @@ public class Player
   public boolean getPlayerStatus() {
 	  return playerStatus;
   }
-  
-  public Cell move(int xChange, int yChange) {
-	  // move location on board
-	  // check if in a room or not
-	  // return the new location and if in room or not, if room, what room. 
-	  return Cell;
-  }
+ 
   
   public String getCharacterName() {
 	  return character.getName();
-  }
-  
-  public boolean setAssignedCharacter(Character aAssignedCharacter)
-  {
-    boolean wasSet = false;
-    assignedCharacter = aAssignedCharacter;
-    wasSet = true;
-    return wasSet;
-  }
-
-  public boolean setLocation(Cell aLocation)
-  {
-    boolean wasSet = false;
-    location = aLocation;
-    wasSet = true;
-    return wasSet;
   }
   
   public Player getNextPlayer(Player player, ArrayList<Player> listOfPlayers) {
@@ -100,6 +78,106 @@ public class Player
 	  return listOfPlayers.get(i + 1);
 //	  return listOfPlayers.get(i + 1).getCharacterName();
   }
+  
+  
+  /* Oliver's code starts */
+
+  /**
+   * Checks whether a move is valid
+   *
+   * @param board     being played upon
+   * @param direction to be moved
+   * @return
+   */
+  public Cell getTargetCell(Board board, String direction) {
+      Cell targetCell = new Cell(0, 0);
+      int playerX = location.getxValue();
+      int playerY = location.getyValue();
+
+      switch (direction) {
+          case "w":
+              targetCell = board.getBoard()[playerX - 1][playerY];
+              break;
+          case "a":
+              targetCell = board.getBoard()[playerX][playerY - 1];
+              break;
+          case "s":
+              targetCell = board.getBoard()[playerX + 1][playerY];
+              break;
+          case "d":
+              targetCell = board.getBoard()[playerX][playerY + 1];
+              break;
+      }
+      return targetCell;
+  }
+
+  /**
+   * Moves player along board in direction specified by user
+   *
+   * @param numMoves number of times player can move
+   * @param board    board being played upon
+   */
+  public void movePlayer(int numMoves, Board board) {
+      Scanner scanner = new Scanner(System.in);
+      while (numMoves > 0) {
+          board.printBoardWithCurrentPlayer(this);
+          // get direction of moves
+          System.out.println("You have: " + numMoves + " moves remaining. ");
+          System.out.println("Enter w to move up, s to move down, a to move left and d to move right:");
+          String direction = scanner.nextLine();
+
+          // if valid direction entered get old and target cells
+          if ((direction.equals("w") || direction.equals("a") ||
+                  direction.equals("s") || direction.equals("d"))) {
+              Cell oldCell = getLocation();
+              Cell targetCell = getTargetCell(board, direction);
+
+              // if can move to that cell change player location and update cells
+              if (targetCell.isAccessible()) {
+                  oldCell.setAccessible(true);
+                  oldCell.setPlayer(null);
+                  setLocation(targetCell);
+                  targetCell.setAccessible(false);
+                  targetCell.setPlayer(this);
+
+                  numMoves -= 1;
+                  System.out.println("You are currently in the " + getLocation().getRoom().getName());
+                  if (numMoves == 0) System.out.println("Turn over.");
+              } else {
+                  System.out.print("You cannot move to that cell, please try again.");
+              }
+
+          } else {
+              System.out.print("Invalid move, please try again.");
+          }
+      }
+  }
+
+
+  public Cell getLocation() {
+      return location;
+  }
+
+  /* Oliver's code ends */
+  
+  
+//  public boolean setAssignedCharacter(Character aAssignedCharacter)
+//  {
+//    boolean wasSet = false;
+//    assignedCharacter = aAssignedCharacter;
+//    wasSet = true;
+//    return wasSet;
+//  }
+//
+  public boolean setLocation(Cell aLocation)
+  {
+    boolean wasSet = false;
+    location = aLocation;
+    wasSet = true;
+    return wasSet;
+  }
+  
+
 
 //  public boolean setPlayerHand(Hand aPlayerHand)
 //  {

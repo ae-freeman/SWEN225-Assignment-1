@@ -265,28 +265,13 @@ public class Game {
 					System.out.println("It's " + player.getCharacterName() + "'s turn");
 					int roll = rollDice();
 					System.out.println(player.getCharacterName() + " rolled a " + roll);
-					while (roll > 0) {
-						System.out.println("Enter direction 'N,E,S,W' to move: ");
-						String input = scanner.nextLine();
-
-						if (input.equalsIgnoreCase("N")){
-							player.move(0, -1);
-						}
-						else if (input.equalsIgnoreCase("E")){
-							player.move(1, 0);
-						}
-						else if (input.equalsIgnoreCase("S")){
-							player.move(0, 1);
-						}
-						else if (input.equalsIgnoreCase("W")){
-							player.move(-1, 0);
-						}
-						else {
-							System.out.println("Error...");
-						}
-						roll--;
-						 // move method return roll? so if they reach a room they can end loop
-					}
+					
+					
+					player.movePlayer(roll, player, board);
+//					while (roll > 0) {
+//						
+//						 // move method return roll? so if they reach a room they can end loop
+//					}
 					int action = action();
 					if (action == 1 || action == 2) {
 						guess[0] = characters.get(guess(characters));
