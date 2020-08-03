@@ -31,31 +31,31 @@ public class Board {
     private ArrayList<Cell> hallwayCells;
     private ArrayList<Cell> outofboardCells;
     private String boardString =
-            "000000000 0000 000000000" +
-                    "KKKKKW0   WBBW0   WCCCCC" +
-                    "KKKKKW  WWWBBWWW  WCCCCC" +
-                    "KKKKKW  WBBBBBBW  WCCCCC" +
-                    "KKKKKW  WBBBBBBW  CCCCCC" +
-                    "KKKKKW  BBBBBBBB   WWWW0" +
-                    "0WWWKW  WBBBBBBW        " +
-                    "        WBWWWWBW       0" +
-                    "0                 WWWWWW" +
-                    "WWWWW             IIIIII" +
-                    "DDDDWWWW  AAAAA   WIIIII" +
-                    "DDDDDDDW  AAAAA   WIIIII" +
-                    "DDDDDDDD  AAAAA   WWWWIW" +
-                    "DDDDDDDW  AAAAA        0" +
-                    "DDDDDDDW  AAAAA   WWLWW0" +
-                    "WWWWWWDW  AAAAA  WWLLLLL" +
-                    "0         AAAAA  LLLLLLL" +
-                    "                 WWLLLLL" +
-                    "0        WWHHWW   WWWWW0" +
-                    "WWWWWWO  WHHHHW         " +
-                    "OOOOOOW  WHHHHH        0" +
-                    "OOOOOOW  WHHHHW  SWWWWWW" +
-                    "OOOOOOW  WHHHHW  WSSSSSS" +
-                    "OOOOOOW  WHHHHW  WSSSSSS" +
-                    "OOOOOO0 0HHHHHH0 0SSSSSS";
+                    "_________ ____ _________" +
+                    "KKKKK|_   |BB|_   |CCCCC" +
+                    "KKKKK|  __|BB|__  |CCCCC" +
+                    "KKKKK|  |BBBBBB|  |CCCCC" +
+                    "KKKKK|  |BBBBBB|  CCCCCC" +
+                    "KKKKK|  BBBBBBBB   |____" +
+                    "_|__K|  |BBBBBB|        " +
+                    "        |B____B|       |" +
+                    "_                 _____" +
+                    "|____             IIIIII" +
+                    "DDDD|___  AAAAA   |IIIII" +
+                    "DDDDDDD|  AAAAA   |IIIII" +
+                    "DDDDDDDD  AAAAA   |___I_" +
+                    "DDDDDDD|  AAAAA        |" +
+                    "DDDDDDD|  AAAAA   __L__|" +
+                    "______D|  AAAAA  _|LLLLL" +
+                    "|         AAAAA  LLLLLLL" +
+                    "                 |_LLLLL" +
+                    "_        __HH__   |____|" +
+                    "|_____O  |HHHH|         " +
+                    "OOOOOO|  |HHHHH        _" +
+                    "OOOOOO|  |HHHH|  S_____|" +
+                    "OOOOOO|  |HHHH|  |SSSSSS" +
+                    "OOOOOO|  |HHHH|  |SSSSSS" +
+                    "OOOOOO| |HHHHHH| |SSSSSS";
 
     //------------------------
     // CONSTRUCTOR
@@ -181,7 +181,8 @@ public class Board {
                         board[row][col].setAccessible(true);
                         hallwayCells.add(currentCell);
 						break;
-                    case 'W':
+                    case '|':
+                    case '_':
                         currentCell.setRoom(new Room("Wall"));
                         currentCell.setAccessible(false);
                         wallCells.add(currentCell);
