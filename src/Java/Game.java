@@ -91,12 +91,21 @@ public class Game
 	
 	
 	
+	
+	
 	private ArrayList<Player> generatePlayers() {
 		
 		// Instantiate new players with randomly assigned character card
 		for (int i = 0; i < numberOfPlayers; i++) {
 			
-			CharacterCard character = (CharacterCard) chooseRandom(characters);
+			CharacterCard character = null;
+			while(true) {
+				character = (CharacterCard) chooseRandom(characters);
+				if (preventDoubleUpCharacters(character)) {
+					break;
+				}
+			}
+//			CharacterCard character = (CharacterCard) chooseRandom(characters);
 			Player player = new Player(character);
 			listOfPlayers.add(player);
 		}
@@ -130,6 +139,22 @@ public class Game
 		return listOfPlayers;
 	}
 
+	
+	private boolean preventDoubleUpCharacters(CharacterCard character) {
+		boolean freeCharacter = true;
+		if (listOfPlayers.size() == 0) {
+			return freeCharacter;
+		}
+		for (int i = 0; i < listOfPlayers.size(); i++) {
+			if (listOfPlayers.get(i).getCharacterCard().getName() == character.getName()) {
+				freeCharacter = false;
+				break;
+			}
+			
+		}
+		
+		return freeCharacter;
+	}
 	
 	public void murderDeck() {
 		
