@@ -1,4 +1,4 @@
-package Java;
+//package Java;
 
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.30.0.5092.1e2e91fc6 modeling language!*/

@@ -1,4 +1,4 @@
-package Java;
+//package Java;
 
 
 
@@ -25,7 +25,6 @@ public class Game
   private Card[] murderDeck;
   private Card[] guess;
   private Scanner scanner;
-  private Map <String, Cell> characterMap = new HashMap<>();
   private int[] characterStartLoc = { 0, 9, 0, 14, 6, 23, 19, 23, 24, 7, 17, 0};
   //Game Associations
   private ArrayList<Player> listOfPlayers;
@@ -33,6 +32,14 @@ public class Game
   private Board board;
   private ArrayList<Card> deck;
   private Accusation accusation;
+  
+  
+  
+  public static void main(String[] args) { // use the "..." syntax!
+      Game game = new Game();
+      game.gameSetup();
+//      game.round();
+  }
 
   //------------------------
   // CONSTRUCTOR
@@ -74,9 +81,10 @@ public class Game
 		murderDeck();
 		createDeck();
 		generatePlayers();
+		
 		System.out.println("List of Players\n");
 		for (int i = 0; i < numberOfPlayers; i++) {
-			System.out.println(listOfPlayers.get(i).getCharacterCard());
+			System.out.println(listOfPlayers.get(i).getCharacterCard().getStartLocation());
 		}
 	}
 	
@@ -122,6 +130,7 @@ public class Game
 
 	
 	public void murderDeck() {
+		System.out.println(rooms);
 		Card murderer = chooseRandom(characters);
 		Card murderRoom = chooseRandom(rooms);
 		Card murderWeapon = chooseRandom(weapons);
@@ -132,7 +141,7 @@ public class Game
 	
 	}
 	// line 50 "model.ump"
-	public Card chooseRandom(ArrayList<? extends Card> list) {
+	public Card chooseRandom(ArrayList<Card> list) {
 		int rnd = new Random().nextInt(list.size());
 		return list.get(rnd);
 	}
@@ -147,9 +156,21 @@ public class Game
 			RoomCard room = new RoomCard(roomList[i]);
 			rooms.add(room);
 		}
-		for (int i = 0; i <= characterList.length - 1; i++) {
-			characterMap.put(characterList[i], new Cell(characterStartLoc[i], characterStartLoc[i++]));
-	    }
+//		for (int i = 0; i <= characterList.length - 1; i++) {
+//			Cell startLoc = board.getBoard()[characterStartLoc[i*2]][characterStartLoc[(i*2)+1]];
+//			CharacterCard character = new CharacterCard(characterList[i], startLoc );
+//			// add in starting positions
+//			characters.add(character);
+//	    }
+		System.out.println(board.getBoard()[0][9].getRoom());
+		characters.add(new CharacterCard("Mrs. White", board.getBoard()[9][0]));
+        characters.add(new CharacterCard("Mr. Green", board.getBoard()[14][0]));
+        characters.add(new CharacterCard("Mrs. Peacock", board.getBoard()[22][6]));
+        characters.add(new CharacterCard("Prof. Plum", board.getBoard()[22][19]));
+        characters.add(new CharacterCard("Miss Scarlett", board.getBoard()[7][24]));
+        characters.add(new CharacterCard("Col. Mustard", board.getBoard()[0][17]));
+        
+        System.out.println("room name test: " + board.getBoard()[0][7].getRoom());
 	}
 	
 	// COMBINE CARD LISTS
@@ -203,9 +224,9 @@ public class Game
 					if(action == 1 || action == 2) {
 						guess[0] = characters.get(guess(characters));
 						guess[1] = weapons.get(guess(weapons));
-						Room roomGuess = player.getRoom();
+						String roomGuess = player.getRoom();
 						 int j = 0;
-						  while (rooms.get(i).getName() != roomGuess.getName()) {
+						  while (rooms.get(i).getName() != roomGuess) {
 							  i++;
 						  }
 						  // return

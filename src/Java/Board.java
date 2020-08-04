@@ -1,4 +1,4 @@
-package Java;
+//package Java;
 
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.30.0.5092.1e2e91fc6 modeling language!*/
@@ -50,7 +50,7 @@ public class Board
 
   public Board(Cell... allCells)
   {
-	  board = new Cell[LENGTH][WIDTH];
+	  board = new Cell[WIDTH][LENGTH];
 	  populateBoard();
   }
 
@@ -62,8 +62,8 @@ public class Board
    */
   public void printBoard() {
       String out = "";
-      for (int row = 0; row < 24; row++) {
-          for (int col = 0; col < 23; col++) {
+      for (int row = 0; row < 25; row++) {
+          for (int col = 0; col < 24; col++) {
               char currentChar = boardString.charAt((row * 24) + col);
               out = out.concat(" " + currentChar + " ");
           }
@@ -106,45 +106,46 @@ public class Board
               board[row][col] = currentCell;
               switch (currentChar) {
                   case 'K':
-                      currentCell.setRoom(new Room("Kitchen"));
+                      currentCell.setRoom("Kitchen");
                       break;
                   case 'B':
-                      currentCell.setRoom(new Room("Ballroom"));
+                      currentCell.setRoom("Ballroom");
 						break;
                   case 'C':
-                      currentCell.setRoom(new Room("Conservatory"));
+                      currentCell.setRoom("Conservatory");
 						break;
                   case 'D':
-                      currentCell.setRoom(new Room("Dining room"));
+                      currentCell.setRoom("Dining room");
 						break;
                   case 'I':
-                      currentCell.setRoom(new Room("Billiard Room"));
+                      currentCell.setRoom("Billiard Room");
 						break;
                   case 'L':
-                      currentCell.setRoom(new Room("Library"));
+                      currentCell.setRoom("Library");
 						break;
                   case 'O':
-                      currentCell.setRoom(new Room("Lounge"));
+                      currentCell.setRoom("Lounge");
 						break;
                   case 'H':
-                      currentCell.setRoom(new Room("Hall"));
+                      currentCell.setRoom("Hall");
 						break;
                   case 'S':
-                      currentCell.setRoom(new Room("Study"));
+                      currentCell.setRoom("Study");
 						break;
                   case ' ':
-                      currentCell.setRoom(new Room("Hallway"));
+                      currentCell.setRoom("Hallway");
 						break;
                   case '|':
                   case '-':
-                      currentCell.setRoom(new Room("Wall"));
+                      currentCell.setRoom("Wall");
                       currentCell.setIsAccessible(false);
+                      break;
                     case 'A':
-                      currentCell.setRoom(new Room("Cellar"));
+                      currentCell.setRoom("Cellar");
                       currentCell.setIsAccessible(false);
 						break;
 					default:
-						currentCell.setRoom(new Room("Default"));
+						currentCell.setRoom("Default");
 						break;
               }
           }

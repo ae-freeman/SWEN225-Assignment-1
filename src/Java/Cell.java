@@ -1,4 +1,4 @@
-package Java;
+//package Java;
 
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.30.0.5092.1e2e91fc6 modeling language!*/
@@ -20,9 +20,7 @@ public class Cell
   private boolean isAccessible;
   private boolean isDoor;
   private Player player;
-
-  //Cell Associations
-  private Room room;
+  private String room;
 
   //------------------------
   // CONSTRUCTOR
@@ -33,7 +31,7 @@ public class Cell
     xValue = aXValue;
     yValue = aYValue;
     isAccessible = true;
-    isDoor = false;
+
   }
   //------------------------
   // INTERFACE
@@ -74,11 +72,12 @@ public class Cell
     return isAccessible;
   }
   /* Code from template association_GetOne */
-  public Room getRoom()
+  public String getRoom()
   {
     return room;
   }
-  public void setRoom(Room room) {
+  public void setRoom(String room) {
+	  
 	  this.room = room;
   }
 

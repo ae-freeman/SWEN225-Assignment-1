@@ -1,4 +1,4 @@
-package Java;
+//package Java;
 
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.30.0.5092.1e2e91fc6 modeling language!*/
@@ -90,7 +90,10 @@ public class Player
   public void movePlayer(int numMoves, Board board) {
       Scanner scanner = new Scanner(System.in);
       int choice;
-      if(this.getCell().getRoom().getName() != "Hallway" ) {
+      System.out.println(this.getCell().getXValue());
+      System.out.println(this.getCell().getYValue());
+      System.out.println(this.getCell().getRoom());
+      if(this.getCell().getRoom() != "Hallway" ) {
     	  System.out.println("Would you like to stay in this room and make an accusation/suggestion?");
     	  System.out.println("Press 1 to make an accusation or suggestion;/n" + "Press 2 to move/n");
   		do{
@@ -132,14 +135,14 @@ public class Player
               setLocation(targetCell);
               targetCell.setIsAccessible(false);
               targetCell.setPlayer(this);
-              if (targetCell.getRoom().getName().equals("Hallway") ||
-                      oldCell.getRoom().getName().equals("Hallway"))  {
+              if (targetCell.getRoom().equals("Hallway") ||
+                      oldCell.getRoom().equals("Hallway"))  {
                   numMoves -= 1;
               }
-              if (!targetCell.getRoom().getName().equals("Hallway") && oldCell.getRoom().getName().equals("Hallway"))  {
+              if (!targetCell.getRoom().equals("Hallway") && oldCell.getRoom().equals("Hallway"))  {
                   numMoves = 0;
               }
-              System.out.println("You are currently in the " + getCell().getRoom().getName());
+              System.out.println("You are currently in the " + getCell().getRoom());
               if (numMoves == 0) System.out.println("Turn over.");
           } else {
               System.out.print("You cannot move to that cell, please try again.");
@@ -151,7 +154,7 @@ public class Player
       }
   }
   
-  public Room getRoom() {
+  public String getRoom() {
 	  return getCell().getRoom();
   }
   public void addToHand(Card card) {
@@ -205,8 +208,7 @@ public class Player
 
   public ArrayList<Card> getHand()
   {
-	  ArrayList<Card> newCards = (ArrayList<Card>) Collections.unmodifiableList(playerHand);
-	  return newCards;
+	  return playerHand;
   }
 
   public int numberOfCards()
