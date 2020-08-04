@@ -1,40 +1,81 @@
+package Java;
+
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.30.0.5071.d9da8f6cd modeling language!*/
+/*This code was generated using the UMPLE 1.30.0.5092.1e2e91fc6 modeling language!*/
 
+// line 76 "model.ump"
+// line 137 "model.ump"
+public class Room
+{
 
-import java.util.List;
+  //------------------------
+  // MEMBER VARIABLES
+  //------------------------
 
-// line 125 "model.ump"
-// line 194 "model.ump"
-public class Room {
+  //Room Attributes
+  private String name;
 
-    //------------------------
-    // MEMBER VARIABLES
-    //------------------------
+  //Room Associations
+  private Cell[] cells;
 
+  //------------------------
+  // CONSTRUCTOR
+  //------------------------
 
-    //Room Attributes
-    private List<Cell> doorCells;
-    private String name;
+  public Room(String aName)
+  {
+    name = aName;
+  }
 
-    //Room Associations
-    private List<Cell> cells;
+  //------------------------
+  // INTERFACE
+  //------------------------
 
-    public Room(String name) {
-        this.name = name;
-    }
+  public boolean setName(String aName)
+  {
+    boolean wasSet = false;
+    name = aName;
+    wasSet = true;
+    return wasSet;
+  }
 
-    public Room(String name, List<Cell> cells) {
-        this.name = name;
-        this.cells = cells;
-    }
+  public String getName()
+  {
+    return name;
+  }
+  /* Code from template association_GetMany */
+  public Cell getCell(int index)
+  {
+    Cell aCell = cells[index];
+    return aCell;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public Cell[] getCells()
+  {
+    Cell[] newCells = cells;
+    return newCells;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public int numberOfCells()
+  {
+    int number = cells.length;
+    return number;
+  }
 
+  public boolean hasCells()
+  {
+    boolean has = cells.length > 0;
+    return has;
+  }
+
+  /* Code from template association_MinimumNumberOfMethod */
+  public static int minimumNumberOfCells()
+  {
+    return 0;
+  }
+  public String toString()
+  {
+    return super.toString() + "["+
+            "name" + ":" + getName()+ "]";
+  }
 }

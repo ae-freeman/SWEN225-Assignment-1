@@ -1,10 +1,12 @@
+package Java;
+
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.30.0.5071.d9da8f6cd modeling language!*/
+/*This code was generated using the UMPLE 1.30.0.5092.1e2e91fc6 modeling language!*/
 
 
 
-// line 113 "model.ump"
-// line 181 "model.ump"
+// line 64 "model.ump"
+// line 132 "model.ump"
 public class RoomCard extends Card
 {
 
@@ -28,11 +30,6 @@ public class RoomCard extends Card
   public void delete()
   {
     super.delete();
-  }
-  
-  public String toString()
-  {
-    return getName();
   }
 
 }

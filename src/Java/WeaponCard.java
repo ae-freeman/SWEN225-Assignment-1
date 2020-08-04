@@ -1,10 +1,12 @@
+package Java;
+
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.30.0.5071.d9da8f6cd modeling language!*/
+/*This code was generated using the UMPLE 1.30.0.5092.1e2e91fc6 modeling language!*/
 
 
 
-// line 99 "model.ump"
-// line 210 "model.ump"
+// line 50 "model.ump"
+// line 154 "model.ump"
 public class WeaponCard extends Card
 {
 
@@ -12,14 +14,13 @@ public class WeaponCard extends Card
   // MEMBER VARIABLES
   //------------------------
 
-	
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public WeaponCard(String cardName)
+  public WeaponCard(String aName)
   {
-	super(cardName);
+    super(aName);
   }
 
   //------------------------
@@ -29,11 +30,6 @@ public class WeaponCard extends Card
   public void delete()
   {
     super.delete();
-  }
-  
-  public String toString()
-  {
-    return getName();
   }
 
 }

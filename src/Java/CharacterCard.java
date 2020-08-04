@@ -1,10 +1,12 @@
+package Java;
+
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.30.0.5071.d9da8f6cd modeling language!*/
+/*This code was generated using the UMPLE 1.30.0.5092.1e2e91fc6 modeling language!*/
 
 
 
-// line 105 "model.ump"
-// line 175 "model.ump"
+// line 56 "model.ump"
+// line 126 "model.ump"
 public class CharacterCard extends Card
 {
 
@@ -15,9 +17,6 @@ public class CharacterCard extends Card
   //CharacterCard Attributes
   private Cell startLocation;
 
-  //CharacterCard Associations
-  private Player player;
-
   //------------------------
   // CONSTRUCTOR
   //------------------------
@@ -27,13 +26,6 @@ public class CharacterCard extends Card
     super(aName);
     startLocation = aStartLocation;
   }
-
-//  public CharacterCard(String aName, Game aGame, Cell aStartLocation, Character aAssignedCharacterForPlayer, Cell aLocationForPlayer, Hand aPlayerHandForPlayer, boolean aPlayerStatusForPlayer, Game aGameForPlayer, Cell aCellForPlayer)
-//  {
-//    super(aName, aGame);
-//    startLocation = aStartLocation;
-//    player = new Player(aAssignedCharacterForPlayer, aLocationForPlayer, aPlayerHandForPlayer, aPlayerStatusForPlayer, aGameForPlayer, aCellForPlayer, this);
-//  }
 
   //------------------------
   // INTERFACE
@@ -51,26 +43,16 @@ public class CharacterCard extends Card
   {
     return startLocation;
   }
-  /* Code from template association_GetOne */
-  public Player getPlayer()
-  {
-    return player;
-  }
 
   public void delete()
   {
-    Player existingPlayer = player;
-    player = null;
-    if (existingPlayer != null)
-    {
-      existingPlayer.delete();
-    }
     super.delete();
   }
 
 
   public String toString()
   {
-    return getName();
+    return super.toString() + "["+ "]" + System.getProperties().getProperty("line.separator") +
+            "  " + "startLocation" + "=" + (getStartLocation() != null ? !getStartLocation().equals(this)  ? getStartLocation().toString().replaceAll("  ","    ") : "this" : "null");
   }
 }
