@@ -27,7 +27,7 @@ public class Board
             "KKKKK|  BBBBBBBB   |____" +
             "_|__K|  |BBBBBB|        " +
             "        |B____B|       |" +
-            "_                 _____" +
+            "_                 ______" +
             "|____             IIIIII" +
             "DDDD|___  AAAAA   |IIIII" +
             "DDDDDDD|  AAAAA   |IIIII" +
@@ -64,7 +64,7 @@ public class Board
       String out = "";
       for (int row = 0; row < 25; row++) {
           for (int col = 0; col < 24; col++) {
-              char currentChar = boardString.charAt((row * 24) + col);
+              char currentChar = boardString.charAt((row * 25) + col);
               out = out.concat(" " + currentChar + " ");
           }
           System.out.println();
@@ -78,11 +78,12 @@ public class Board
    */
   public void printBoardWithCurrentPlayer(Player player) {
       String out = "";
-      for (int row = 0; row < 24; row++) {
-          for (int col = 0; col < 23; col++) {
+      
+      for (int row = 0; row < 25; row++) {
+          for (int col = 0; col < 24; col++) {
               char currentChar = boardString.charAt((row * 24) + col);
               try {
-                  Player playerOnBoard = board[row][col].getPlayer();
+                  Player playerOnBoard = board[col][row].getPlayer(); //this might need to be the other way round? Currently yx vs xy
                   if (playerOnBoard.equals(player)) {
                       out = out.concat(" " + 'X' + " ");
                   } else {
@@ -99,11 +100,11 @@ public class Board
   }
   
   private void populateBoard() {
-      for (int row = 0; row < 24; row++) {
-          for (int col = 0; col < 23; col++) {
+      for (int row = 0; row < 25; row++) {
+          for (int col = 0; col < 24; col++) {
               char currentChar = boardString.charAt((row * 24) + col);
-              Cell currentCell = new Cell(row, col);
-              board[row][col] = currentCell;
+              Cell currentCell = new Cell(col, row);
+              board[col][row] = currentCell;
               switch (currentChar) {
                   case 'K':
                       currentCell.setRoom("Kitchen");
@@ -136,7 +137,7 @@ public class Board
                       currentCell.setRoom("Hallway");
 						break;
                   case '|':
-                  case '-':
+                  case '_':
                       currentCell.setRoom("Wall");
                       currentCell.setIsAccessible(false);
                       break;

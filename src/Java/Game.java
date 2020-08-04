@@ -32,6 +32,7 @@ public class Game
   private Board board;
   private ArrayList<Card> deck;
   private Accusation accusation;
+
   
   
   
@@ -84,7 +85,7 @@ public class Game
 		
 		System.out.println("List of Players\n");
 		for (int i = 0; i < numberOfPlayers; i++) {
-			System.out.println(listOfPlayers.get(i).getCharacterCard().getStartLocation());
+			System.out.println(listOfPlayers.get(i).getCharacterCard());
 		}
 	}
 	
@@ -94,6 +95,7 @@ public class Game
 		
 		// Instantiate new players with randomly assigned character card
 		for (int i = 0; i < numberOfPlayers; i++) {
+			
 			CharacterCard character = (CharacterCard) chooseRandom(characters);
 			Player player = new Player(character);
 			listOfPlayers.add(player);
@@ -120,17 +122,17 @@ public class Game
 		}
 
 		// Print out each player's hand
-		for (int i = 0; i < numberOfPlayers; i++) {
-			System.out.println(listOfPlayers.get(i).getCharacterCard() + "'s hand:\n");
-			System.out.println(listOfPlayers.get(i).getHand());
-		}
+//		for (int i = 0; i < numberOfPlayers; i++) {
+//			System.out.println(listOfPlayers.get(i).getCharacterCard() + "'s hand:\n");
+//			System.out.println(listOfPlayers.get(i).getHand());
+//		}
 
 		return listOfPlayers;
 	}
 
 	
 	public void murderDeck() {
-		System.out.println(rooms);
+		
 		Card murderer = chooseRandom(characters);
 		Card murderRoom = chooseRandom(rooms);
 		Card murderWeapon = chooseRandom(weapons);
@@ -143,8 +145,21 @@ public class Game
 	// line 50 "model.ump"
 	public Card chooseRandom(ArrayList<Card> list) {
 		int rnd = new Random().nextInt(list.size());
+		
+		
 		return list.get(rnd);
 	}
+	
+//	public Card chooseRandom(ArrayList<Card> list) {
+//		Set<Integer> numGenerated = new HashSet<>();
+//	      int rnd = 0;
+//	      while (numGenerated.contains(rnd)){
+//	          rnd = new Random().nextInt(list.size());
+//
+//	          numGenerated.add(rnd);
+//	      }
+//	        return list.get(rnd);
+//	    }
 	
 	// line 52 "model.ump"
 	public void listCreation(){
@@ -162,7 +177,7 @@ public class Game
 //			// add in starting positions
 //			characters.add(character);
 //	    }
-		System.out.println(board.getBoard()[0][9].getRoom());
+
 		characters.add(new CharacterCard("Mrs. White", board.getBoard()[9][0]));
         characters.add(new CharacterCard("Mr. Green", board.getBoard()[14][0]));
         characters.add(new CharacterCard("Mrs. Peacock", board.getBoard()[22][6]));
@@ -170,7 +185,6 @@ public class Game
         characters.add(new CharacterCard("Miss Scarlett", board.getBoard()[7][24]));
         characters.add(new CharacterCard("Col. Mustard", board.getBoard()[0][17]));
         
-        System.out.println("room name test: " + board.getBoard()[0][7].getRoom());
 	}
 	
 	// COMBINE CARD LISTS
