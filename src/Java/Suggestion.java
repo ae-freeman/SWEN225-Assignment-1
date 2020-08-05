@@ -44,10 +44,10 @@ public class Suggestion
 		ArrayList<Card> matchingCards = compare(nextPlayer);
 		// save player as the next player
 
-		while (nextPlayer.getCharacterCard() != player.getCharacterCard()) {
+		while (nextPlayer.getCharacterCard().getName() != player.getCharacterCard().getName()) {
 			//if there were matching cards
 			if(matchingCards.size() > 0) {
-				System.out.println("Player " + nextPlayer.getCharacterCard() + " has " + matchingCards.size() + " matching cards.");
+				System.out.println("Player " + nextPlayer.getCharacterCard().getName() + " has " + matchingCards.size() + " matching cards.");
 
 				for (int k = 0; k < matchingCards.size(); k++) {
 					//print out each matching card
