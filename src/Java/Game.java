@@ -297,11 +297,14 @@ public class Game {
 		}
 	}
 
+
+	
 	public int rollDice() {
-		int die = new Random().nextInt(6);
-		int die2 = new Random().nextInt(6);
-		return die + die2;
-	}
+        int die1 = (int) (Math.random() * 5 + 1);
+        int die2 = (int) (Math.random() * 5 + 1);
+
+        return die1 + die2;
+    }
 
 	public int action() {
 		int actionChoice;
