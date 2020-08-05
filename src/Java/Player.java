@@ -64,19 +64,19 @@ public class Player
       int playerY = location.getYValue();
 
       switch (direction) {
-          case "w":
-              targetCell = board.getBoard()[playerX - 1][playerY];
-              break;
-          case "a":
-              targetCell = board.getBoard()[playerX][playerY - 1];
-              break;
-          case "s":
-              targetCell = board.getBoard()[playerX + 1][playerY];
-              break;
-          case "d":
-              targetCell = board.getBoard()[playerX][playerY + 1];
-              break;
-      }
+      case "w":
+          if (playerY > 0) targetCell = board.getBoard()[playerX][playerY - 1];
+          break;
+      case "a":
+          if (playerX > 0) targetCell = board.getBoard()[playerX - 1][playerY];
+          break;
+      case "s":
+          if (playerY < 24) targetCell = board.getBoard()[playerX][playerY + 1];
+          break;
+      case "d":
+          if (playerX < 23) targetCell = board.getBoard()[playerX + 1][playerY];
+          break;
+  }
       return targetCell;
       
   }
@@ -126,6 +126,10 @@ public class Player
       return true;   
   }
   
+  
+  // Where does this need to go:
+//  
+  
   public boolean move(int numMoves, Board board) {
   while (numMoves > 0) {
       board.printBoardWithCurrentPlayer(this);
@@ -143,7 +147,7 @@ public class Player
           Cell oldCell = getCell();
           Cell targetCell = getTargetCell(board, direction);
           // if can move to that cell change player location and update cells
-          if (targetCell.getIsAccessible()) {
+          if (targetCell.getIsAccessible() && !(targetCell.equals(oldCell))) {
               oldCell.setIsAccessible(true);
               oldCell.setPlayer(null);
               setLocation(targetCell);
