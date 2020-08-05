@@ -170,6 +170,11 @@ public class Game {
 		murderDeck[1] = murderRoom;
 		murderDeck[2] = murderWeapon;
 
+		System.out.println("Murder Deck");
+		for (int i = 0; i < 3; i++) {
+			System.out.println(murderDeck[i].getName());
+		}
+
 	}
 
 	// line 50 "model.ump"
@@ -243,7 +248,8 @@ public class Game {
 					if (!player.getCell().getRoom().equals("Hallway")) {
 						int action = action();
 
-						if (action == 1 || action == 2) {
+						// Make a suggestion
+						if (action == 1) {
 							guess[0] = characters.get(guess(characters));
 							guess[1] = weapons.get(guess(weapons));
 							String roomGuess = player.getRoom();
@@ -254,25 +260,34 @@ public class Game {
 							// return
 							Card roomCard = rooms.get(j);
 							guess[2] = roomCard;
-							if (action == 1) {
-								Suggestion suggestion = new Suggestion(guess, player, listOfPlayers);
-								// Call compare method inside suggestion class
-								String matchResult = suggestion.compareCards();
-								System.out.println("Match result: " + matchResult);
-							}
-							if (action == 2) {
-								Accusation accusation = new Accusation(guess, murderDeck);
-								boolean accusationResult = accusation.checkAccusation();
-								System.out.println("Accusation result: " + accusationResult);
-								if (accusationResult) {
-									System.out.println("Player " + player.getCharacterCard() + " wins!");
-									gameOver = true;
-								} else {
-									player.setPlayerStatus(false);
-									System.out.println("Player " + player.getCharacterCard() + " is out!");
-								}
+
+							Suggestion suggestion = new Suggestion(guess, player, listOfPlayers);
+							// Call compare method inside suggestion class
+							String matchResult = suggestion.compareCards();
+							System.out.println("Match result: " + matchResult);
+
+							
+						}
+						
+						// Make an accusation
+						if (action == 2) {
+							guess[0] = characters.get(guess(characters));
+							guess[1] = rooms.get(guess(rooms));
+							guess[2] = weapons.get(guess(weapons));
+
+							Accusation accusation = new Accusation(guess, murderDeck);
+							boolean accusationResult = accusation.checkAccusation();
+							System.out.println("Accusation result: " + accusationResult);
+							if (accusationResult) {
+								System.out.println("Player " + player.getCharacterCard().getName() + " wins!");
+								gameOver = true;
+								break;
+							} else {
+								player.setPlayerStatus(false);
+								System.out.println("Player " + player.getCharacterCard().getName() + " is out!");
 							}
 						}
+						
 					} else {
 						System.out.println("Turn over");
 					}
@@ -317,6 +332,7 @@ public class Game {
 	}
 
 	public int guess(ArrayList<Card> list) {
+		System.out.println("---------------------------------------------");
 		for (int i = 0; i < list.size(); i++) {
 			System.out.println("Press " + i + " for: " + list.get(i).getName() + "\n");
 		}
@@ -328,6 +344,8 @@ public class Game {
 			}
 			return scanner.nextInt();
 		} while (scanner.nextInt() < 0 || scanner.nextInt() > list.size());
+		
+		
 	}
 
 	public void testSuggestion() {

@@ -78,6 +78,7 @@ public class Board
    */
   public void printBoardWithCurrentPlayer(Player player) {
       String out = "";
+      System.out.println();
       
       for (int row = 0; row < 25; row++) {
           for (int col = 0; col < 24; col++) {
@@ -93,10 +94,11 @@ public class Board
                   out = out.concat(" " + currentChar + " ");
               }
           }
-          System.out.println();
+
           out = out.concat("\n");
       }
       System.out.print(out);
+      System.out.println();
   }
   
   private void populateBoard() {
