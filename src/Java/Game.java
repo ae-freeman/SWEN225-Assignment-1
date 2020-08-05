@@ -137,10 +137,14 @@ public class Game {
 		}
 
 		// Print out each player's hand
-//		for (int i = 0; i < numberOfPlayers; i++) {
-//			System.out.println(listOfPlayers.get(i).getCharacterCard() + "'s hand:\n");
-//			System.out.println(listOfPlayers.get(i).getHand());
-//		}
+		for (int i = 0; i < numberOfPlayers; i++) {
+			System.out.println(listOfPlayers.get(i).getCharacterCard().getName() + "'s hand:\n");
+			for (int j = 0; j < listOfPlayers.get(i).getHand().size(); j++) {
+				System.out.println(listOfPlayers.get(i).getHand().get(j).getName());
+				
+			}
+			System.out.println();
+		}
 
 		return listOfPlayers;
 	}
@@ -174,6 +178,7 @@ public class Game {
 		for (int i = 0; i < 3; i++) {
 			System.out.println(murderDeck[i].getName());
 		}
+		System.out.println();
 
 	}
 
@@ -250,7 +255,7 @@ public class Game {
 					System.out.println("It is " + player.getCharacterCard().getName() + "'s turn!\n");
 					int roll = rollDice();
 					System.out.println("Dice roll: " + roll + "\n");
-					player.movePlayer(roll, board);
+					player.movePlayer(roll, board, player);
 					if (!player.getCell().getRoom().equals("Hallway")) {
 						int action = action();
 
@@ -276,12 +281,12 @@ public class Game {
 							// Call compare method inside suggestion class
 							String matchResult = suggestion.compareCards();
 							System.out.println("Match result: " + matchResult);
-							System.out.println("Press enter to continue");
-							try{        
-								System.in.read();
-								}
-							catch(Exception e){	e.printStackTrace();
-							}
+//							System.out.println("Press enter to continue");
+//							try{        
+//								System.in.read();
+//								}
+//							catch(Exception e){	e.printStackTrace();
+//							}
 
 							
 						}

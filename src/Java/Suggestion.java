@@ -38,13 +38,20 @@ public class Suggestion
   // INTERFACE
   //------------------------
 	public String compareCards() {
+		
+		System.out.println("Your suggestion: \n");
+		for (int j = 0; j < 3; j++) {
+			System.out.println(suggestion[j].getName());
+		}
 
 		Player nextPlayer = player.getNextPlayer(player, listOfPlayers);
+		
 		//compare the guess with the next player's hand
-		ArrayList<Card> matchingCards = compare(nextPlayer);
+		
 		// save player as the next player
 
 		while (nextPlayer.getCharacterCard().getName() != player.getCharacterCard().getName()) {
+			ArrayList<Card> matchingCards = compare(nextPlayer);
 			//if there were matching cards
 			if(matchingCards.size() > 0) {
 				System.out.println("Player " + nextPlayer.getCharacterCard().getName() + " has " + matchingCards.size() + " matching cards.");
