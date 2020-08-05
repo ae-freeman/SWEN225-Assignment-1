@@ -83,7 +83,7 @@ public class Board
           for (int col = 0; col < 24; col++) {
               char currentChar = boardString.charAt((row * 24) + col);
               try {
-                  Player playerOnBoard = board[col][row].getPlayer(); //this might need to be the other way round? Currently yx vs xy
+                  Player playerOnBoard = board[col][row].getPlayer(); 
                   if (playerOnBoard.equals(player)) {
                       out = out.concat(" " + 'X' + " ");
                   } else {

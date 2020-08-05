@@ -33,13 +33,14 @@ public class Game
   private ArrayList<Card> deck;
   private Accusation accusation;
 
+
   
   
   
   public static void main(String[] args) { // use the "..." syntax!
       Game game = new Game();
       game.gameSetup();
-//      game.round();
+      game.round();
   }
 
   //------------------------
@@ -67,16 +68,29 @@ public class Game
 		// Sets the number of players
 		System.out.println("Welcome to Cluedo!");
 		System.out.println("How many players?");
-		while (true && (numberOfPlayers < 3 || numberOfPlayers > 6)) {
+		
+		
+		do { // loop until we have correct input
 			System.out.println("Please enter a number between 3 and 6");
 			try {
-				numberOfPlayers = scanner.nextInt();
-	
-			} catch (InputMismatchException e) {
-				throw new InputMismatchException("Please enter an integer");
-			}
-	//			scanner.next();
-		}
+				numberOfPlayers = scanner.nextInt(); // Blocks for user input
+				if (numberOfPlayers > 2 && numberOfPlayers < 7) {
+					break; // Got valid input, stop looping
+				} else {
+					System.out.println("Please enter a number between 3 and 6");
+					scanner.next(); // discard non-integer input
+					continue; // restart loop, didn't get an integer input
+				}
+				
+			} catch (final InputMismatchException e) {
+			        System.out.println("You have entered an invalid input. Try again.");
+			        scanner.next();    // discard non-integer input
+			        continue;     // restart loop, didn't get an integer input
+			    }
+			}  while (true);
+		 
+		
+
 		
 		listCreation();
 		murderDeck();
@@ -85,14 +99,12 @@ public class Game
 		
 		System.out.println("List of Players\n");
 		for (int i = 0; i < numberOfPlayers; i++) {
-			System.out.println(listOfPlayers.get(i).getCharacterCard());
+			System.out.println(listOfPlayers.get(i).getCharacterCard().getName());
 		}
+		System.out.println("\n");
 	}
 	
-	
-	
-	
-	
+
 	private ArrayList<Player> generatePlayers() {
 		
 		// Instantiate new players with randomly assigned character card
@@ -110,7 +122,7 @@ public class Game
 			listOfPlayers.add(player);
 		}
 
-		// Randomise cards in deck
+		// Randomize cards in deck
 		Collections.shuffle(deck);
 
 		// Assign player hand from shuffled deck
@@ -175,16 +187,7 @@ public class Game
 		return list.get(rnd);
 	}
 	
-//	public Card chooseRandom(ArrayList<Card> list) {
-//		Set<Integer> numGenerated = new HashSet<>();
-//	      int rnd = 0;
-//	      while (numGenerated.contains(rnd)){
-//	          rnd = new Random().nextInt(list.size());
-//
-//	          numGenerated.add(rnd);
-//	      }
-//	        return list.get(rnd);
-//	    }
+
 	
 	// line 52 "model.ump"
 	public void listCreation(){
@@ -196,12 +199,7 @@ public class Game
 			RoomCard room = new RoomCard(roomList[i]);
 			rooms.add(room);
 		}
-//		for (int i = 0; i <= characterList.length - 1; i++) {
-//			Cell startLoc = board.getBoard()[characterStartLoc[i*2]][characterStartLoc[(i*2)+1]];
-//			CharacterCard character = new CharacterCard(characterList[i], startLoc );
-//			// add in starting positions
-//			characters.add(character);
-//	    }
+
 
 		characters.add(new CharacterCard("Mrs. White", board.getBoard()[9][0]));
         characters.add(new CharacterCard("Mr. Green", board.getBoard()[14][0]));
@@ -220,11 +218,6 @@ public class Game
 		deck.addAll(characters);
 		deck.addAll(rooms);
 	
-		// had to change the type at the top to be Card for all three types and the deck itself so it would combine them
-		// is that alright?
-		//CHECK:
-	//		System.out.println(deck);
-		
 	
 	
 		int totalCards = 21;
@@ -257,7 +250,9 @@ public class Game
 					break;
 				}
 				if(!player.getPlayerStatus()) {
+					System.out.println("It is " + player.getCharacterCard().getName() + "'s turn!\n");
 					int roll = rollDice();
+					System.out.println("Dice roll: " + roll + "\n");
 					player.movePlayer(roll, board); //move method return roll? so if they reach a room they can end loop
 					int action = action();
 					if(action == 1 || action == 2) {
@@ -301,17 +296,74 @@ public class Game
 		return die + die2;
 	}
 	
+	
 	public int action() {
-		System.out.println("Press 1 to make a suggestion;/n" + "Press 2 to make an accusation/n" + "Press 3 to do nothing/n");
-		do{
-			System.out.println("Please enter your action");
-			while(!scanner.hasNextInt()) {
-				System.out.println("Please enter an integer between 1 and 3");
-				scanner.hasNext();
-			}
-			return scanner.nextInt();
-		}while (scanner.nextInt() < 1 || scanner.nextInt() > 3);
+		int actionChoice;
+		System.out.println("Press 1 to make a suggestion\n" + "Press 2 to make an accusation\n" + "Press 3 to do nothing\n");
+		
+		do { // loop until we have correct input
+			System.out.println("Please enter 1, 2 or 3");
+			try {
+				System.out.println("Above action choice next int");
+				actionChoice = scanner.nextInt(); // Blocks for user input
+				if (actionChoice > 0 && actionChoice < 4) {
+					break; // Got valid input, stop looping
+				} else {
+					System.out.println("Please enter 1, 2 or 3");
+					scanner.next(); // discard non-integer input
+					continue; // restart loop, didn't get an integer input
+				}
+				
+			} catch (final InputMismatchException e) {
+			        System.out.println("You have entered an invalid input. Try again.");
+			        scanner.next();    // discard non-integer input
+			        continue;     // restart loop, didn't get an integer input
+			    }
+			}  while (true);
+		
+		
+		
+		
+		return actionChoice;
+		
+//		do{
+//			System.out.println("Please enter your action");
+//			while(!scanner.hasNextInt()) {
+//				System.out.println("Please enter an integer between 1 and 3");
+////				scanner.hasNext();
+//			}
+//			return scanner.nextInt();
+//		}while (scanner.nextInt() < 1 || scanner.nextInt() > 3);
 	}
+	
+//	public int action() {
+//		System.out.println("Press 1 to make a suggestion\n" + "Press 2 to make an accusation\n" + "Press 3 to do nothing\n");
+////		do{
+////			System.out.println("Please enter your action");
+////			while(!scanner.hasNextInt()) {
+////				System.out.println("Please enter an integer between 1 and 3");
+//////				scanner.hasNext();
+////			}
+////			return scanner.nextInt();
+////		}while (scanner.nextInt() < 1 || scanner.nextInt() > 3);
+//		
+//		int actionChoice = 0;
+//		
+//		
+//		while (actionChoice < 1 || actionChoice > 3) {
+//			System.out.println("Please enter a number between 1 and 3");
+//			try {
+//				actionChoice = scanner.nextInt();
+//	
+//			} catch (InputMismatchException e) {
+//				throw new InputMismatchException("Please enter an integer");
+//			}
+//	//			scanner.next();
+//		}
+//		System.out.println("Action Choice: " + actionChoice);
+//		
+//		return actionChoice;
+//	}
 	
 	public int guess(ArrayList<Card> list){
 		for(int i = 0; i < list.size(); i++) {

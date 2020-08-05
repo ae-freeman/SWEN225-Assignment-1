@@ -90,12 +90,10 @@ public class Player
   public void movePlayer(int numMoves, Board board) {
       Scanner scanner = new Scanner(System.in);
       int choice;
-      System.out.println(this.getCell().getXValue());
-      System.out.println(this.getCell().getYValue());
-      System.out.println(this.getCell().getRoom());
+
       if(this.getCell().getRoom() != "Hallway" ) {
     	  System.out.println("Would you like to stay in this room and make an accusation/suggestion?");
-    	  System.out.println("Press 1 to make an accusation or suggestion;/n" + "Press 2 to move/n");
+    	  System.out.println("Press 1 to make an accusation or suggestion\n" + "Press 2 to move\n");
   		do{
   			System.out.println("Please enter your action");
   			while(!scanner.hasNextInt()) {
@@ -105,14 +103,16 @@ public class Player
   			choice = scanner.nextInt();
   		}while (scanner.nextInt() < 1 || scanner.nextInt() > 2);
   		if(choice == 1) {
-  			scanner.close();
+//  			scanner.close();
   			return;
   		}
   		if(choice == 2) {
   			move(numMoves,board);
   		}
+      } else {
+    	  move(numMoves, board);
       }
-      scanner.close();
+//      scanner.close();
   }
   
   public void move(int numMoves, Board board) {
@@ -120,8 +120,11 @@ public class Player
       board.printBoardWithCurrentPlayer(this);
       // get direction of moves
       System.out.println("You have: " + numMoves + " moves remaining. ");
-      System.out.println("Enter w to move up, s to move down, a to move left and d to move right:");
+      System.out.println("Enter w to move up, s to move down, a to move left and d to move right:"); // this doesn't correspond with the direction it actually goes in
       String direction = scanner.nextLine();
+      
+      
+      // tried moving left with Mrs White and got an index out of bounds exception, maybe need an extra check here? 
 
       // if valid direction entered get old and target cells
       if ((direction.equals("w") || direction.equals("a") ||
