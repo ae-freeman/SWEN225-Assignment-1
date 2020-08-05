@@ -36,16 +36,17 @@ public class Player {
 	// ------------------------
 	// INTERFACE
 	// ------------------------
-	public Player getNextPlayer(Player player, ArrayList<Player> listOfPlayers) {
-		// go through list of players to get index of current player
-		int i = 0;
-		while (listOfPlayers.get(i).getCharacterCard() != player.getCharacterCard()) {
-			i++;
-		}
-		// return
-		return listOfPlayers.get(i + 1);
-//	  return listOfPlayers.get(i + 1).getCharacterName();
-	}
+	public Player getNextPlayer(Player player, ArrayList<Player> listOfPlayers){
+	      // go through list of players to get index of current player
+	      int i = 0;
+	      while (listOfPlayers.get(i).getCharacterCard() != player.getCharacterCard() && (i+1) < listOfPlayers.size()) {
+	          i++;
+	      }
+	      if(i == listOfPlayers.size() - 1) {
+	          return listOfPlayers.get(0);
+	      }
+	      return listOfPlayers.get(i+1);
+	  }
 
 	/**
 	 * Checks whether a move is valid

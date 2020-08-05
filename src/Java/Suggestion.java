@@ -51,7 +51,7 @@ public class Suggestion
 
 				for (int k = 0; k < matchingCards.size(); k++) {
 					//print out each matching card
-					System.out.println(k + "." + matchingCards.get(k).getName( )+ "\n");
+					System.out.println(k + 1 + ". " + matchingCards.get(k).getName( )+ "\n");
 				}
 
 				//if there is more than one card ask player to select
@@ -61,11 +61,12 @@ public class Suggestion
 					do{					
 						System.out.println("Enter a number between 1 and " + matchingCards.size() + " to select the card \n");
 						while(!scanner.hasNextInt()){
-							System.out.println("Please enter an integer between " + matchingCards.size() +"and 3 \n");
+							System.out.println("Please enter an integer between 1 and " + matchingCards.size() + "\n");
 							scanner.hasNext();
 						}
-						int indexOfCardToDisplay = scanner.nextInt();
-						return nextPlayer.getHand().get(indexOfCardToDisplay).getName();
+						int indexOfCardToDisplay = scanner.nextInt() - 1;
+						return matchingCards.get(indexOfCardToDisplay).getName();
+//						return nextPlayer.getHand().get(indexOfCardToDisplay).getName();
 					}while (scanner.nextInt() < 1 || scanner.nextInt() > 3);
 
 				}

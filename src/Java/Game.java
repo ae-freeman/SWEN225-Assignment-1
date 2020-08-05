@@ -241,15 +241,26 @@ public class Game {
 					break;
 				}
 				if (!player.getPlayerStatus()) {
+					System.out.println("Press enter to continue");
+					try{        
+						System.in.read();
+						}
+					catch(Exception e){	e.printStackTrace();
+					}
 					System.out.println("It is " + player.getCharacterCard().getName() + "'s turn!\n");
 					int roll = rollDice();
 					System.out.println("Dice roll: " + roll + "\n");
-					player.movePlayer(roll, board);// move method return roll? so if they reach a room they can end loop
+					player.movePlayer(roll, board);
 					if (!player.getCell().getRoom().equals("Hallway")) {
 						int action = action();
 
 						// Make a suggestion
 						if (action == 1) {
+							//Print out player's hand
+							System.out.println("Your hand:\n");
+							for(int l = 0; l < player.getHand().size(); l++) {
+								System.out.println(player.getHand().get(l).getName());
+							}
 							guess[0] = characters.get(guess(characters));
 							guess[1] = weapons.get(guess(weapons));
 							String roomGuess = player.getRoom();
@@ -265,6 +276,12 @@ public class Game {
 							// Call compare method inside suggestion class
 							String matchResult = suggestion.compareCards();
 							System.out.println("Match result: " + matchResult);
+							System.out.println("Press enter to continue");
+							try{        
+								System.in.read();
+								}
+							catch(Exception e){	e.printStackTrace();
+							}
 
 							
 						}
@@ -284,6 +301,7 @@ public class Game {
 								break;
 							} else {
 								player.setPlayerStatus(false);
+								board.getBoard()[player.getCell().getXValue()][player.getCell().getYValue()].setIsAccessible(true);
 								System.out.println("Player " + player.getCharacterCard().getName() + " is out!");
 							}
 						}
@@ -341,7 +359,7 @@ public class Game {
 		}
 		do {
 			System.out.println("Please enter your selection");
-			while (!scanner.hasNextInt()) {
+			while (!scanner.hasNextInt() && scanner.nextInt() >= list.size()) {
 				System.out.println("Please enter an integer between 0 and " + list.size());
 				scanner.hasNext();
 			}

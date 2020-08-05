@@ -118,7 +118,7 @@ public class Board
                       currentCell.setRoom("Conservatory");
 						break;
                   case 'D':
-                      currentCell.setRoom("Dining room");
+                      currentCell.setRoom("Dining Room");
 						break;
                   case 'I':
                       currentCell.setRoom("Billiard Room");
