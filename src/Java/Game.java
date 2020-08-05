@@ -1,75 +1,67 @@
 //package Java;
 
-
-
 import java.util.*;
 
-public class Game
-{
+public class Game {
 
-  //------------------------
-  // MEMBER VARIABLES
-  //------------------------
+	// ------------------------
+	// MEMBER VARIABLES
+	// ------------------------
 
-  //Game Attributes
-  private int numberOfPlayers;
-  private boolean gameOver;
-  private String[] roomList = { "Lounge", "Dining Room", "Kitchen", "Hall", "Conservatory", "Billiard Room", "Library",
-		  "Study", "Ballroom", "Hallway" };
-  private String[] characterList = { "Mrs. White", "Mr. Green", "Mrs . Peacock", "Prof. Plum", "Miss Scarlett",
-  "Col. Mustard" };
-  private String[] weaponList = { "Pistol", "Rope", "Candlestick", "Wrench", "Leadpipe", "Dagger" };
-  private ArrayList<Card> weapons;
-  private ArrayList<Card> characters;
-  private ArrayList<Card> rooms;
-  private Card[] murderDeck;
-  private Card[] guess;
-  private Scanner scanner;
-  private int[] characterStartLoc = { 0, 9, 0, 14, 6, 23, 19, 23, 24, 7, 17, 0};
-  //Game Associations
-  private ArrayList<Player> listOfPlayers;
-  private Suggestion suggestion;
-  private Board board;
-  private ArrayList<Card> deck;
-  private Accusation accusation;
+	// Game Attributes
+	private int numberOfPlayers;
+	private boolean gameOver;
+	private String[] roomList = { "Lounge", "Dining Room", "Kitchen", "Hall", "Conservatory", "Billiard Room",
+			"Library", "Study", "Ballroom", "Hallway" };
+	private String[] characterList = { "Mrs. White", "Mr. Green", "Mrs . Peacock", "Prof. Plum", "Miss Scarlett",
+			"Col. Mustard" };
+	private String[] weaponList = { "Pistol", "Rope", "Candlestick", "Wrench", "Leadpipe", "Dagger" };
+	private ArrayList<Card> weapons;
+	private ArrayList<Card> characters;
+	private ArrayList<Card> rooms;
+	private Card[] murderDeck;
+	private Card[] guess;
+	private Scanner scanner;
+	private int[] characterStartLoc = { 0, 9, 0, 14, 6, 23, 19, 23, 24, 7, 17, 0 };
+	// Game Associations
+	private ArrayList<Player> listOfPlayers;
+	private Suggestion suggestion;
+	private Board board;
+	private ArrayList<Card> deck;
+	private Accusation accusation;
 
+	public static void main(String[] args) { // use the "..." syntax!
+		Game game = new Game();
+		game.gameSetup();
+		game.round();
+	}
 
-  
-  
-  
-  public static void main(String[] args) { // use the "..." syntax!
-      Game game = new Game();
-      game.gameSetup();
-      game.round();
-  }
-
-  //------------------------
-  // CONSTRUCTOR
-  //------------------------
+	// ------------------------
+	// CONSTRUCTOR
+	// ------------------------
 	public Game() {
 		board = new Board();
 		numberOfPlayers = 0;
 		listOfPlayers = new ArrayList<Player>();
 		gameOver = false;
-		weapons = new ArrayList<Card>(); //? WeaponCard
-		characters =new ArrayList<Card>(); //? CharacterCard;
-		rooms = new ArrayList<Card>(); //RoomCard;
-		
+		weapons = new ArrayList<Card>(); // ? WeaponCard
+		characters = new ArrayList<Card>(); // ? CharacterCard;
+		rooms = new ArrayList<Card>(); // RoomCard;
+
 		deck = new ArrayList<Card>();
-		murderDeck = new Card[3]; //<? extends Card>
+		murderDeck = new Card[3]; // <? extends Card>
 		scanner = new Scanner(System.in);
 		guess = new Card[3];
 	}
 
-  //------------------------
-  // INTERFACE
-  //------------------------
+	// ------------------------
+	// INTERFACE
+	// ------------------------
 	public void gameSetup() {
 		// Sets the number of players
 		System.out.println("Welcome to Cluedo!");
 		System.out.println("How many players?");
-		
-		
+
 		do { // loop until we have correct input
 			System.out.println("Please enter a number between 3 and 6");
 			try {
@@ -81,37 +73,33 @@ public class Game
 					scanner.next(); // discard non-integer input
 					continue; // restart loop, didn't get an integer input
 				}
-				
-			} catch (final InputMismatchException e) {
-			        System.out.println("You have entered an invalid input. Try again.");
-			        scanner.next();    // discard non-integer input
-			        continue;     // restart loop, didn't get an integer input
-			    }
-			}  while (true);
-		 
-		
 
-		
+			} catch (final InputMismatchException e) {
+				System.out.println("You have entered an invalid input. Try again.");
+				scanner.next(); // discard non-integer input
+				continue; // restart loop, didn't get an integer input
+			}
+		} while (true);
+
 		listCreation();
 		murderDeck();
 		createDeck();
 		generatePlayers();
-		
+
 		System.out.println("List of Players\n");
 		for (int i = 0; i < numberOfPlayers; i++) {
 			System.out.println(listOfPlayers.get(i).getCharacterCard().getName());
 		}
 		System.out.println("\n");
 	}
-	
 
 	private ArrayList<Player> generatePlayers() {
-		
+
 		// Instantiate new players with randomly assigned character card
 		for (int i = 0; i < numberOfPlayers; i++) {
-			
+
 			CharacterCard character = null;
-			while(true) {
+			while (true) {
 				character = (CharacterCard) chooseRandom(characters);
 				if (preventDoubleUpCharacters(character)) {
 					break;
@@ -151,7 +139,6 @@ public class Game
 		return listOfPlayers;
 	}
 
-	
 	private boolean preventDoubleUpCharacters(CharacterCard character) {
 		boolean freeCharacter = true;
 		if (listOfPlayers.size() == 0) {
@@ -162,145 +149,143 @@ public class Game
 				freeCharacter = false;
 				break;
 			}
-			
+
 		}
-		
+
 		return freeCharacter;
 	}
-	
+
 	public void murderDeck() {
-		
+
 		Card murderer = chooseRandom(characters);
 		Card murderRoom = chooseRandom(rooms);
 		Card murderWeapon = chooseRandom(weapons);
 		murderDeck[0] = murderer;
 		murderDeck[1] = murderRoom;
 		murderDeck[2] = murderWeapon;
-	
-	
+
 	}
+
 	// line 50 "model.ump"
 	public Card chooseRandom(ArrayList<Card> list) {
 		int rnd = new Random().nextInt(list.size());
-		
-		
+
 		return list.get(rnd);
 	}
-	
 
-	
 	// line 52 "model.ump"
-	public void listCreation(){
-		for(int i = 0; i <= weaponList.length-1; i++){
+	public void listCreation() {
+		for (int i = 0; i <= weaponList.length - 1; i++) {
 			WeaponCard weapon = new WeaponCard(weaponList[i]);
 			weapons.add(weapon);
 		}
-		for(int i = 0; i <= roomList.length-1; i++){
+		for (int i = 0; i <= roomList.length - 1; i++) {
 			RoomCard room = new RoomCard(roomList[i]);
 			rooms.add(room);
 		}
 
-
 		characters.add(new CharacterCard("Mrs. White", board.getBoard()[9][0]));
-        characters.add(new CharacterCard("Mr. Green", board.getBoard()[14][0]));
-        characters.add(new CharacterCard("Mrs. Peacock", board.getBoard()[22][6]));
-        characters.add(new CharacterCard("Prof. Plum", board.getBoard()[22][19]));
-        characters.add(new CharacterCard("Miss Scarlett", board.getBoard()[7][24]));
-        characters.add(new CharacterCard("Col. Mustard", board.getBoard()[0][17]));
-        
+		characters.add(new CharacterCard("Mr. Green", board.getBoard()[14][0]));
+		characters.add(new CharacterCard("Mrs. Peacock", board.getBoard()[22][6]));
+		characters.add(new CharacterCard("Prof. Plum", board.getBoard()[22][19]));
+		characters.add(new CharacterCard("Miss Scarlett", board.getBoard()[7][24]));
+		characters.add(new CharacterCard("Col. Mustard", board.getBoard()[0][17]));
+
 	}
-	
+
 	// COMBINE CARD LISTS
-	public void createDeck(){
-	
-		//combine weapons, rooms, characters
+	public void createDeck() {
+
+		// combine weapons, rooms, characters
 		deck.addAll(weapons);
 		deck.addAll(characters);
 		deck.addAll(rooms);
-	
-	
-	
+
 		int totalCards = 21;
-	
+
 		// REMOVE MURDER DECK CARDS
-		for (int i = 0; i < 3; i++){
-			for (int j = 0; j < totalCards; j++){
-				if(deck.get(j).getName().equals(murderDeck[i].getName())){
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < totalCards; j++) {
+				if (deck.get(j).getName().equals(murderDeck[i].getName())) {
 					deck.remove(j);
 					totalCards -= 1;
 					break;
 				}
 			}
-	
+
 		}
-	
-	
+
 	}
-	
+
 	public void round() {
-		while(!gameOver) {
-			for(int i = 0; i < listOfPlayers.size(); i++ ) {
+		while (!gameOver) {
+			for (int i = 0; i < listOfPlayers.size(); i++) {
 				Player player = listOfPlayers.get(i);
-				int active = 0; //amount of active players
-				if (player.getPlayerStatus()){
+				int active = 0; // amount of active players
+				if (player.getPlayerStatus()) {
 					active++;
 				}
-				if (active == 1){
+				if (active == 1) {
 					gameOver = true;
 					break;
 				}
-				if(!player.getPlayerStatus()) {
+				if (!player.getPlayerStatus()) {
 					System.out.println("It is " + player.getCharacterCard().getName() + "'s turn!\n");
 					int roll = rollDice();
 					System.out.println("Dice roll: " + roll + "\n");
-					player.movePlayer(roll, board); //move method return roll? so if they reach a room they can end loop
-					int action = action();
-					if(action == 1 || action == 2) {
-						guess[0] = characters.get(guess(characters));
-						guess[1] = weapons.get(guess(weapons));
-						String roomGuess = player.getRoom();
-						 int j = 0;
-						  while (rooms.get(i).getName() != roomGuess) {
-							  i++;
-						  }
-						  // return
-						 Card roomCard = rooms.get(j);
-						guess[2] = roomCard;
-						if (action == 1) {
-							Suggestion suggestion = new Suggestion(guess, player, listOfPlayers);
-							// Call compare method inside suggestion class
-							String matchResult = suggestion.compareCards();
-							System.out.println("Match result: " + matchResult);
-						}
-						if (action == 2) {
-							Accusation accusation = new Accusation(guess, murderDeck);
-							boolean accusationResult = accusation.checkAccusation();
-							System.out.println("Accusation result: " + accusationResult);
-							if (accusationResult) {
-								System.out.println("Player " + player.getCharacterCard() + " wins!");
-								gameOver = true;
-							} else {
-								player.setPlayerStatus(false);
-								System.out.println("Player " + player.getCharacterCard() + " is out!");
+					if(player.movePlayer(roll, board)) { // move method return roll? so if they reach a room they can end loop
+						int action = action();
+						
+						if (action == 1 || action == 2) {
+							guess[0] = characters.get(guess(characters));
+							guess[1] = weapons.get(guess(weapons));
+							String roomGuess = player.getRoom();
+							int j = 0;
+							while (rooms.get(i).getName() != roomGuess) {
+								i++;
+							}
+							// return
+							Card roomCard = rooms.get(j);
+							guess[2] = roomCard;
+							if (action == 1) {
+								Suggestion suggestion = new Suggestion(guess, player, listOfPlayers);
+								// Call compare method inside suggestion class
+								String matchResult = suggestion.compareCards();
+								System.out.println("Match result: " + matchResult);
+							}
+							if (action == 2) {
+								Accusation accusation = new Accusation(guess, murderDeck);
+								boolean accusationResult = accusation.checkAccusation();
+								System.out.println("Accusation result: " + accusationResult);
+								if (accusationResult) {
+									System.out.println("Player " + player.getCharacterCard() + " wins!");
+									gameOver = true;
+								} else {
+									player.setPlayerStatus(false);
+									System.out.println("Player " + player.getCharacterCard() + " is out!");
+								}
 							}
 						}
 					}
+					
+					
+					
 				}
 			}
 		}
 	}
-	
+
 	public int rollDice() {
 		int die = new Random().nextInt(6);
 		int die2 = new Random().nextInt(6);
 		return die + die2;
 	}
-	
-	
+
 	public int action() {
 		int actionChoice;
-		System.out.println("Press 1 to make a suggestion\n" + "Press 2 to make an accusation\n" + "Press 3 to do nothing\n");
-		
+		System.out.println(
+				"Press 1 to make a suggestion\n" + "Press 2 to make an accusation\n" + "Press 3 to do nothing\n");
+
 		do { // loop until we have correct input
 			System.out.println("Please enter 1, 2 or 3");
 			try {
@@ -313,72 +298,32 @@ public class Game
 					scanner.next(); // discard non-integer input
 					continue; // restart loop, didn't get an integer input
 				}
-				
+
 			} catch (final InputMismatchException e) {
-			        System.out.println("You have entered an invalid input. Try again.");
-			        scanner.next();    // discard non-integer input
-			        continue;     // restart loop, didn't get an integer input
-			    }
-			}  while (true);
-		
-		
-		
-		
+				System.out.println("You have entered an invalid input. Try again.");
+				scanner.next(); // discard non-integer input
+				continue; // restart loop, didn't get an integer input
+			}
+		} while (true);
+
 		return actionChoice;
-		
-//		do{
-//			System.out.println("Please enter your action");
-//			while(!scanner.hasNextInt()) {
-//				System.out.println("Please enter an integer between 1 and 3");
-////				scanner.hasNext();
-//			}
-//			return scanner.nextInt();
-//		}while (scanner.nextInt() < 1 || scanner.nextInt() > 3);
+
 	}
-	
-//	public int action() {
-//		System.out.println("Press 1 to make a suggestion\n" + "Press 2 to make an accusation\n" + "Press 3 to do nothing\n");
-////		do{
-////			System.out.println("Please enter your action");
-////			while(!scanner.hasNextInt()) {
-////				System.out.println("Please enter an integer between 1 and 3");
-//////				scanner.hasNext();
-////			}
-////			return scanner.nextInt();
-////		}while (scanner.nextInt() < 1 || scanner.nextInt() > 3);
-//		
-//		int actionChoice = 0;
-//		
-//		
-//		while (actionChoice < 1 || actionChoice > 3) {
-//			System.out.println("Please enter a number between 1 and 3");
-//			try {
-//				actionChoice = scanner.nextInt();
-//	
-//			} catch (InputMismatchException e) {
-//				throw new InputMismatchException("Please enter an integer");
-//			}
-//	//			scanner.next();
-//		}
-//		System.out.println("Action Choice: " + actionChoice);
-//		
-//		return actionChoice;
-//	}
-	
-	public int guess(ArrayList<Card> list){
-		for(int i = 0; i < list.size(); i++) {
+
+	public int guess(ArrayList<Card> list) {
+		for (int i = 0; i < list.size(); i++) {
 			System.out.println("Press " + i + "for: " + list.get(i) + "/n");
 		}
 		do {
 			System.out.println("Please enter your selection");
-			while(!scanner.hasNextInt()) {
+			while (!scanner.hasNextInt()) {
 				System.out.println("Please enter an integer between 0 and " + list.size());
 				scanner.hasNext();
 			}
 			return scanner.nextInt();
-		}while (scanner.nextInt() < 0 || scanner.nextInt() > list.size());
+		} while (scanner.nextInt() < 0 || scanner.nextInt() > list.size());
 	}
-	
+
 	public void testSuggestion() {
 		System.out.println("Next player:\n");
 		System.out.println(listOfPlayers.get(1).getNextPlayer(listOfPlayers.get(1), listOfPlayers));
@@ -402,282 +347,275 @@ public class Game
 		System.out.println("Accusation result: " + accusationResult);
 
 	}
-	
-  public boolean setNumberOPlayers(int aNumberOPlayers)
-  {
-    boolean wasSet = false;
-    numberOfPlayers = aNumberOPlayers;
-    wasSet = true;
-    return wasSet;
-  }
 
-  public boolean setGameOver(boolean aGameOver)
-  {
-    boolean wasSet = false;
-    gameOver = aGameOver;
-    wasSet = true;
-    return wasSet;
-  }
+	public boolean setNumberOPlayers(int aNumberOPlayers) {
+		boolean wasSet = false;
+		numberOfPlayers = aNumberOPlayers;
+		wasSet = true;
+		return wasSet;
+	}
 
-  public boolean setScanner(Scanner aScanner)
-  {
-    boolean wasSet = false;
-    scanner = aScanner;
-    wasSet = true;
-    return wasSet;
-  }
+	public boolean setGameOver(boolean aGameOver) {
+		boolean wasSet = false;
+		gameOver = aGameOver;
+		wasSet = true;
+		return wasSet;
+	}
 
-  public int getNumberOPlayers()
-  {
-    return numberOfPlayers;
-  }
+	public boolean setScanner(Scanner aScanner) {
+		boolean wasSet = false;
+		scanner = aScanner;
+		wasSet = true;
+		return wasSet;
+	}
 
-  public boolean getGameOver()
-  {
-    return gameOver;
-  }
-  
-  public ArrayList<Card> getWeapons()
-  {
-    return weapons;
-  }
+	public int getNumberOPlayers() {
+		return numberOfPlayers;
+	}
 
-  public ArrayList<Card> getCharacters()
-  {
-    return characters;
-  }
+	public boolean getGameOver() {
+		return gameOver;
+	}
 
-  public ArrayList<Card> getRooms()
-  {
-    return rooms;
-  }
-  
-  public Scanner getScanner()
-  {
-    return scanner;
-  }
-  /* Code from template attribute_IsBoolean */
-  public boolean isGameOver()
-  {
-    return gameOver;
-  }
-  /* Code from template association_GetMany */
-  public Player getPlayer(int index)
-  {
-    Player aPlayer = listOfPlayers.get(index);
-    return aPlayer;
-  }
+	public ArrayList<Card> getWeapons() {
+		return weapons;
+	}
 
-  public List<Player> getPlayers()
-  {
-    List<Player> newPlayers = Collections.unmodifiableList(listOfPlayers);
-    return newPlayers;
-  }
+	public ArrayList<Card> getCharacters() {
+		return characters;
+	}
 
-  public int numberOfPlayers()
-  {
-    int number = listOfPlayers.size();
-    return number;
-  }
+	public ArrayList<Card> getRooms() {
+		return rooms;
+	}
 
-  public boolean hasPlayers()
-  {
-    boolean has = listOfPlayers.size() > 0;
-    return has;
-  }
+	public Scanner getScanner() {
+		return scanner;
+	}
 
-  public int indexOfPlayer(Player aPlayer)
-  {
-    int index = listOfPlayers.indexOf(aPlayer);
-    return index;
-  }
-  /* Code from template association_GetOne */
-  public Suggestion getSuggestion()
-  {
-    return suggestion;
-  }
+	/* Code from template attribute_IsBoolean */
+	public boolean isGameOver() {
+		return gameOver;
+	}
 
-  public boolean hasSuggestion()
-  {
-    boolean has = suggestion != null;
-    return has;
-  }
-  /* Code from template association_GetOne */
-  public Board getBoard()
-  {
-    return board;
-  }
-  /* Code from template association_GetOne */
-  public Accusation getAccusation()
-  {
-    return accusation;
-  }
+	/* Code from template association_GetMany */
+	public Player getPlayer(int index) {
+		Player aPlayer = listOfPlayers.get(index);
+		return aPlayer;
+	}
 
-  public boolean hasAccusation()
-  {
-    boolean has = accusation != null;
-    return has;
-  }
-  /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfPlayers()
-  {
-    return 3;
-  }
-  /* Code from template association_MaximumNumberOfMethod */
-  public static int maximumNumberOfPlayers()
-  {
-    return 6;
-  }
-  /* Code from template association_AddUnidirectionalMN */
-  public boolean addPlayer(Player aPlayer)
-  {
-    boolean wasAdded = false;
-    if (listOfPlayers.contains(aPlayer)) { return false; }
-    if (numberOfPlayers() < maximumNumberOfPlayers())
-    {
-      listOfPlayers.add(aPlayer);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
+	public List<Player> getPlayers() {
+		List<Player> newPlayers = Collections.unmodifiableList(listOfPlayers);
+		return newPlayers;
+	}
 
-  public boolean removePlayer(Player aPlayer)
-  {
-    boolean wasRemoved = false;
-    if (!listOfPlayers.contains(aPlayer))
-    {
-      return wasRemoved;
-    }
+	public int numberOfPlayers() {
+		int number = listOfPlayers.size();
+		return number;
+	}
 
-    if (numberOfPlayers() <= minimumNumberOfPlayers())
-    {
-      return wasRemoved;
-    }
+	public boolean hasPlayers() {
+		boolean has = listOfPlayers.size() > 0;
+		return has;
+	}
 
-    listOfPlayers.remove(aPlayer);
-    wasRemoved = true;
-    return wasRemoved;
-  }
-  /* Code from template association_SetUnidirectionalMN */
-  public boolean setPlayers(Player... newPlayers)
-  {
-    boolean wasSet = false;
-    ArrayList<Player> verifiedPlayers = new ArrayList<Player>();
-    for (Player aPlayer : newPlayers)
-    {
-      if (verifiedPlayers.contains(aPlayer))
-      {
-        continue;
-      }
-      verifiedPlayers.add(aPlayer);
-    }
+	public int indexOfPlayer(Player aPlayer) {
+		int index = listOfPlayers.indexOf(aPlayer);
+		return index;
+	}
 
-    if (verifiedPlayers.size() != newPlayers.length || verifiedPlayers.size() < minimumNumberOfPlayers() || verifiedPlayers.size() > maximumNumberOfPlayers())
-    {
-      return wasSet;
-    }
+	/* Code from template association_GetOne */
+	public Suggestion getSuggestion() {
+		return suggestion;
+	}
 
-    listOfPlayers.clear();
-    listOfPlayers.addAll(verifiedPlayers);
-    wasSet = true;
-    return wasSet;
-  }
-  /* Code from template association_AddIndexControlFunctions */
-  public boolean addPlayerAt(Player aPlayer, int index)
-  {  
-    boolean wasAdded = false;
-    if(addPlayer(aPlayer))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfPlayers()) { index = numberOfPlayers() - 1; }
-      listOfPlayers.remove(aPlayer);
-      listOfPlayers.add(index, aPlayer);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
+	public boolean hasSuggestion() {
+		boolean has = suggestion != null;
+		return has;
+	}
 
-  public boolean addOrMovePlayerAt(Player aPlayer, int index)
-  {
-    boolean wasAdded = false;
-    if(listOfPlayers.contains(aPlayer))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfPlayers()) { index = numberOfPlayers() - 1; }
-      listOfPlayers.remove(aPlayer);
-      listOfPlayers.add(index, aPlayer);
-      wasAdded = true;
-    } 
-    else 
-    {
-      wasAdded = addPlayerAt(aPlayer, index);
-    }
-    return wasAdded;
-  }
-  /* Code from template association_SetUnidirectionalOptionalOne */
-  public boolean setSuggestion(Suggestion aNewSuggestion)
-  {
-    boolean wasSet = false;
-    suggestion = aNewSuggestion;
-    wasSet = true;
-    return wasSet;
-  }
-  /* Code from template association_SetUnidirectionalOne */
-  public boolean setBoard(Board aNewBoard)
-  {
-    boolean wasSet = false;
-    if (aNewBoard != null)
-    {
-      board = aNewBoard;
-      wasSet = true;
-    }
-    return wasSet;
-  }
-  /* Code from template association_RequiredNumberOfMethod */
-  public static int requiredNumberOfCards()
-  {
-    return 21;
-  }
-  /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfCards()
-  {
-    return 21;
-  }
-  /* Code from template association_MaximumNumberOfMethod */
-  public static int maximumNumberOfCards()
-  {
-    return 21;
-  }
-  /* Code from template association_SetUnidirectionalOptionalOne */
-  public boolean setAccusation(Accusation aNewAccusation)
-  {
-    boolean wasSet = false;
-    accusation = aNewAccusation;
-    wasSet = true;
-    return wasSet;
-  }
+	/* Code from template association_GetOne */
+	public Board getBoard() {
+		return board;
+	}
 
-  public void delete()
-  {
-    listOfPlayers.clear();
-    suggestion = null;
-    board = null;
-    deck = null;
-    accusation = null;
-  }
+	/* Code from template association_GetOne */
+	public Accusation getAccusation() {
+		return accusation;
+	}
 
+	public boolean hasAccusation() {
+		boolean has = accusation != null;
+		return has;
+	}
 
-  public String toString()
-  {
-    return super.toString() + "["+
-            "numberOPlayers" + ":" + getNumberOPlayers()+ "," +
-            "gameOver" + ":" + getGameOver()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "weapons" + "=" + (getWeapons() != null ? !getWeapons().equals(this)  ? getWeapons().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "characters" + "=" + (getCharacters() != null ? !getCharacters().equals(this)  ? getCharacters().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "rooms" + "=" + (getRooms() != null ? !getRooms().equals(this)  ? getRooms().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "scanner" + "=" + (getScanner() != null ? !getScanner().equals(this)  ? getScanner().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "suggestion = "+(getSuggestion()!=null?Integer.toHexString(System.identityHashCode(getSuggestion())):"null") + System.getProperties().getProperty("line.separator") +
-            "  " + "board = "+(getBoard()!=null?Integer.toHexString(System.identityHashCode(getBoard())):"null") + System.getProperties().getProperty("line.separator") +
-            "  " + "accusation = "+(getAccusation()!=null?Integer.toHexString(System.identityHashCode(getAccusation())):"null");
-  }
+	/* Code from template association_MinimumNumberOfMethod */
+	public static int minimumNumberOfPlayers() {
+		return 3;
+	}
+
+	/* Code from template association_MaximumNumberOfMethod */
+	public static int maximumNumberOfPlayers() {
+		return 6;
+	}
+
+	/* Code from template association_AddUnidirectionalMN */
+	public boolean addPlayer(Player aPlayer) {
+		boolean wasAdded = false;
+		if (listOfPlayers.contains(aPlayer)) {
+			return false;
+		}
+		if (numberOfPlayers() < maximumNumberOfPlayers()) {
+			listOfPlayers.add(aPlayer);
+			wasAdded = true;
+		}
+		return wasAdded;
+	}
+
+	public boolean removePlayer(Player aPlayer) {
+		boolean wasRemoved = false;
+		if (!listOfPlayers.contains(aPlayer)) {
+			return wasRemoved;
+		}
+
+		if (numberOfPlayers() <= minimumNumberOfPlayers()) {
+			return wasRemoved;
+		}
+
+		listOfPlayers.remove(aPlayer);
+		wasRemoved = true;
+		return wasRemoved;
+	}
+
+	/* Code from template association_SetUnidirectionalMN */
+	public boolean setPlayers(Player... newPlayers) {
+		boolean wasSet = false;
+		ArrayList<Player> verifiedPlayers = new ArrayList<Player>();
+		for (Player aPlayer : newPlayers) {
+			if (verifiedPlayers.contains(aPlayer)) {
+				continue;
+			}
+			verifiedPlayers.add(aPlayer);
+		}
+
+		if (verifiedPlayers.size() != newPlayers.length || verifiedPlayers.size() < minimumNumberOfPlayers()
+				|| verifiedPlayers.size() > maximumNumberOfPlayers()) {
+			return wasSet;
+		}
+
+		listOfPlayers.clear();
+		listOfPlayers.addAll(verifiedPlayers);
+		wasSet = true;
+		return wasSet;
+	}
+
+	/* Code from template association_AddIndexControlFunctions */
+	public boolean addPlayerAt(Player aPlayer, int index) {
+		boolean wasAdded = false;
+		if (addPlayer(aPlayer)) {
+			if (index < 0) {
+				index = 0;
+			}
+			if (index > numberOfPlayers()) {
+				index = numberOfPlayers() - 1;
+			}
+			listOfPlayers.remove(aPlayer);
+			listOfPlayers.add(index, aPlayer);
+			wasAdded = true;
+		}
+		return wasAdded;
+	}
+
+	public boolean addOrMovePlayerAt(Player aPlayer, int index) {
+		boolean wasAdded = false;
+		if (listOfPlayers.contains(aPlayer)) {
+			if (index < 0) {
+				index = 0;
+			}
+			if (index > numberOfPlayers()) {
+				index = numberOfPlayers() - 1;
+			}
+			listOfPlayers.remove(aPlayer);
+			listOfPlayers.add(index, aPlayer);
+			wasAdded = true;
+		} else {
+			wasAdded = addPlayerAt(aPlayer, index);
+		}
+		return wasAdded;
+	}
+
+	/* Code from template association_SetUnidirectionalOptionalOne */
+	public boolean setSuggestion(Suggestion aNewSuggestion) {
+		boolean wasSet = false;
+		suggestion = aNewSuggestion;
+		wasSet = true;
+		return wasSet;
+	}
+
+	/* Code from template association_SetUnidirectionalOne */
+	public boolean setBoard(Board aNewBoard) {
+		boolean wasSet = false;
+		if (aNewBoard != null) {
+			board = aNewBoard;
+			wasSet = true;
+		}
+		return wasSet;
+	}
+
+	/* Code from template association_RequiredNumberOfMethod */
+	public static int requiredNumberOfCards() {
+		return 21;
+	}
+
+	/* Code from template association_MinimumNumberOfMethod */
+	public static int minimumNumberOfCards() {
+		return 21;
+	}
+
+	/* Code from template association_MaximumNumberOfMethod */
+	public static int maximumNumberOfCards() {
+		return 21;
+	}
+
+	/* Code from template association_SetUnidirectionalOptionalOne */
+	public boolean setAccusation(Accusation aNewAccusation) {
+		boolean wasSet = false;
+		accusation = aNewAccusation;
+		wasSet = true;
+		return wasSet;
+	}
+
+	public void delete() {
+		listOfPlayers.clear();
+		suggestion = null;
+		board = null;
+		deck = null;
+		accusation = null;
+	}
+
+	public String toString() {
+		return super.toString() + "[" + "numberOPlayers" + ":" + getNumberOPlayers() + "," + "gameOver" + ":"
+				+ getGameOver() + "]" + System.getProperties().getProperty("line.separator") + "  " + "weapons" + "="
+				+ (getWeapons() != null
+						? !getWeapons().equals(this) ? getWeapons().toString().replaceAll("  ", "    ") : "this"
+						: "null")
+				+ System.getProperties().getProperty("line.separator") + "  " + "characters" + "="
+				+ (getCharacters() != null
+						? !getCharacters().equals(this) ? getCharacters().toString().replaceAll("  ", "    ") : "this"
+						: "null")
+				+ System.getProperties().getProperty("line.separator") + "  " + "rooms" + "="
+				+ (getRooms() != null
+						? !getRooms().equals(this) ? getRooms().toString().replaceAll("  ", "    ") : "this"
+						: "null")
+				+ System.getProperties().getProperty("line.separator") + "  " + "scanner" + "="
+				+ (getScanner() != null
+						? !getScanner().equals(this) ? getScanner().toString().replaceAll("  ", "    ") : "this"
+						: "null")
+				+ System.getProperties().getProperty("line.separator") + "  " + "suggestion = "
+				+ (getSuggestion() != null ? Integer.toHexString(System.identityHashCode(getSuggestion())) : "null")
+				+ System.getProperties().getProperty("line.separator") + "  " + "board = "
+				+ (getBoard() != null ? Integer.toHexString(System.identityHashCode(getBoard())) : "null")
+				+ System.getProperties().getProperty("line.separator") + "  " + "accusation = "
+				+ (getAccusation() != null ? Integer.toHexString(System.identityHashCode(getAccusation())) : "null");
+	}
 }

@@ -87,7 +87,7 @@ public class Player
    * @param numMoves number of times player can move
    * @param board    board being played upon
    */
-  public void movePlayer(int numMoves, Board board) {
+  public boolean movePlayer(int numMoves, Board board) {
       Scanner scanner = new Scanner(System.in);
       int choice;
 
@@ -104,18 +104,29 @@ public class Player
   		}while (scanner.nextInt() < 1 || scanner.nextInt() > 2);
   		if(choice == 1) {
 //  			scanner.close();
-  			return;
+  			return true;
   		}
   		if(choice == 2) {
-  			move(numMoves,board);
+  			if(move(numMoves,board)) {
+  				return true;
+  			} else {
+  				return false;
+  			}
+  			
   		}
       } else {
-    	  move(numMoves, board);
+    	  if(move(numMoves,board)) {
+				return true;
+			} else {
+				return false;
+			}
+    	  
       }
-//      scanner.close();
+//   scanner.close();
+      return true;   
   }
   
-  public void move(int numMoves, Board board) {
+  public boolean move(int numMoves, Board board) {
   while (numMoves > 0) {
       board.printBoardWithCurrentPlayer(this);
       // get direction of moves
@@ -146,7 +157,10 @@ public class Player
                   numMoves = 0;
               }
               System.out.println("You are currently in the " + getCell().getRoom());
-              if (numMoves == 0) System.out.println("Turn over.");
+              if (numMoves == 0) {
+            	  System.out.println("Turn over.");
+            	  return false;
+              }
           } else {
               System.out.print("You cannot move to that cell, please try again.");
           }
@@ -155,6 +169,8 @@ public class Player
           System.out.print("Invalid move, please try again.");
           }
       }
+  
+  return true;
   }
   
   public String getRoom() {
