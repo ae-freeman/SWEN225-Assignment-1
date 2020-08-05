@@ -101,12 +101,18 @@ public class Game {
 			CharacterCard character = null;
 			while (true) {
 				character = (CharacterCard) chooseRandom(characters);
+
 				if (preventDoubleUpCharacters(character)) {
+
 					break;
 				}
 			}
 //			CharacterCard character = (CharacterCard) chooseRandom(characters);
 			Player player = new Player(character);
+			int x = player.getCharacterCard().getStartLocation().getXValue();
+			int y = player.getCharacterCard().getStartLocation().getYValue();
+			board.getBoard()[x][y].setPlayer(player);
+
 			listOfPlayers.add(player);
 		}
 
@@ -186,8 +192,8 @@ public class Game {
 
 		characters.add(new CharacterCard("Mrs. White", board.getBoard()[9][0]));
 		characters.add(new CharacterCard("Mr. Green", board.getBoard()[14][0]));
-		characters.add(new CharacterCard("Mrs. Peacock", board.getBoard()[22][6]));
-		characters.add(new CharacterCard("Prof. Plum", board.getBoard()[22][19]));
+		characters.add(new CharacterCard("Mrs. Peacock", board.getBoard()[23][6]));
+		characters.add(new CharacterCard("Prof. Plum", board.getBoard()[23][19]));
 		characters.add(new CharacterCard("Miss Scarlett", board.getBoard()[7][24]));
 		characters.add(new CharacterCard("Col. Mustard", board.getBoard()[0][17]));
 
@@ -233,16 +239,17 @@ public class Game {
 					System.out.println("It is " + player.getCharacterCard().getName() + "'s turn!\n");
 					int roll = rollDice();
 					System.out.println("Dice roll: " + roll + "\n");
-					if(player.movePlayer(roll, board)) { // move method return roll? so if they reach a room they can end loop
+					player.movePlayer(roll, board);// move method return roll? so if they reach a room they can end loop
+					if (!player.getCell().getRoom().equals("Hallway")) {
 						int action = action();
-						
+
 						if (action == 1 || action == 2) {
 							guess[0] = characters.get(guess(characters));
 							guess[1] = weapons.get(guess(weapons));
 							String roomGuess = player.getRoom();
 							int j = 0;
-							while (rooms.get(i).getName() != roomGuess) {
-								i++;
+							while (rooms.get(j).getName() != roomGuess) {
+								j++;
 							}
 							// return
 							Card roomCard = rooms.get(j);
@@ -266,10 +273,10 @@ public class Game {
 								}
 							}
 						}
+					} else {
+						System.out.println("Turn over");
 					}
-					
-					
-					
+
 				}
 			}
 		}
@@ -289,7 +296,6 @@ public class Game {
 		do { // loop until we have correct input
 			System.out.println("Please enter 1, 2 or 3");
 			try {
-				System.out.println("Above action choice next int");
 				actionChoice = scanner.nextInt(); // Blocks for user input
 				if (actionChoice > 0 && actionChoice < 4) {
 					break; // Got valid input, stop looping
@@ -312,7 +318,7 @@ public class Game {
 
 	public int guess(ArrayList<Card> list) {
 		for (int i = 0; i < list.size(); i++) {
-			System.out.println("Press " + i + "for: " + list.get(i) + "/n");
+			System.out.println("Press " + i + " for: " + list.get(i).getName() + "\n");
 		}
 		do {
 			System.out.println("Please enter your selection");

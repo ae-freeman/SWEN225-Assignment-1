@@ -62,6 +62,7 @@ public class Player
       Cell targetCell = new Cell(0, 0);
       int playerX = location.getXValue();
       int playerY = location.getYValue();
+      targetCell = board.getBoard()[playerX][playerY];
 
       switch (direction) {
       case "w":
@@ -77,17 +78,17 @@ public class Player
           if (playerX < 23) targetCell = board.getBoard()[playerX + 1][playerY];
           break;
   }
+
       return targetCell;
-      
+
   }
-  
   /**
    * Moves player along board in direction specified by user
    *
    * @param numMoves number of times player can move
    * @param board    board being played upon
    */
-  public boolean movePlayer(int numMoves, Board board) {
+  public void movePlayer(int numMoves, Board board) {
       Scanner scanner = new Scanner(System.in);
       int choice;
 
@@ -104,33 +105,28 @@ public class Player
   		}while (scanner.nextInt() < 1 || scanner.nextInt() > 2);
   		if(choice == 1) {
 //  			scanner.close();
-  			return true;
+  			return;
   		}
   		if(choice == 2) {
-  			if(move(numMoves,board)) {
-  				return true;
-  			} else {
-  				return false;
-  			}
+  			move(numMoves,board);
+  			
+  			
   			
   		}
       } else {
-    	  if(move(numMoves,board)) {
-				return true;
-			} else {
-				return false;
-			}
+    	 move(numMoves,board);
+			
     	  
       }
 //   scanner.close();
-      return true;   
+      return;   
   }
   
   
   // Where does this need to go:
 //  
   
-  public boolean move(int numMoves, Board board) {
+  public void move(int numMoves, Board board) {
   while (numMoves > 0) {
       board.printBoardWithCurrentPlayer(this);
       // get direction of moves
@@ -146,24 +142,36 @@ public class Player
               direction.equals("s") || direction.equals("d"))) {
           Cell oldCell = getCell();
           Cell targetCell = getTargetCell(board, direction);
+          
+          
+          int targetX = targetCell.getXValue();
+          int targetY = targetCell.getYValue();
+          int oldX = oldCell.getXValue();
+          int oldY = oldCell.getYValue();
+
           // if can move to that cell change player location and update cells
-          if (targetCell.getIsAccessible() && !(targetCell.equals(oldCell))) {
+          if (targetCell.getIsAccessible() && !(oldX == targetX && oldY == targetY)) {
               oldCell.setIsAccessible(true);
               oldCell.setPlayer(null);
               setLocation(targetCell);
               targetCell.setIsAccessible(false);
               targetCell.setPlayer(this);
+              // If your move contains the hallway, decrease counter by 1 (you can move as many times as you like inside a room)
               if (targetCell.getRoom().equals("Hallway") ||
                       oldCell.getRoom().equals("Hallway"))  {
                   numMoves -= 1;
               }
+              // If you arrive in a room, you moves are over
               if (!targetCell.getRoom().equals("Hallway") && oldCell.getRoom().equals("Hallway"))  {
                   numMoves = 0;
               }
+              
               System.out.println("You are currently in the " + getCell().getRoom());
+              
               if (numMoves == 0) {
-            	  System.out.println("Turn over.");
-            	  return false;
+            	 	 
+
+            	  return;
               }
           } else {
               System.out.print("You cannot move to that cell, please try again.");
@@ -174,7 +182,7 @@ public class Player
           }
       }
   
-  return true;
+  return;
   }
   
   public String getRoom() {

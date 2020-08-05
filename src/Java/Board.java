@@ -20,7 +20,7 @@ public class Board
     private int WIDTH = 24;
     private String boardString =
             "_________ ____ _________" +
-            "KKKKK|_   |BB|_   |CCCCC" +
+            "KKKKK|    |BB|    |CCCCC" +
             "KKKKK|  __|BB|__  |CCCCC" +
             "KKKKK|  |BBBBBB|  |CCCCC" +
             "KKKKK|  |BBBBBB|  CCCCCC" +
