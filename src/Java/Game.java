@@ -21,7 +21,7 @@ public class Game {
 	private Card[] murderDeck;
 	private Card[] guess;
 	private Scanner scanner;
-	
+
 	// Game Associations
 	private ArrayList<Player> listOfPlayers;
 	private Suggestion suggestion;
@@ -43,12 +43,12 @@ public class Game {
 		numberOfPlayers = 0;
 		listOfPlayers = new ArrayList<Player>();
 		gameOver = false;
-		weapons = new ArrayList<Card>(); 
-		characters = new ArrayList<Card>(); 
-		rooms = new ArrayList<Card>(); 
+		weapons = new ArrayList<Card>();
+		characters = new ArrayList<Card>();
+		rooms = new ArrayList<Card>();
 		roomObjects = new ArrayList<Room>();
 		deck = new ArrayList<Card>();
-		murderDeck = new Card[3]; 
+		murderDeck = new Card[3];
 		scanner = new Scanner(System.in);
 		guess = new Card[3];
 	}
@@ -96,7 +96,6 @@ public class Game {
 		// Instantiate new players with randomly assigned character card
 		for (int i = 0; i < numberOfPlayers; i++) {
 
-
 			while (true) {
 				character = (CharacterCard) chooseRandom(characters);
 
@@ -132,16 +131,6 @@ public class Game {
 			}
 		}
 
-		// Print out each player's hand
-		for (int i = 0; i < numberOfPlayers; i++) {
-			System.out.println(listOfPlayers.get(i).getCharacterCard().getName() + "'s hand:\n");
-			for (int j = 0; j < listOfPlayers.get(i).getHand().size(); j++) {
-				System.out.println(listOfPlayers.get(i).getHand().get(j).getName());
-				
-			}
-			System.out.println();
-		}
-
 		return listOfPlayers;
 	}
 
@@ -170,14 +159,7 @@ public class Game {
 		murderDeck[1] = murderRoom;
 		murderDeck[2] = murderWeapon;
 
-		System.out.println("Murder Deck");
-		for (int i = 0; i < 3; i++) {
-			System.out.println(murderDeck[i].getName());
-		}
-		System.out.println();
-
 	}
-
 
 	public Card chooseRandom(ArrayList<Card> list) {
 		int rnd = new Random().nextInt(list.size());
@@ -185,16 +167,15 @@ public class Game {
 		return list.get(rnd);
 	}
 
-
 	public void listCreation() {
 		for (int i = 0; i <= weaponList.length - 1; i++) {
 			WeaponCard weapon = new WeaponCard(weaponList[i]);
 			weapons.add(weapon);
 		}
 		for (int i = 0; i <= roomList.length - 1; i++) {
-			if(!roomList[i].equals("Hallway")) {
-			RoomCard room = new RoomCard(roomList[i]);
-			rooms.add(room);
+			if (!roomList[i].equals("Hallway")) {
+				RoomCard room = new RoomCard(roomList[i]);
+				rooms.add(room);
 			}
 			Room roomObject = new Room(roomList[i]);
 			roomObjects.add(roomObject);
@@ -240,11 +221,11 @@ public class Game {
 		// Check game is not over
 		int inActive = 0; // amount of inactive players
 		while (!gameOver) {
-			
+
 			// Check that there is more than one player in the game
 			for (int i = 0; i < listOfPlayers.size(); i++) {
 				Player player = listOfPlayers.get(i);
-				if(player.getPlayerStatus()) {
+				if (player.getPlayerStatus()) {
 					inActive += 1;
 				}
 				// Check player is still active (i.e. hasn't made an incorrect accusation)
@@ -254,32 +235,36 @@ public class Game {
 					System.out.println("Game Over!");
 					break;
 				}
-				//if the player isn't out
+				// if the player isn't out
 				if (!player.getPlayerStatus()) {
 					System.out.println("Press enter to continue");
 					try {
 						System.in.read();
-					}
-					catch (Exception e) {
+					} catch (Exception e) {
 						e.printStackTrace();
 					}
 					System.out.println("It is " + player.getCharacterCard().getName() + "'s turn!\n");
-					//run and print out roll
+					System.out.println(player.getCharacterCard().getName() + "'s hand:\n");
+					for (int j = 0; j < player.getHand().size(); j++) {
+						System.out.println(player.getHand().get(j).getName());
+					}
+					System.out.println();
+					// run and print out roll
 					int roll = rollDice();
 					System.out.println("Dice roll: " + roll + "\n");
-					//run the move method for a player
+					// run the move method for a player
 					player.movePlayer(roll, board);
-					//if after a player has finished moving and they are in a room
+					// if after a player has finished moving and they are in a room
 					if (!player.getCell().getRoom().getName().equals("Hallway")) {
-						//allow them to make a suggestion or an accusation
+						// allow them to make a suggestion or an accusation
 						int action = action();
 						// If they make a suggestion
 						if (action == 1) {
 							// Print out player's hand
 							player.printHand();
-							//Collate the user's guess
+							// Collate the user's guess
 							suggestion(player);
-							
+
 						}
 						// if they make an accusation run the accusation method
 						if (action == 2) {
@@ -308,12 +293,11 @@ public class Game {
 			board.getBoard()[player.getCell().getXValue()][player.getCell().getYValue()].setIsAccessible(true);
 			gameOver = true;
 
-		} 
-		else {
+		} else {
 			player.setPlayerStatus(false);
 		}
 	}
-	
+
 	public void suggestion(Player player) {
 		guess[0] = characters.get(guess(characters));
 		guess[1] = weapons.get(guess(weapons));
@@ -322,18 +306,18 @@ public class Game {
 		while (rooms.get(j).getName() != roomGuess) {
 			j++;
 		}
-		guess[2] = rooms.get(j); 
-		//create a suggestion and compare the cards
+		guess[2] = rooms.get(j);
+		// create a suggestion and compare the cards
 		Suggestion suggestion = new Suggestion(guess, player, listOfPlayers);
 		suggestion.runSuggestion();
 	}
-	
-	public int rollDice() {
-        int die1 = (int) (Math.random() * 5 + 1);
-        int die2 = (int) (Math.random() * 5 + 1);
 
-        return die1 + die2;
-    }
+	public int rollDice() {
+		int die1 = (int) (Math.random() * 5 + 1);
+		int die2 = (int) (Math.random() * 5 + 1);
+
+		return die1 + die2;
+	}
 
 	public int action() {
 		int actionChoice;
@@ -377,6 +361,7 @@ public class Game {
 			return scanner.nextInt();
 		} while (scanner.nextInt() < 0 || scanner.nextInt() > list.size());
 	}
+
 	public boolean setNumberOPlayers(int aNumberOPlayers) {
 		boolean wasSet = false;
 		numberOfPlayers = aNumberOPlayers;

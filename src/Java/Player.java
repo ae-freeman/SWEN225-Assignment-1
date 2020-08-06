@@ -133,6 +133,9 @@ public class Player {
 	}
 
 	public void move(int numMoves, Board board) {
+		
+		// ArrayList to keep track of where the player has moved during that turn
+		ArrayList<Cell> trackedMoves = new ArrayList<Cell>();
 		while (numMoves > 0) {
 			board.printBoardWithCurrentPlayer(this);
 			Cell targetCell = null;
@@ -144,7 +147,7 @@ public class Player {
 			// if valid direction entered get old and target cells
 			if ((direction.equals("w") || direction.equals("a") || direction.equals("s") || direction.equals("d"))) {
 				Cell oldCell = getCell();
-				if (getTargetCell(board, direction) == null) {
+				if (getTargetCell(board, direction) == null || trackedMoves.contains(getTargetCell(board, direction))) {
 					System.out.print("Invalid move, please try again.");
 				}
 				// if you cannot move to that cell change player location and update cells
@@ -156,6 +159,8 @@ public class Player {
 						setLocation(targetCell);
 						targetCell.setIsAccessible(false);
 						targetCell.setPlayer(this);
+						
+						trackedMoves.add(targetCell);
 						// if their target is a hallway subtract a move
 						if (targetCell.getRoom().getName().equals("Hallway")) {
 							numMoves -= 1;
