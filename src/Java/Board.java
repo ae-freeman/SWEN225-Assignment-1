@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 //package Java;
 
 /*PLEASE DO NOT EDIT THIS CODE*/
@@ -38,10 +40,10 @@ public class Board
             "|         AAAAA  LLLLLLL" +
             "                 |_LLLLL" +
             "_        __HH__   |____|" +
-            "|_____O  |HHHH|         " +
-            "OOOOOO|  |HHHHH        _" +
-            "OOOOOO|  |HHHH|  S_____|" +
-            "OOOOOO|  |HHHH|  |SSSSSS" +
+            "|______  |HHHH|         " +
+            "OOOOOOO  |HHHHH        _" +
+            "OOOOOO|  |HHHH|  ______|" +
+            "OOOOOO|  |HHHH|  SSSSSSS" +
             "OOOOOO|  |HHHH|  |SSSSSS" +
             "OOOOOO| |HHHHHH| |SSSSSS";
   //------------------------
@@ -51,7 +53,6 @@ public class Board
   public Board(Cell... allCells)
   {
 	  board = new Cell[WIDTH][LENGTH];
-	  populateBoard();
   }
 
   //------------------------
@@ -101,7 +102,7 @@ public class Board
       System.out.println();
   }
   
-  private void populateBoard() {
+  public void populateBoard(ArrayList<Room> rooms) {
       for (int row = 0; row < 25; row++) {
           for (int col = 0; col < 24; col++) {
               char currentChar = boardString.charAt((row * 24) + col);
@@ -110,33 +111,43 @@ public class Board
               switch (currentChar) {
                   case 'K':
                       currentCell.setRoom("Kitchen");
+                      currentCell.addCellToRoom("Kitchen", rooms);
                       break;
                   case 'B':
                       currentCell.setRoom("Ballroom");
+                      currentCell.addCellToRoom("Ballroom", rooms);
 						break;
                   case 'C':
                       currentCell.setRoom("Conservatory");
+                      currentCell.addCellToRoom("Conservatory", rooms);
 						break;
                   case 'D':
                       currentCell.setRoom("Dining Room");
+                      currentCell.addCellToRoom("Dining Room", rooms);
 						break;
                   case 'I':
                       currentCell.setRoom("Billiard Room");
+                      currentCell.addCellToRoom("Billiard Room", rooms);
 						break;
                   case 'L':
                       currentCell.setRoom("Library");
+                      currentCell.addCellToRoom("Library", rooms);
 						break;
                   case 'O':
                       currentCell.setRoom("Lounge");
+                      currentCell.addCellToRoom("Lounge", rooms);
 						break;
                   case 'H':
                       currentCell.setRoom("Hall");
+                      currentCell.addCellToRoom("Hall", rooms);
 						break;
                   case 'S':
                       currentCell.setRoom("Study");
+                      currentCell.addCellToRoom("Study", rooms);
 						break;
                   case ' ':
                       currentCell.setRoom("Hallway");
+                      currentCell.addCellToRoom("Hallway", rooms);
 						break;
                   case '|':
                   case '_':
@@ -154,6 +165,7 @@ public class Board
           }
       }
   }
+
   public Cell[][] getBoard(){
 	  return board;
   }

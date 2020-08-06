@@ -103,7 +103,7 @@ public class Player {
 			System.out.println("Press 1 to make an accusation or suggestion\n" + "Press 2 to move\n");
 			do {
 				System.out.println("Please enter 1 or 2");
-				
+
 				try {
 					choice = scanner.nextInt();
 					if (choice == 1 || choice == 2) {

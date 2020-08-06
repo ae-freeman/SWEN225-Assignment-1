@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 //package Java;
 
 /*PLEASE DO NOT EDIT THIS CODE*/
@@ -36,6 +38,13 @@ public class Cell
   //------------------------
   // INTERFACE
   //------------------------
+  public void addCellToRoom(String name, ArrayList<Room> rooms) {
+      for(Room room : rooms) {
+    	  if(room.getName().equals(name)) {
+    		  room.addCell(this);
+    	  }
+      }
+  }
   public boolean setIsAccessible(boolean aIsAccessible)
   {
     boolean wasSet = false;

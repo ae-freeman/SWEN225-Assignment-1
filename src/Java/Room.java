@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 //package Java;
 
 /*PLEASE DO NOT EDIT THIS CODE*/
@@ -16,7 +18,7 @@ public class Room
   private String name;
 
   //Room Associations
-  private Cell[] cells;
+  private ArrayList<Cell> cells;
 
   //------------------------
   // CONSTRUCTOR
@@ -43,28 +45,30 @@ public class Room
   {
     return name;
   }
+  public void addCell(Cell cell) {
+	  cells.add(cell);
+	  }
   /* Code from template association_GetMany */
   public Cell getCell(int index)
   {
-    Cell aCell = cells[index];
+    Cell aCell = cells.get(index);
     return aCell;
   }
 
-  public Cell[] getCells()
+  public ArrayList<Cell> getCells()
   {
-    Cell[] newCells = cells;
-    return newCells;
+    return cells;
   }
 
   public int numberOfCells()
   {
-    int number = cells.length;
+    int number = cells.size();
     return number;
   }
 
   public boolean hasCells()
   {
-    boolean has = cells.length > 0;
+    boolean has = cells.size() > 0;
     return has;
   }
 
