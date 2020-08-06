@@ -1,13 +1,3 @@
-//package Java;
-
-/*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.30.0.5092.1e2e91fc6 modeling language!*/
-
-
-
-// line 69 "model.ump"
-// line 159 "model.ump"
-// line 166 "model.ump"
 public abstract class Card
 {
 

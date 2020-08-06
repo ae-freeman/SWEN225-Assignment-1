@@ -5,8 +5,6 @@
 
 import java.util.*;
 
-// line 44 "model.ump"
-// line 120 "model.ump"
 public class Player {
 
 //------------------------
@@ -98,7 +96,7 @@ public class Player {
 		int choice = 0;
 		// If the player is in a room they can either move to another door or stay and
 		// make an accusation
-		if (this.getCell().getRoom() != "Hallway") {
+		if (this.getCell().getRoom().getName() != "Hallway") {
 			System.out.println("Would you like to stay in the " + getRoom() + " and make an accusation/suggestion?");
 			System.out.println("Press 1 to make an accusation or suggestion\n" + "Press 2 to move\n");
 			do {
@@ -122,7 +120,6 @@ public class Player {
 
 			// if they choose to leave return true
 			if (choice == 1) {
-//   scanner.close();
 				return;
 			}
 			// If they choose to leave run the move method
@@ -132,7 +129,6 @@ public class Player {
 		} else {
 			move(numMoves, board);
 		}
-//   scanner.close();
 		return;
 	}
 
@@ -161,14 +157,14 @@ public class Player {
 						targetCell.setIsAccessible(false);
 						targetCell.setPlayer(this);
 						// if their target is a hallway subtract a move
-						if (targetCell.getRoom().equals("Hallway")) {
+						if (targetCell.getRoom().getName().equals("Hallway")) {
 							numMoves -= 1;
 						}
 						// If they move into a room, end the moving part of their move
-						if (!targetCell.getRoom().equals("Hallway") && oldCell.getRoom().equals("Hallway")) {
+						if (!targetCell.getRoom().getName().equals("Hallway") && oldCell.getRoom().getName().equals("Hallway")) {
 
 							numMoves = 0;
-							System.out.println("You are currently in the " + getCell().getRoom());
+							System.out.println("You are currently in the " + getCell().getRoom().getName());
 						}
 					}
 				}
@@ -177,7 +173,7 @@ public class Player {
 	}
 
 	public String getRoom() {
-		return getCell().getRoom();
+		return getCell().getRoom().getName();
 	}
 
 	public void addToHand(Card card) {
@@ -226,9 +222,14 @@ public class Player {
 		Card aCard = playerHand.get(index);
 		return aCard;
 	}
-
 	public ArrayList<Card> getHand() {
-		return playerHand;
+	return playerHand;
+	}
+	public void printHand() {
+		System.out.println("Your hand:\n");
+		for (int l = 0; l < playerHand.size(); l++) {
+			System.out.println(playerHand.get(l).getName());
+		}
 	}
 
 	public int numberOfCards() {

@@ -3,9 +3,6 @@
 
 
 
-
-
-
 public class Accusation
 {
 
@@ -31,12 +28,17 @@ public class Accusation
   // INTERFACE
   //------------------------
 
-  public boolean checkAccusation() {
+  public boolean checkAccusation(Player player) {
 	  for (int i = 0; i < 3; i++) {
 		  if(accusation[i].getName() != murder[i].getName()) {
+			  player.setPlayerStatus(false);
+			  System.out.println("Player " + player.getCharacterCard().getName() + " is out!");
 			  return false;
 		  }
 	  }
+	  System.out.println("Player " + player.getCharacterCard().getName() + " wins!");
+
 	  return true;
   }
+  			
 }

@@ -1,14 +1,5 @@
 import java.util.ArrayList;
 
-//package Java;
-
-/*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.30.0.5092.1e2e91fc6 modeling language!*/
-
-
-
-// line 34 "model.ump"
-// line 113 "model.ump"
 public class Cell
 {
 
@@ -22,7 +13,7 @@ public class Cell
   private boolean isAccessible;
   private boolean isDoor;
   private Player player;
-  private String room;
+  private Room room;
 
   //------------------------
   // CONSTRUCTOR
@@ -81,11 +72,11 @@ public class Cell
     return isAccessible;
   }
   /* Code from template association_GetOne */
-  public String getRoom()
+  public Room getRoom()
   {
     return room;
   }
-  public void setRoom(String room) {
+  public void setRoom(Room room) {
 	  
 	  this.room = room;
   }

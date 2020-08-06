@@ -1,14 +1,5 @@
 import java.util.ArrayList;
 
-//package Java;
-
-/*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.30.0.5092.1e2e91fc6 modeling language!*/
-
-
-
-// line 27 "model.ump"
-// line 105 "model.ump"
 public class Board
 {
 
@@ -109,57 +100,58 @@ public class Board
               Cell currentCell = new Cell(col, row);
               board[col][row] = currentCell;
               switch (currentChar) {
+              
+              	 case 'O':
+              		 currentCell.setRoom(rooms.get(0));
+              		 currentCell.addCellToRoom("Lounge", rooms);
+					break;
+                 case 'D':
+                     currentCell.setRoom(rooms.get(1));
+                     currentCell.addCellToRoom("Dining Room", rooms);
+						break;
                   case 'K':
-                      currentCell.setRoom("Kitchen");
+                      currentCell.setRoom(rooms.get(2));
                       currentCell.addCellToRoom("Kitchen", rooms);
                       break;
-                  case 'B':
-                      currentCell.setRoom("Ballroom");
-                      currentCell.addCellToRoom("Ballroom", rooms);
+                  case 'H':
+                      currentCell.setRoom(rooms.get(3));
+                      currentCell.addCellToRoom("Hall", rooms);
 						break;
                   case 'C':
-                      currentCell.setRoom("Conservatory");
+                      currentCell.setRoom(rooms.get(4));
                       currentCell.addCellToRoom("Conservatory", rooms);
 						break;
-                  case 'D':
-                      currentCell.setRoom("Dining Room");
-                      currentCell.addCellToRoom("Dining Room", rooms);
-						break;
                   case 'I':
-                      currentCell.setRoom("Billiard Room");
+                      currentCell.setRoom(rooms.get(5));
                       currentCell.addCellToRoom("Billiard Room", rooms);
 						break;
                   case 'L':
-                      currentCell.setRoom("Library");
+                      currentCell.setRoom(rooms.get(6));
                       currentCell.addCellToRoom("Library", rooms);
 						break;
-                  case 'O':
-                      currentCell.setRoom("Lounge");
-                      currentCell.addCellToRoom("Lounge", rooms);
-						break;
-                  case 'H':
-                      currentCell.setRoom("Hall");
-                      currentCell.addCellToRoom("Hall", rooms);
-						break;
                   case 'S':
-                      currentCell.setRoom("Study");
+                      currentCell.setRoom(rooms.get(7));
                       currentCell.addCellToRoom("Study", rooms);
 						break;
+                  case 'B':
+                      currentCell.setRoom(rooms.get(8));
+                      currentCell.addCellToRoom("Ballroom", rooms);
+						break;
                   case ' ':
-                      currentCell.setRoom("Hallway");
+                      currentCell.setRoom(rooms.get(9));
                       currentCell.addCellToRoom("Hallway", rooms);
 						break;
                   case '|':
                   case '_':
-                      currentCell.setRoom("Wall");
+                      currentCell.setRoom(new Room("Wall"));
                       currentCell.setIsAccessible(false);
                       break;
                     case 'A':
-                      currentCell.setRoom("Cellar");
+                      currentCell.setRoom(new Room("Cellar"));
                       currentCell.setIsAccessible(false);
 						break;
 					default:
-						currentCell.setRoom("Default");
+						currentCell.setRoom(new Room("Default"));
 						break;
               }
           }

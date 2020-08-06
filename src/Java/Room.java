@@ -1,12 +1,7 @@
 import java.util.ArrayList;
 
-//package Java;
 
-/*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.30.0.5092.1e2e91fc6 modeling language!*/
 
-// line 76 "model.ump"
-// line 137 "model.ump"
 public class Room
 {
 
@@ -27,6 +22,7 @@ public class Room
   public Room(String aName)
   {
     name = aName;
+    cells = new ArrayList<Cell>();
   }
 
   //------------------------

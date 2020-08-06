@@ -38,7 +38,7 @@ public class Suggestion
   //------------------------
   // INTERFACE
   //------------------------
-	public String compareCards() {
+	public String runSuggestion() {
 		
 		System.out.println("Your suggestion: \n");
 		for (int j = 0; j < 3; j++) {
@@ -48,10 +48,7 @@ public class Suggestion
 		Player nextPlayer = player.getNextPlayer(player, listOfPlayers);
 		
 		//compare the guess with the next player's hand
-		
-		// save player as the next player
-
-		while (nextPlayer.getCharacterCard().getName() != player.getCharacterCard().getName()) {
+		while (!nextPlayer.equals(player)) {
 			ArrayList<Card> matchingCards = compare(nextPlayer);
 			//if there were matching cards
 			if(matchingCards.size() > 0) {
@@ -73,15 +70,14 @@ public class Suggestion
 							scanner.hasNext();
 						}
 						int indexOfCardToDisplay = scanner.nextInt() - 1;
-						return matchingCards.get(indexOfCardToDisplay).getName();
-//						return nextPlayer.getHand().get(indexOfCardToDisplay).getName();
+						return "Match result: " + matchingCards.get(indexOfCardToDisplay).getName();
 					}while (scanner.nextInt() < 1 || scanner.nextInt() > 3);
 
 				}
 
 				//if there is one matching card, return it
 				else if (matchingCards.size() == 1) {
-					return matchingCards.get(0).getName();
+					return "Match result: " + matchingCards.get(0).getName();
 				}
 			}
 			// If no match found with that player, get next player
