@@ -92,19 +92,20 @@ public class Player {
 	 * @param numMoves number of times player can move
 	 * @param board    board being played upon
 	 */
-	public void movePlayer(int numMoves, Board board, Player player) {
+	public void movePlayer(int numMoves, Board board) {
 
 		Scanner scanner = new Scanner(System.in);
-		int choice;
+		int choice = 0;
 		// If the player is in a room they can either move to another door or stay and
 		// make an accusation
 		if (this.getCell().getRoom() != "Hallway") {
-			System.out.println("Would you like to stay in the " + player.getRoom() + " and make an accusation/suggestion?");
+			System.out.println("Would you like to stay in the " + getRoom() + " and make an accusation/suggestion?");
 			System.out.println("Press 1 to make an accusation or suggestion\n" + "Press 2 to move\n");
 			do {
 				System.out.println("Please enter 1 or 2");
-				choice = scanner.nextInt();
+				
 				try {
+					choice = scanner.nextInt();
 					if (choice == 1 || choice == 2) {
 						break;
 					} else {

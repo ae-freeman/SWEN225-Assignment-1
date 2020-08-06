@@ -255,7 +255,7 @@ public class Game {
 					System.out.println("It is " + player.getCharacterCard().getName() + "'s turn!\n");
 					int roll = rollDice();
 					System.out.println("Dice roll: " + roll + "\n");
-					player.movePlayer(roll, board, player);
+					player.movePlayer(roll, board);
 					if (!player.getCell().getRoom().equals("Hallway")) {
 						int action = action();
 
@@ -358,39 +358,39 @@ public class Game {
 	}
 
 	public int guess(ArrayList<Card> list) {
+		int selection = 0;
 		System.out.println("---------------------------------------------");
 		for (int i = 0; i < list.size(); i++) {
 			System.out.println("Press " + i + " for: " + list.get(i).getName() + "\n");
 		}
-		
-		
-//		do { // loop until we have correct input
-//			System.out.println("Please enter a number between 3 and 6");
-//			try {
-//				numberOfPlayers = scanner.nextInt(); // Blocks for user input
-//				if (numberOfPlayers > 2 && numberOfPlayers < 7) {
-//					break; // Got valid input, stop looping
-//				} else {
-//					System.out.println("Please enter a number between 3 and 6");
-//					scanner.next(); // discard non-integer input
-//					continue; // restart loop, didn't get an integer input
-//				}
-//
-//			} catch (final InputMismatchException e) {
-//				System.out.println("You have entered an invalid input. Try again.");
-//				scanner.next(); // discard non-integer input
-//				continue; // restart loop, didn't get an integer input
-//			}
-//		} while (true);
-		
-		do {
+				
+		do { // loop until we have correct input
 			System.out.println("Please enter your selection");
-			while (!scanner.hasNextInt() && scanner.nextInt() >= list.size()) {
-				System.out.println("Please enter an integer between 0 and " + list.size());
-				scanner.hasNext();
+			try {
+				 selection = scanner.nextInt(); // Blocks for user input
+				if (selection > -1 && selection < list.size()) {
+					return selection; // Got valid input, break out
+				} else {
+					System.out.println("Please enter a number");
+					scanner.next(); // discard non-integer input
+					continue; // restart loop, didn't get an integer input
+				}
+
+			} catch (final InputMismatchException e) {
+				System.out.println("You have entered an invalid input. Try again.");
+				scanner.next(); // discard non-integer input
+				continue; // restart loop, didn't get an integer input
 			}
-			return scanner.nextInt();
-		} while (scanner.nextInt() < 0 || scanner.nextInt() > list.size());
+		} while (true);
+		
+//		do {
+//			System.out.println("Please enter your selection");
+//			while (!scanner.hasNextInt() && scanner.nextInt() >= list.size()) {
+//				System.out.println("Please enter an integer between 0 and " + list.size());
+//				scanner.hasNext();
+//			}
+//			return scanner.nextInt();
+//		} while (scanner.nextInt() < 0 || scanner.nextInt() > list.size());
 		
 		
 	}
