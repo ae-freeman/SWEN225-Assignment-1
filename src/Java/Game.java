@@ -362,6 +362,27 @@ public class Game {
 		for (int i = 0; i < list.size(); i++) {
 			System.out.println("Press " + i + " for: " + list.get(i).getName() + "\n");
 		}
+		
+		
+//		do { // loop until we have correct input
+//			System.out.println("Please enter a number between 3 and 6");
+//			try {
+//				numberOfPlayers = scanner.nextInt(); // Blocks for user input
+//				if (numberOfPlayers > 2 && numberOfPlayers < 7) {
+//					break; // Got valid input, stop looping
+//				} else {
+//					System.out.println("Please enter a number between 3 and 6");
+//					scanner.next(); // discard non-integer input
+//					continue; // restart loop, didn't get an integer input
+//				}
+//
+//			} catch (final InputMismatchException e) {
+//				System.out.println("You have entered an invalid input. Try again.");
+//				scanner.next(); // discard non-integer input
+//				continue; // restart loop, didn't get an integer input
+//			}
+//		} while (true);
+		
 		do {
 			System.out.println("Please enter your selection");
 			while (!scanner.hasNextInt() && scanner.nextInt() >= list.size()) {

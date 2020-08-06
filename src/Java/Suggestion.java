@@ -16,12 +16,13 @@ public class Suggestion
   //------------------------
 
   //Suggestion Attributes
-  private Card[] suggestion;
-  private ArrayList<Player> listOfPlayers;
+
   private Scanner scanner;
   
   //Suggestion Associations
   private Player player;
+  private ArrayList<Player> listOfPlayers;
+  private Card[] suggestion;
 
   //------------------------
   // CONSTRUCTOR
