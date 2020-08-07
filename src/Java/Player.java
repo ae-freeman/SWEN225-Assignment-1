@@ -169,7 +169,7 @@ public class Player {
 						if (!targetCell.getRoom().getName().equals("Hallway") && oldCell.getRoom().getName().equals("Hallway")) {
 
 							numMoves = 0;
-							System.out.println("You are currently in the " + getCell().getRoom().getName());
+							System.out.println("------------------   You are currently in the " + getCell().getRoom().getName().toUpperCase() + "   ------------------");
 						}
 					}
 				}
