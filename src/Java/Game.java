@@ -1,3 +1,4 @@
+package Java;
 import java.util.*;
 
 public class Game {
@@ -444,19 +445,34 @@ public class Game {
 	}
 
 	public int guess(ArrayList<Card> list) {
+		int input;
 		System.out.println("---------------------------------------------");
 		for (int i = 0; i < list.size(); i++) {
 			System.out.println("Press " + i + " for: " + list.get(i).getName() + "\n");
 		}
+
 		do {
 			System.out.println("Please enter your selection");
-			while (!scanner.hasNextInt() && scanner.nextInt() >= list.size()) {
-				System.out.println("Please enter an integer between 0 and " + list.size());
-				scanner.hasNext();
+			try {
+				input = scanner.nextInt(); // Blocks for user input
+				if (input >= 0 && input < list.size()) {
+					break; // Got valid input, stop looping
+				} else {
+					System.out.println("Please enter an integer between 0 and " + list.size());
+					scanner.next(); // discard non-integer input
+					continue; // restart loop, didn't get an integer input
+				}
+
+			} catch (final InputMismatchException e) {
+				System.out.println("You have entered an invalid input. Try again.");
+				scanner.next(); // discard non-integer input
+				continue; // restart loop, didn't get an integer input
 			}
-			return scanner.nextInt();
-		} while (scanner.nextInt() < 0 || scanner.nextInt() > list.size());
+		} while (true);
+
+		return input;
 	}
+
 
 	public boolean setNumberOPlayers(int aNumberOPlayers) {
 		boolean wasSet = false;
