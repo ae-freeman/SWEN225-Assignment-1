@@ -38,7 +38,7 @@ public class Suggestion
   //------------------------
   // INTERFACE
   //------------------------
-	public String runSuggestion() {
+	public boolean runSuggestion() {
 		
 		System.out.println("Your suggestion: \n");
 		for (int j = 0; j < 3; j++) {
@@ -78,13 +78,16 @@ public class Suggestion
 				//if there is one matching card, return it
 				else if (matchingCards.size() == 1) {
 					System.out.println("Match result: " + matchingCards.get(0).getName());
+					return true;
+
 				}
 			}
 			// If no match found with that player, get next player
 			nextPlayer = nextPlayer.getNextPlayer(nextPlayer, listOfPlayers);
 		}
 		// If no match found with any player
-		return "No matching cards found";
+		System.out.println("No matching cards found");
+		return false;
 	}
 
 	public ArrayList<Card> compare(Player nextPlayer) {
