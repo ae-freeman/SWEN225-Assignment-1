@@ -106,6 +106,12 @@ public class Game {
 		murderDeck();
 		createDeck();
 		generatePlayers();
+		//This prints out where the weapons are
+		for(int i = 0; i < weapons.size(); i++) {
+			WeaponCard weapon = (WeaponCard) weapons.get(i);
+			System.out.println("The " + weapon.getName() +" is in the : " + (weapon.getRoom()));
+		}
+		//
 		//System.out.println("List of Players\n");
 		//for (int i = 0; i < numberOfPlayers; i++) {
 		//	System.out.println(listOfPlayers.get(i).getCharacterCard().getName());
@@ -121,7 +127,7 @@ public class Game {
 			while (true) {
 				character = (CharacterCard) chooseRandom(characters);
 
-				if (preventDoubleUpCharacters(character)) {
+				if (preventDoubleUps(character, listOfPlayers)) {
 					break;
 				}
 			}
@@ -169,17 +175,26 @@ public class Game {
 		return listOfPlayers;
 	}
 
-	private boolean preventDoubleUpCharacters(CharacterCard character) {
+	private boolean preventDoubleUps(Card card, ArrayList<?> list) {
 		boolean freeCharacter = true;
-		if (listOfPlayers.size() == 0) {
+		if (list.size() == 0) {
 			return freeCharacter;
 		}
-		for (int i = 0; i < listOfPlayers.size(); i++) {
-			if (listOfPlayers.get(i).getCharacterCard().getName() == character.getName()) {
-				freeCharacter = false;
-				break;
+		for (int i = 0; i < list.size(); i++) {
+			if (list.get(i) instanceof Player){
+				Player player = (Player) list.get(i);
+				if(player.getCharacterCard().getName().equals(card.getName())) {
+					freeCharacter = false;
+					break;
+				}
 			}
-
+			if (list.get(i) instanceof Card){
+				WeaponCard compare = (WeaponCard) list.get(i);
+				if(compare.getRoom().equals(((WeaponCard)card).getRoom())) {
+					freeCharacter = false;
+					break;
+				}
+			}
 		}
 
 		return freeCharacter;
@@ -203,19 +218,22 @@ public class Game {
 	}
 
 	public void listCreation() {
-		for (int i = 0; i <= weaponList.length - 1; i++) {
-			WeaponCard weapon = new WeaponCard(weaponList[i]);
-			weapons.add(weapon);
-		}
 		for (int i = 0; i <= roomList.length - 1; i++) {
-			if (!roomList[i].equals("Hallway")) {
-				RoomCard room = new RoomCard(roomList[i]);
-				rooms.add(room);
+			if(!roomList[i].equals("Hallway")) {
+			RoomCard room = new RoomCard(roomList[i]);
+			rooms.add(room);
 			}
-			Room roomObject = new Room(roomList[i]);
-			roomObjects.add(roomObject);
+				Room roomObject = new Room(roomList[i]);
+				roomObjects.add(roomObject);
 
 		}
+		for (int i = 0; i <= weaponList.length - 1; i++) {
+            WeaponCard weapon = new WeaponCard(weaponList[i], chooseRandom(rooms).getName());
+            while(!preventDoubleUps(weapon, weapons)) {
+            	weapon = new WeaponCard(weaponList[i], chooseRandom(rooms).getName());
+            }
+            weapons.add(weapon);
+        }
 		board.populateBoard(roomObjects);
 		characters.add(new CharacterCard("Mrs. White", board.getBoard()[9][0]));
 		characters.add(new CharacterCard("Mr. Green", board.getBoard()[14][0]));

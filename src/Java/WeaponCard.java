@@ -1,7 +1,3 @@
-//package Java;
-
-/*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.30.0.5092.1e2e91fc6 modeling language!*/
 
 
 
@@ -13,23 +9,41 @@ public class WeaponCard extends Card
   //------------------------
   // MEMBER VARIABLES
   //------------------------
-
+	private String room;
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public WeaponCard(String aName)
-  {
-    super(aName);
-  }
+	  public WeaponCard(String aName, String aroom)
+	  {
+	    super(aName);
+	    room = aroom;
+	  }
+
 
   //------------------------
   // INTERFACE
   //------------------------
+	  /**
+	   * Shows movement of weapon when suggestion is made
+	   * @param newRoom new weapon room
+	   * @return new location of room
+	   */
+	  public String moveWeapon(String newRoom) {
 
-  public void delete()
-  {
-    super.delete();
-  }
+		  String s = "weapon " + super.getName() + " moved from " + getRoom() + " to " + newRoom;
+		  room = newRoom;
+		  return room;
+	  }
+	    
+	  public String getRoom() {
+		  return room;
+	  }
+
+
+	  public void delete()
+	  {
+		  super.delete();
+	  }
 
 }
