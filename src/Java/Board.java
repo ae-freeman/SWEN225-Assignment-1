@@ -22,13 +22,13 @@ public class Board
             "        |B____B|       |" +
             "_                 ______" +
             "|____             IIIIII" +
-            "DDDD|___  AAAAA   |IIIII" +
-            "DDDDDDD|  AAAAA   |IIIII" +
-            "DDDDDDDD  AAAAA   |___I_" +
-            "DDDDDDD|  AAAAA        |" +
-            "DDDDDDD|  AAAAA   __L__|" +
-            "______D|  AAAAA  _|LLLLL" +
-            "|         AAAAA  LLLLLLL" +
+            "DDDD|___  _____   |IIIII" +
+            "DDDDDDD|  |AAA|   |IIIII" +
+            "DDDDDDDD  |AAA|   |___I_" +
+            "DDDDDDD|  |AAA|        |" +
+            "DDDDDDD|  |AAA|   __L__|" +
+            "______D|  |AAA|  _|LLLLL" +
+            "|         |___|  LLLLLLL" +
             "                 |_LLLLL" +
             "_        __HH__   |____|" +
             "|______  |HHHH|         " +
