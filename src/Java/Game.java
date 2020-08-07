@@ -58,7 +58,22 @@ public class Game {
 	// ------------------------
 	public void gameSetup() {
 		// Sets the number of players
-		System.out.println("Welcome to Cluedo!");
+		System.out.println(
+				"####################################################\n" +
+				"#                                                  #\n" +
+				"#      ####  #      #   #  #####  ####    ###      #\n" +
+				"#     #      #      #   #  #      #   #  #   #     #\n" +
+				"#     #      #      #   #  ###    #   #  #   #     #\n" +
+				"#     #      #      #   #  #      #   #  #   #     #\n" +
+				"#      ####  #####  #####  #####  ####    ###      #\n" +
+				"#                                                  #\n" +
+				"####################################################");
+
+		try {
+			Thread.sleep(1500);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		System.out.println("How many players?");
 
 		do { // loop until we have correct input
@@ -79,16 +94,23 @@ public class Game {
 				continue; // restart loop, didn't get an integer input
 			}
 		} while (true);
+		
+		System.out.println("\n------------------   GENERATING GAME   ------------------");
+		try {
+			Thread.sleep(1500);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 
 		listCreation();
 		murderDeck();
 		createDeck();
 		generatePlayers();
-		System.out.println("List of Players\n");
-		for (int i = 0; i < numberOfPlayers; i++) {
-			System.out.println(listOfPlayers.get(i).getCharacterCard().getName());
-		}
-		System.out.println("\n");
+		//System.out.println("List of Players\n");
+		//for (int i = 0; i < numberOfPlayers; i++) {
+		//	System.out.println(listOfPlayers.get(i).getCharacterCard().getName());
+		//}
+		//System.out.println("\n");
 	}
 
 	private ArrayList<Player> generatePlayers() {
@@ -129,6 +151,27 @@ public class Game {
 			} else {
 				currentPlayerIndex++;
 			}
+		}
+		
+		System.out.println("\n------------------   PLAYERS   ------------------");
+		for (int i = 0; i < numberOfPlayers; i++) {
+			System.out.println("Player " + (i+1) + ": " + listOfPlayers.get(i).getCharacterCard().getName());
+		}
+		try {
+			Thread.sleep(1500);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+
+		// Print out each player's hand
+		for (int i = 0; i < numberOfPlayers; i++) {
+			System.out.println("\n------------------   "+ listOfPlayers.get(i).getCharacterCard().getName() + "'s hand:   ------------------\n");
+			for (int j = 0; j < listOfPlayers.get(i).getHand().size(); j++) {
+				System.out.println(listOfPlayers.get(i).getHand().get(j).getName());
+				
+			}
+			System.out.println();
 		}
 
 		return listOfPlayers;
@@ -221,11 +264,14 @@ public class Game {
 		// Check game is not over
 		int inActive = 0; // amount of inactive players
 		while (!gameOver) {
-
+			
 			// Check that there is more than one player in the game
 			for (int i = 0; i < listOfPlayers.size(); i++) {
+				if (gameOver){
+					break;
+				}
 				Player player = listOfPlayers.get(i);
-				if (player.getPlayerStatus()) {
+				if(player.getPlayerStatus()) {
 					inActive += 1;
 				}
 				// Check player is still active (i.e. hasn't made an incorrect accusation)
@@ -235,40 +281,69 @@ public class Game {
 					System.out.println("Game Over!");
 					break;
 				}
-				// if the player isn't out
+				//if the player isn't out
 				if (!player.getPlayerStatus()) {
-					System.out.println("Press enter to continue");
+					System.out.println("Press ENTER to continue");
 					try {
 						System.in.read();
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
 					System.out.println("It is " + player.getCharacterCard().getName() + "'s turn!\n");
-					System.out.println(player.getCharacterCard().getName() + "'s hand:\n");
-					for (int j = 0; j < player.getHand().size(); j++) {
-						System.out.println(player.getHand().get(j).getName());
-					}
-					System.out.println();
-					// run and print out roll
+					//run and print out roll
 					int roll = rollDice();
-					System.out.println("Dice roll: " + roll + "\n");
-					// run the move method for a player
+					System.out.println("You rolled a " + roll + "!\n");
+					//run the move method for a player
 					player.movePlayer(roll, board);
-					// if after a player has finished moving and they are in a room
+					//if after a player has finished moving and they are in a room
 					if (!player.getCell().getRoom().getName().equals("Hallway")) {
-						// allow them to make a suggestion or an accusation
+						//allow them to make a suggestion or an accusation
 						int action = action();
 						// If they make a suggestion
 						if (action == 1) {
 							// Print out player's hand
 							player.printHand();
-							// Collate the user's guess
-							suggestion(player);
+							//Collate the user's guess
+							if (suggestion(player)){
+								int actionChoice;
+								System.out.println(
+										"Press 1 to make an accusation\n" + "Press 2 to do nothing\n");
 
+								do { // loop until we have correct input
+									System.out.println("Please enter 1 or 2");
+									try {
+										actionChoice = scanner.nextInt(); // Blocks for user input
+										if (actionChoice > 0 && actionChoice < 3) {
+											break; // Got valid input, stop looping
+										} else {
+											System.out.println("Please enter 1 or 2");
+											scanner.next(); // discard non-integer input
+											continue; // restart loop, didn't get an integer input
+										}
+
+									} catch (final InputMismatchException e) {
+										System.out.println("You have entered an invalid input. Try again.");
+										scanner.next(); // discard non-integer input
+										continue; // restart loop, didn't get an integer input
+									}
+								} while (true);
+								if (actionChoice == 1){
+									if (accusation(player)){
+										gameOver = true;
+										break;
+									}
+								}
+								else {
+									break;
+								}
+							}
 						}
 						// if they make an accusation run the accusation method
 						if (action == 2) {
-							accusation(player);
+							if (accusation(player)){
+								gameOver = true;
+								break;
+							}
 						}
 					} else {
 						System.out.println("Turn over");
@@ -282,7 +357,7 @@ public class Game {
 
 	}
 
-	public void accusation(Player player) {
+	public boolean accusation(Player player) {
 		guess[0] = characters.get(guess(characters));
 		guess[1] = rooms.get(guess(rooms));
 		guess[2] = weapons.get(guess(weapons));
@@ -291,14 +366,14 @@ public class Game {
 		System.out.println("Accusation result: " + accusationResult);
 		if (accusationResult) {
 			board.getBoard()[player.getCell().getXValue()][player.getCell().getYValue()].setIsAccessible(true);
-			gameOver = true;
+			return true;
 
-		} else {
-			player.setPlayerStatus(false);
-		}
+		} 
+		player.setPlayerStatus(false);
+		return false;
 	}
-
-	public void suggestion(Player player) {
+	
+	public boolean suggestion(Player player) {
 		guess[0] = characters.get(guess(characters));
 		guess[1] = weapons.get(guess(weapons));
 		String roomGuess = player.getRoom();
@@ -307,9 +382,15 @@ public class Game {
 			j++;
 		}
 		guess[2] = rooms.get(j);
-		// create a suggestion and compare the cards
+		//create a suggestion and compare the cards
 		Suggestion suggestion = new Suggestion(guess, player, listOfPlayers);
-		suggestion.runSuggestion();
+
+
+		if (!suggestion.runSuggestion()){
+			return true;
+		}
+		return false;
+
 	}
 
 	public int rollDice() {
