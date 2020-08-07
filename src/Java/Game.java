@@ -164,15 +164,7 @@ public class Game {
 		}
 
 
-		// Print out each player's hand
-		for (int i = 0; i < numberOfPlayers; i++) {
-			System.out.println("\n------------------   "+ listOfPlayers.get(i).getCharacterCard().getName() + "'s hand:   ------------------\n");
-			for (int j = 0; j < listOfPlayers.get(i).getHand().size(); j++) {
-				System.out.println(listOfPlayers.get(i).getHand().get(j).getName());
-				
-			}
-			System.out.println();
-		}
+		
 
 		return listOfPlayers;
 	}
@@ -290,6 +282,11 @@ public class Game {
 						e.printStackTrace();
 					}
 					System.out.println("It is " + player.getCharacterCard().getName() + "'s turn!\n");
+					System.out.println("\n------------------   "+ player.getCharacterCard().getName() + "'s hand:   ------------------\n");
+					for (int j = 0; j < player.getHand().size(); j++) {
+						System.out.println(player.getHand().get(j).getName());
+					}
+					System.out.println();
 					//run and print out roll
 					int roll = rollDice();
 					System.out.println("You rolled a " + roll + "!\n");
