@@ -1,4 +1,4 @@
-//package Java;
+package Java;
 
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.30.0.5092.1e2e91fc6 modeling language!*/
@@ -45,6 +45,17 @@ public class Player {
 	      }
 	      return listOfPlayers.get(i+1);
 	  }
+
+
+	  //
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+
 
 	/**
 	 * Checks whether a move is valid
@@ -131,64 +142,115 @@ public class Player {
 		}
 		return;
 	}
-	
-	
-	
+
+	/**
+	 * Moves the player numMoves "steps"
+	 * @param numMoves number of steps to move
+	 * @param board current game board
+	 */
 	public void move(int numMoves, Board board) {
-		   
-		   // ArrayList to keep track of where the player has moved during that turn
-		   ArrayList<Cell> trackedMoves = new ArrayList<Cell>();
-		   while (numMoves > 0) {
-		      board.printBoardWithCurrentPlayer(this);
-		      Cell targetCell = null;
-		      // get direction of moves
-		      System.out.println("You have: " + numMoves + " moves remaining. ");
-		      System.out.println("Enter w to move up, s to move down, a to move left and d to move right:");
-		      String direction = scanner.nextLine();
+		// ArrayList to keep track of where the player has moved during that turn
+		ArrayList<Cell> trackedMoves = new ArrayList<Cell>();
+		Cell targetCell = null;
+		String direction = "";
+		// Whether to ask for direction from user
+		boolean getDirectionFromUser = true;
 
-		      // if valid direction entered get old and target cells
-		      if ((direction.equals("w") || direction.equals("a") || direction.equals("s") || direction.equals("d"))) {
-		         Cell oldCell = getCell();
-		         if (getTargetCell(board, direction) == null || trackedMoves.contains(getTargetCell(board, direction))) {
-		            System.out.print("Invalid move, please try again.");
-		         }
-		         // if you cannot move to that cell change player location and update cells
-		         else {
-		            targetCell = getTargetCell(board, direction);
-		            if (targetCell.getIsAccessible()) {
-		               if (oldCell.getPlayer().equals(this)) {
-		                  oldCell.setPlayer(null);
-		                  oldCell.setIsAccessible(true);
-		               }
-		               setLocation(targetCell);
-		               targetCell.setIsAccessible(false);
-		               targetCell.setPlayer(this);
-		               
-		               trackedMoves.add(targetCell);
-		               // if their target is a hallway subtract a move
-		               if (targetCell.getRoom().getName().equals("Hallway")) {
-		                  numMoves -= 1;
-		               }
-		               // If they move into a room, end the moving part of their move
-		               if (trackedMoves.get(trackedMoves.size()-1).getRoom().getName().equals("Hallway") && !(targetCell.getRoom().getName().equals("Hallway"))) {
-		                  numMoves = 0;
-		                  System.out.println("You are currently in the " + getCell().getRoom().getName());
-		               }
+		while (numMoves > 0) {
+			board.printBoardWithCurrentPlayer(this);
 
+			// If need to ask direction from user
+			if (getDirectionFromUser) {
+				// get direction of moves
+				System.out.println("You have: " + numMoves + " moves remaining. ");
+				System.out.println("Enter w to move up, s to move down, a to move left and d to move right:");
+				direction = scanner.nextLine();
+			}
 
-		            } else if (!(targetCell.getPlayer() == (null)) &&
-		                  (!oldCell.getRoom().equals("Hallway") && !targetCell.getRoom().equals("Hallway") )) {
-		               if (oldCell.getPlayer().equals(this)) {
-		                  oldCell.setPlayer(null);
-		                  oldCell.setIsAccessible(true);
-		               }
-		               setLocation(targetCell);
-		            }
-		         }
-		      }
-		   }
+			// if valid direction entered get old and target cells
+			if ((direction.equals("w") || direction.equals("a") || direction.equals("s") || direction.equals("d"))) {
+				Cell oldCell = getCell();
+				if (getTargetCell(board, direction) == null) {
+					System.out.print("Invalid move, please try again.");
+				}
+				// if you can move to that cell change player location and update cells
+				else {
+					targetCell = getTargetCell(board, direction);
+					// If target cell is empty and not a wall
+					if (targetCell.getIsAccessible()) {
+						// Remove current player from previous cell
+						if (oldCell.getPlayer().equals(this)) {
+							oldCell.setPlayer(null);
+							oldCell.setIsAccessible(true);
+						}
+						// Set player to target cell
+						setLocation(targetCell);
+						targetCell.setIsAccessible(false);
+						targetCell.setPlayer(this);
+
+						trackedMoves.add(targetCell);
+						// Recalculate num of moves remaining
+						numMoves = calculateNumMoves(numMoves, oldCell, targetCell, trackedMoves);
+
+						// Now need to get user input for next move
+						getDirectionFromUser = true;
+
+					} else if (!(targetCell.getPlayer() == (null))) {
+						// Else if target cell contains player when trying to enter a room
+						if (!(targetCell.getPlayer().getRoom().equals("Hallway"))) {
+							// Clear current player from previous cell if neccesary
+							if (oldCell.getPlayer().equals(this)) {
+								oldCell.setPlayer(null);
+								oldCell.setIsAccessible(true);
+							}
+							setLocation(targetCell);
+							// Don't need to get direction from user as we will "jump"
+							// the player in our way when trying to enter room
+							getDirectionFromUser = false;
+						}
+					}
+				}
+			}
 		}
+		board.printBoardWithCurrentPlayer(this);
+	}
 
+	/**
+	 * Calculates new number of remaining moves
+	 * @param numMoves current number of moves remaining
+	 * @param targetCell destination cell
+	 * @param trackedMoves cells visited so far in turn
+	 */
+	public int calculateNumMoves(int numMoves, Cell oldCell, Cell targetCell, ArrayList<Cell> trackedMoves) {
+		// If you've been to the hallway at all during your turn
+		// and you have arrived to a room then your turn is now over
+		if(!(targetCell.getRoom().getName().equals("Hallway")) && hasBeenToHallway(trackedMoves)) {
+			numMoves = 0;
+			System.out.println("You are currently in the " + getCell().getRoom().getName());
+
+//		} else if (targetCell.getRoom().getName().equals("Hallway") ){
+		} else if (!(oldCell.getRoom().getName().equals(targetCell.getRoom().getName()))
+					|| targetCell.getRoom().getName().equals("Hallway")){
+
+			numMoves -= 1;
+
+		}
+		return numMoves;
+	}
+
+	/**
+	 * Checks if player has been to hallway during turn
+	 * @param trackedMoves all cells visited in turn
+	 * @return
+	 */
+	public boolean hasBeenToHallway(ArrayList<Cell> trackedMoves) {
+		for (int i = 0; i < trackedMoves.size(); i++) {
+			if (trackedMoves.get(i).getRoom().getName().equals("Hallway")) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	public String getRoom() {
 		return getCell().getRoom().getName();
