@@ -70,14 +70,14 @@ public class Suggestion
 							scanner.hasNext();
 						}
 						int indexOfCardToDisplay = scanner.nextInt() - 1;
-						return "Match result: " + matchingCards.get(indexOfCardToDisplay).getName();
+						System.out.println("Match result: " + matchingCards.get(indexOfCardToDisplay).getName());
 					}while (scanner.nextInt() < 1 || scanner.nextInt() > 3);
 
 				}
 
 				//if there is one matching card, return it
 				else if (matchingCards.size() == 1) {
-					return "Match result: " + matchingCards.get(0).getName();
+					System.out.println("Match result: " + matchingCards.get(0).getName());
 				}
 			}
 			// If no match found with that player, get next player
