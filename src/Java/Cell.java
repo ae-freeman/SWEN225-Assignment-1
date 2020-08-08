@@ -11,7 +11,6 @@ public class Cell
   private int xValue;
   private int yValue;
   private boolean isAccessible;
-  private boolean isDoor;
   private Player player;
   private Room room;
 
@@ -49,13 +48,7 @@ public class Cell
     return wasSet;
   }
 
-  public boolean isDoor() {
-      return isDoor;
-  }
-
-  public void setDoor(boolean door) {
-      isDoor = door;
-  }
+ 
   public Player getPlayer() {
 	  return player;
   }
