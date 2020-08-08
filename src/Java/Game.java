@@ -384,6 +384,8 @@ public class Game {
 								else {
 									break;
 								}
+							} else {
+								continue;
 							}
 						}
 						// if they make an accusation run the accusation method
