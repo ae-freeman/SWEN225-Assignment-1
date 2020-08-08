@@ -33,7 +33,7 @@ public class WeaponCard extends Card
 
 		  String s = "weapon " + super.getName() + " moved from " + getRoom() + " to " + newRoom;
 		  room = newRoom;
-		  return room;
+		  return s;
 	  }
 	    
 	  public String getRoom() {

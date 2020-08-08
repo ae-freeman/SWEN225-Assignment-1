@@ -38,13 +38,20 @@ public class Suggestion
   //------------------------
   // INTERFACE
   //------------------------
+	/**
+	 * Plays out a suggestion
+	 * Compares the suggestion with the next players hand
+	 * if there are matches allow next player to choose one to show
+	 * if is one, show it
+	 * if there isn't return false
+	 * @return whether or not there was a match
+	 */
 	public boolean runSuggestion() {
 		
 		System.out.println("Your suggestion: \n");
 		for (int j = 0; j < 3; j++) {
 			System.out.println(suggestion[j].getName());
 		}
-
 		Player nextPlayer = player.getNextPlayer(player, listOfPlayers);
 		
 		//compare the guess with the next player's hand
@@ -71,6 +78,7 @@ public class Suggestion
 						}
 						int indexOfCardToDisplay = scanner.nextInt() - 1;
 						System.out.println("Match result: " + matchingCards.get(indexOfCardToDisplay).getName());
+						return true;
 					}while (scanner.nextInt() < 1 || scanner.nextInt() > 3);
 
 				}
@@ -89,7 +97,11 @@ public class Suggestion
 		System.out.println("No matching cards found");
 		return false;
 	}
-
+	/**
+	 * Compares the cards in the suggestion to the selected player's hand
+	 * @param nextPlayer
+	 * @return the matching cards
+	 */
 	public ArrayList<Card> compare(Player nextPlayer) {
 		ArrayList<Card> matches = new ArrayList<Card>();
 		for (int i = 0; i < nextPlayer.numberOfCards(); i++) {

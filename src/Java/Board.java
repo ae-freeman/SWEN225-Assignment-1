@@ -51,6 +51,7 @@ public class Board
   //------------------------
   /**
    * Prints the board on the console
+   * 
    */
   public void printBoard() {
       String out = "";
@@ -92,7 +93,10 @@ public class Board
       System.out.print(out);
       System.out.println();
   }
-  
+  /**
+   * Prints the board on the console, current player as X and other players as .
+   * @param rooms An arraylist of all the rooms in the game
+   */
   public void populateBoard(ArrayList<Room> rooms) {
       for (int row = 0; row < 25; row++) {
           for (int col = 0; col < 24; col++) {

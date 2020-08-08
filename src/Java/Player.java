@@ -1,4 +1,4 @@
-package Java;
+
 
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.30.0.5092.1e2e91fc6 modeling language!*/
@@ -45,16 +45,6 @@ public class Player {
 	      }
 	      return listOfPlayers.get(i+1);
 	  }
-
-
-	  //
-	//
-	//
-	//
-	//
-	//
-	//
-	//
 
 
 	/**
@@ -171,6 +161,7 @@ public class Player {
 			// if valid direction entered get old and target cells
 			if ((direction.equals("w") || direction.equals("a") || direction.equals("s") || direction.equals("d"))) {
 				Cell oldCell = getCell();
+				//if the move is out of the board or they have already moved there
 				if (getTargetCell(board, direction) == null
 						|| trackedMoves.contains(getTargetCell(board, direction))) {
 					System.out.print("Invalid move, please try again.");
@@ -180,7 +171,7 @@ public class Player {
 					targetCell = getTargetCell(board, direction);
 					// If target cell is empty and not a wall
 					if (targetCell.getIsAccessible()) {
-						// Remove current player from previous cell
+						// Remove the player from previous cell if old cell is the current location
 						if (oldCell.getPlayer().equals(this)) {
 							oldCell.setPlayer(null);
 							oldCell.setIsAccessible(true);
@@ -189,7 +180,6 @@ public class Player {
 						setLocation(targetCell);
 						targetCell.setIsAccessible(false);
 						targetCell.setPlayer(this);
-
 						trackedMoves.add(targetCell);
 						// Recalculate num of moves remaining
 						numMoves = calculateNumMoves(numMoves, oldCell, targetCell, trackedMoves);
@@ -200,7 +190,7 @@ public class Player {
 					} else if (!(targetCell.getPlayer() == (null))) {
 						// Else if target cell contains player when trying to enter a room
 						if (!(targetCell.getPlayer().getRoom().equals("Hallway"))) {
-							// Clear current player from previous cell if neccesary
+							// Clear current player from previous cell if necessary
 							if (oldCell.getPlayer().equals(this)) {
 								oldCell.setPlayer(null);
 								oldCell.setIsAccessible(true);
@@ -229,8 +219,7 @@ public class Player {
 		if(!(targetCell.getRoom().getName().equals("Hallway")) && hasBeenToHallway(trackedMoves)) {
 			numMoves = 0;
 			System.out.println("You are currently in the " + getCell().getRoom().getName());
-
-//		} else if (targetCell.getRoom().getName().equals("Hallway") ){
+		//if they are moving out of a room or in a hallway subtract a move
 		} else if (!(oldCell.getRoom().getName().equals(targetCell.getRoom().getName()))
 					|| targetCell.getRoom().getName().equals("Hallway")){
 

@@ -29,6 +29,11 @@ public class Cell
   //------------------------
   // INTERFACE
   //------------------------
+  /**
+   *Adds a cell to room during board population
+   * @param name The name of the room to add the cell to
+   * @param rooms The list of rooms
+   */
   public void addCellToRoom(String name, ArrayList<Room> rooms) {
       for(Room room : rooms) {
     	  if(room.getName().equals(name)) {

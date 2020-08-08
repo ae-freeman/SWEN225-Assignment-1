@@ -1,4 +1,4 @@
-package Java;
+
 import java.util.*;
 
 public class Game {
@@ -12,8 +12,6 @@ public class Game {
 	private boolean gameOver;
 	private String[] roomList = { "Lounge", "Dining Room", "Kitchen", "Hall", "Conservatory", "Billiard Room",
 			"Library", "Study", "Ballroom", "Hallway" };
-	private String[] characterList = { "Mrs. White", "Mr. Green", "Mrs . Peacock", "Prof. Plum", "Miss Scarlett",
-			"Col. Mustard" };
 	private String[] weaponList = { "Pistol", "Rope", "Candlestick", "Wrench", "Leadpipe", "Dagger" };
 	private ArrayList<Card> weapons;
 	private ArrayList<Card> characters;
@@ -57,17 +55,23 @@ public class Game {
 	// ------------------------
 	// INTERFACE
 	// ------------------------
+	/**
+	 * Sets up all elements of the game:
+	 * Creates the lists of weapon, room and character cards
+	 * Then sets aside the murder deck
+	 * Creates the deck and all the players
+	 */
 	public void gameSetup() {
 		// Sets the number of players
 		System.out.println(
 				"####################################################\n" +
-				"#                                                  #\n" +
-				"#      ####  #      #   #  #####  ####    ###      #\n" +
-				"#     #      #      #   #  #      #   #  #   #     #\n" +
-				"#     #      #      #   #  ###    #   #  #   #     #\n" +
-				"#     #      #      #   #  #      #   #  #   #     #\n" +
-				"#      ####  #####  #####  #####  ####    ###      #\n" +
-				"#                                                  #\n" +
+						"#                                                  #\n" +
+						"#      ####  #      #   #  #####  ####    ###      #\n" +
+						"#     #      #      #   #  #      #   #  #   #     #\n" +
+						"#     #      #      #   #  ###    #   #  #   #     #\n" +
+						"#     #      #      #   #  #      #   #  #   #     #\n" +
+						"#      ####  #####  #####  #####  ####    ###      #\n" +
+						"#                                                  #\n" +
 				"####################################################");
 
 		try {
@@ -95,7 +99,7 @@ public class Game {
 				continue; // restart loop, didn't get an integer input
 			}
 		} while (true);
-		
+
 		System.out.println("\n------------------   GENERATING GAME   ------------------");
 		try {
 			Thread.sleep(1500);
@@ -112,19 +116,18 @@ public class Game {
 			WeaponCard weapon = (WeaponCard) weapons.get(i);
 			System.out.println("The " + weapon.getName() +" is in the : " + (weapon.getRoom()));
 		}
-		//
-		//System.out.println("List of Players\n");
-		//for (int i = 0; i < numberOfPlayers; i++) {
-		//	System.out.println(listOfPlayers.get(i).getCharacterCard().getName());
-		//}
-		//System.out.println("\n");
 	}
 
-	private ArrayList<Player> generatePlayers() {
+	/**
+	 * Generates all the players in the game and adds them to the listOfPlayers
+	 * Also randomly generates a character that establishes their starting position
+	 */
+	private void generatePlayers() {
 		CharacterCard character = null;
 		// Instantiate new players with randomly assigned character card
 		for (int i = 0; i < numberOfPlayers; i++) {
 
+			//chooses the character and loops until it does not double up with another player
 			while (true) {
 				character = (CharacterCard) chooseRandom(characters);
 
@@ -133,13 +136,29 @@ public class Game {
 				}
 			}
 			Player player = new Player(character);
+			//sets a player to the character's starting position
 			int x = player.getCharacterCard().getStartLocation().getXValue();
 			int y = player.getCharacterCard().getStartLocation().getYValue();
 			board.getBoard()[x][y].setPlayer(player);
 
 			listOfPlayers.add(player);
 		}
-
+		dealdeck();
+		System.out.println("\n------------------   PLAYERS   ------------------");
+		for (int i = 0; i < numberOfPlayers; i++) {
+			System.out.println("Player " + (i+1) + ": " + listOfPlayers.get(i).getCharacterCard().getName());
+		}
+		try {
+			Thread.sleep(1500);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * deals the deck out to the players
+	 */
+	private void dealdeck() {
 		// Randomize cards in deck
 		Collections.shuffle(deck);
 
@@ -159,83 +178,90 @@ public class Game {
 				currentPlayerIndex++;
 			}
 		}
-		
-		System.out.println("\n------------------   PLAYERS   ------------------");
-		for (int i = 0; i < numberOfPlayers; i++) {
-			System.out.println("Player " + (i+1) + ": " + listOfPlayers.get(i).getCharacterCard().getName());
-		}
-		try {
-			Thread.sleep(1500);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 
-
-		
-
-		return listOfPlayers;
 	}
-
+	/**
+	 * Prevents a double up occurring when selecting a starting room for a weapon
+	 * Basic summation:
+	 * If the generic in the list is of a certain type
+	 * Cast it as that type
+	 * Compare the card to that of the generic's card
+	 * if they are the same it will return false and the method will be instantiated again
+	 * otherwise it will return true and that card will be selected
+	 * @param Card The Card 
+	 * @param ArrayList<?> A generic array list to allow multiple types of list
+	 * @return boolean whether or not that card is applicable
+	 */
 	private boolean preventDoubleUps(Card card, ArrayList<?> list) {
-		boolean freeCharacter = true;
-		if (list.size() == 0) {
-			return freeCharacter;
-		}
 		for (int i = 0; i < list.size(); i++) {
 			if (list.get(i) instanceof Player){
 				Player player = (Player) list.get(i);
 				if(player.getCharacterCard().getName().equals(card.getName())) {
-					freeCharacter = false;
-					break;
+					return false;
 				}
 			}
 			if (list.get(i) instanceof Card){
 				WeaponCard compare = (WeaponCard) list.get(i);
 				if(compare.getRoom().equals(((WeaponCard)card).getRoom())) {
-					freeCharacter = false;
-					break;
+					return false;
 				}
 			}
 		}
-
-		return freeCharacter;
+		return true;
 	}
 
+	/** 
+	 * Creates the deck that will be compared in accusation
+	 */
 	public void murderDeck() {
-
+		
 		Card murderer = chooseRandom(characters);
 		Card murderRoom = chooseRandom(rooms);
 		Card murderWeapon = chooseRandom(weapons);
+		
 		murderDeck[0] = murderer;
 		murderDeck[1] = murderRoom;
 		murderDeck[2] = murderWeapon;
 
 	}
 
+	/**
+	 * Chooses a random card
+	 * @param list A list of the cards from which a random card will be chosen
+	 * @return Card The randomly selected card
+	 */
 	public Card chooseRandom(ArrayList<Card> list) {
 		int rnd = new Random().nextInt(list.size());
 
 		return list.get(rnd);
 	}
 
+	/**
+	 * Creates the individual lists necessary for the creation of the deck
+	 */
 	public void listCreation() {
 		for (int i = 0; i <= roomList.length - 1; i++) {
+			//Makes sure that hallway is not a card
 			if(!roomList[i].equals("Hallway")) {
-			RoomCard room = new RoomCard(roomList[i]);
-			rooms.add(room);
+				RoomCard room = new RoomCard(roomList[i]);
+				rooms.add(room);
 			}
-				Room roomObject = new Room(roomList[i]);
-				roomObjects.add(roomObject);
+			//makes all the room objects necessary for the board/moving
+			Room roomObject = new Room(roomList[i]);
+			roomObjects.add(roomObject);
 
 		}
+		//Creates the weapons and their starting rooms
 		for (int i = 0; i <= weaponList.length - 1; i++) {
-            WeaponCard weapon = new WeaponCard(weaponList[i], chooseRandom(rooms).getName());
-            while(!preventDoubleUps(weapon, weapons)) {
-            	weapon = new WeaponCard(weaponList[i], chooseRandom(rooms).getName());
-            }
-            weapons.add(weapon);
-        }
+			WeaponCard weapon = new WeaponCard(weaponList[i], chooseRandom(rooms).getName());
+			while(!preventDoubleUps(weapon, weapons)) {
+				weapon = new WeaponCard(weaponList[i], chooseRandom(rooms).getName());
+			}
+			weapons.add(weapon);
+		}
+		//creates the board - has to happen here as rooms have to be created 
 		board.populateBoard(roomObjects);
+	
 		characters.add(new CharacterCard("Mrs. White", board.getBoard()[9][0]));
 		characters.add(new CharacterCard("Mr. Green", board.getBoard()[14][0]));
 		characters.add(new CharacterCard("Mrs. Peacock", board.getBoard()[23][6]));
@@ -245,7 +271,11 @@ public class Game {
 
 	}
 
-	// COMBINE CARD LISTS
+
+	/**
+	 * Creates the deck by combining all the cards,
+	 * removing the murder deck cards and shuffling them 
+	 */
 	public void createDeck() {
 
 		// combine weapons, rooms, characters
@@ -269,13 +299,15 @@ public class Game {
 
 	}
 
-	// Main play method
-
+	/**
+	 * Creates the deck by combining all the cards,
+	 * removing the murder deck cards and shuffling them 
+	 */
 	public void round() {
 		// Check game is not over
 		int inActive = 0; // amount of inactive players
 		while (!gameOver) {
-			
+
 			// Check that there is more than one player in the game
 			for (int i = 0; i < listOfPlayers.size(); i++) {
 				if (gameOver){
@@ -297,7 +329,7 @@ public class Game {
 					System.out.println("Press ENTER to continue");
 					try {
 						System.in.read();
-					} catch (Exception e) {
+					} catch (Exception e) { 
 						e.printStackTrace();
 					}
 					System.out.println("It is " + player.getCharacterCard().getName() + "'s turn!\n");
@@ -372,7 +404,11 @@ public class Game {
 		}
 
 	}
-
+	/**
+	 * This method creates an accusation object after the player has made their guess
+	 * @param player The player who made the accusation
+	 * @return whether or not the accusation was correct
+	 */
 	public boolean accusation(Player player) {
 		guess[0] = characters.get(guess(characters));
 		guess[1] = rooms.get(guess(rooms));
@@ -388,7 +424,11 @@ public class Game {
 		player.setPlayerStatus(false);
 		return false;
 	}
-	
+	/**
+	 * Creates a suggestion object after a person has made their suggestion
+	 * @param player The player who made the accusation
+	 * @return boolean Whether or not it has been refuted
+	 */
 	public boolean suggestion(Player player) {
 		guess[0] = characters.get(guess(characters));
 		guess[1] = weapons.get(guess(weapons));
@@ -398,6 +438,23 @@ public class Game {
 			j++;
 		}
 		guess[2] = rooms.get(j);
+		
+		for(Player person : listOfPlayers) {
+			if(person.getCharacterCard().equals(guess[0])){
+				for(Room room : roomObjects) {
+					if(room.getName().equals((guess[2]).getName())) {
+						Cell newLocation = room.getCells().get((int) (Math.random() * room.getCells().size()-1));
+						Cell cell = person.getCell();
+						cell.setPlayer(null);
+						person.setLocation(newLocation);
+						newLocation.setPlayer(person);
+						board.printBoardWithCurrentPlayer(player);
+						System.out.println("Moved " + guess[0] + "to: " + room.getName());
+					}
+				}
+			}
+		}
+		((WeaponCard) guess[1]).moveWeapon(guess[2].getName());
 		//create a suggestion and compare the cards
 		Suggestion suggestion = new Suggestion(guess, player, listOfPlayers);
 
@@ -408,14 +465,20 @@ public class Game {
 		return false;
 
 	}
-
+	/**
+	 * Rolls the die
+	 * @return The value of both die
+	 */
 	public int rollDice() {
 		int die1 = (int) (Math.random() * 5 + 1);
 		int die2 = (int) (Math.random() * 5 + 1);
 
 		return die1 + die2;
 	}
-
+	/**
+	 * Asks whether a player wants to make a suggestion or accusation
+	 * @return Which option a player has chosen 
+	 */
 	public int action() {
 		int actionChoice;
 		System.out.println(
@@ -443,7 +506,11 @@ public class Game {
 		return actionChoice;
 
 	}
-
+	/**
+	 * Collates a user's guess for characters, weapons and cards
+	 * @param the list of cards
+	 * @return the index of the card in the particular list
+	 */
 	public int guess(ArrayList<Card> list) {
 		int input;
 		System.out.println("---------------------------------------------");
@@ -452,13 +519,13 @@ public class Game {
 		}
 
 		do {
-			System.out.println("Please enter your selection");
+			System.out.println("Please enter an integer between 0 and " + (list.size()-1));
 			try {
 				input = scanner.nextInt(); // Blocks for user input
 				if (input >= 0 && input < list.size()) {
 					break; // Got valid input, stop looping
 				} else {
-					System.out.println("Please enter an integer between 0 and " + list.size());
+					System.out.println("Please enter an integer between 0 and " + (list.size()-1));
 					scanner.next(); // discard non-integer input
 					continue; // restart loop, didn't get an integer input
 				}
@@ -723,20 +790,20 @@ public class Game {
 		return super.toString() + "[" + "numberOPlayers" + ":" + getNumberOPlayers() + "," + "gameOver" + ":"
 				+ getGameOver() + "]" + System.getProperties().getProperty("line.separator") + "  " + "weapons" + "="
 				+ (getWeapons() != null
-						? !getWeapons().equals(this) ? getWeapons().toString().replaceAll("  ", "    ") : "this"
-						: "null")
+				? !getWeapons().equals(this) ? getWeapons().toString().replaceAll("  ", "    ") : "this"
+					: "null")
 				+ System.getProperties().getProperty("line.separator") + "  " + "characters" + "="
 				+ (getCharacters() != null
-						? !getCharacters().equals(this) ? getCharacters().toString().replaceAll("  ", "    ") : "this"
-						: "null")
+				? !getCharacters().equals(this) ? getCharacters().toString().replaceAll("  ", "    ") : "this"
+					: "null")
 				+ System.getProperties().getProperty("line.separator") + "  " + "rooms" + "="
 				+ (getRooms() != null
-						? !getRooms().equals(this) ? getRooms().toString().replaceAll("  ", "    ") : "this"
-						: "null")
+				? !getRooms().equals(this) ? getRooms().toString().replaceAll("  ", "    ") : "this"
+					: "null")
 				+ System.getProperties().getProperty("line.separator") + "  " + "scanner" + "="
 				+ (getScanner() != null
-						? !getScanner().equals(this) ? getScanner().toString().replaceAll("  ", "    ") : "this"
-						: "null")
+				? !getScanner().equals(this) ? getScanner().toString().replaceAll("  ", "    ") : "this"
+					: "null")
 				+ System.getProperties().getProperty("line.separator") + "  " + "suggestion = "
 				+ (getSuggestion() != null ? Integer.toHexString(System.identityHashCode(getSuggestion())) : "null")
 				+ System.getProperties().getProperty("line.separator") + "  " + "board = "
