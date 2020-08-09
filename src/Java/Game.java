@@ -423,7 +423,7 @@ public class Game {
 			return true;
 
 		} 
-		player.setPlayerStatus(false);
+		player.setPlayerStatus(true);
 		return false;
 	}
 	/**
